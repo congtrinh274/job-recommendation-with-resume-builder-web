@@ -1,0 +1,45 @@
+# back-end
+**/node_modules/
+npm-debug.log
+yarn-error.log
+.env
+
+# Python
+AI-services/venv/
+AI-services/*.pyc
+AI-services/__pycache__/
+**/config.json
+**/config.cfg
+AI-services/models/cv-parser/model-best
+AI-services/models/cv-parser/model-last
+
+# front-end
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.env*.local
+
+
+# Các file khác không cần thiết
+.DS_Store  # Nếu bạn sử dụng macOS
+*.prettierrc
+*.vscode
