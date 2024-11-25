@@ -1,0 +1,84 @@
+[
+  {
+    "text": "TRỊNH THẾ CÔNG INTERN DEVELOPER THÔNG TIN CÁ NHÂN congforwork274@gmail.com +84 799 164 645  27\/04\/2002  Thanh Khê, Đà Nẵng MỤC TIÊU NGHỀ NGHIỆP Ngắn hạn: • Tìm kiếm vị trí intern developer, tìm hiểu kiến thức mới, tiếp xúc với dự án thực tế, học hỏi, tích lũy kinh nghiệm trong ngành • Trở thành nhân viên chính thức của công ty Dài hạn: • Thành thạo tiếng Anh giao tiếp, đạt chứng chỉ IELTS 6.5 • Trở thành chuyên gia phát triển phần mềm SỞ THÍCH Tìm hiểu công nghệ mới, bóng đá, guitar, du lịch,.. HỌC VẤN CHUYÊN NGÀNH CÔNG NGHỆ THÔNG TIN \/\/ 09\/09\/2020 - Đến nay TRƯỜNG ĐẠI HỌC SƯ PHẠM KỸ THUẬT - ĐẠI HỌC ĐÀ NẴNG Đã hoàn thành tốt các học phần chuyên ngành quan trọng: Cơ sở dữ liệu, cấu trúc dữ liệu & giải thuật, Lập trình hướng đối tượng,.. GPA: 3.2\/4.0 (Hiện tại) DỰ ÁN LARAVEL E-COMMERCE \/\/ 30\/11\/2023 - 14\/12\/2023 GitHub: https:\/\/github.com\/congtrinh274\/laravel-ecommerce Số lượng người tham gia: 1 Vị trí Lập trình viên Thiết kế cơ sở đữ liệu, code Back - end, code Front - end Công nghệ sử dụng: Laravel, Laravel Sanctum, MySQL, ReactJS, Redux, Tailwind, Axios,.. VEHICLE RESCUE SYSTEM \/\/ 23\/09\/2023 - 14\/12\/2023 GitHub: https:\/\/github.com\/congit27\/f7_move_customer https:\/\/github.com\/congit27\/f7_move_partner Số lượng người tham gia: 4 Vị trí: Lập trình viên Thiết kế cơ sở đữ liệu, chức năng nhận thông báo yêu cầu cứu hộ từ khách hàng, chức năng cập nhật trạng thai cứu hộ, chức năng theo dõi lộ trình cứu hộ, chức năng nhận thông báo từ đối tác. Công nghệ sử dụng: React Native Expo, React, GoongMaps API, Expo Location, React Native Maps, Socket.io, Expo Notifications,.. TECH SHOP E-COMMERCE \/\/ 22\/04\/2023 - 26\/05\/2023 GitHub: https:\/\/github.com\/congtrinh274\/tech_shop Số lượng người tham gia: 1 Vị trí: Lập trình viên Thiết kế cơ sở đữ liệu, code Back - end, code Front - end Công nghệ sử dụng: NodeJS, MongoDB, Express, Bootstrap, Stripe API (Payment), AdminBro, Nodemailer,Passport (Authentication), Express Validator, Embedded JavaScript,.. CÁC KỸ NĂNG KỸ NĂNG CHUYÊN MÔN: Javascript,NodeJS(Express),ReactJS, React Native, Redux, PHP Laravel, SQLServer,MySQL,MongoDB, API, Socket,HTML5, CSS(SCSS),Git,Github,VSCode,Postman KỸ NĂNG MỀM: Làm việc nhóm, thuyết trình, tự học, quản lý công việc, quản lý thời gian,.. © topcv.vn",
+    "label": [
+      {
+        "start": 0,
+        "end": 14,
+        "text": "TRỊNH THẾ CÔNG",
+        "labels": [
+          "Name"
+        ]
+      },
+      {
+        "start": 15,
+        "end": 31,
+        "text": "INTERN DEVELOPER",
+        "labels": [
+          "Designation"
+        ]
+      },
+      {
+        "start": 50,
+        "end": 74,
+        "text": "congforwork274@gmail.com",
+        "labels": [
+          "Email Address"
+        ]
+      },
+      {
+        "start": 104,
+        "end": 122,
+        "text": "Thanh Khê, Đà Nẵng",
+        "labels": [
+          "Location"
+        ]
+      },
+      {
+        "start": 565,
+        "end": 614,
+        "text": "TRƯỜNG ĐẠI HỌC SƯ PHẠM KỸ THUẬT - ĐẠI HỌC ĐÀ NẴNG",
+        "labels": [
+          "College Name"
+        ]
+      },
+      {
+        "start": 671,
+        "end": 715,
+        "text": "Cơ sở dữ liệu, cấu trúc dữ liệu & giải thuật",
+        "labels": [
+          "Skills"
+        ]
+      },
+      {
+        "start": 717,
+        "end": 742,
+        "text": "Lập trình hướng đối tượng",
+        "labels": [
+          "Skills"
+        ]
+      },
+      {
+        "start": 1995,
+        "end": 2144,
+        "text": "Javascript,NodeJS(Express),ReactJS, React Native, Redux, PHP Laravel, SQLServer,MySQL,MongoDB, API, Socket,HTML5, CSS(SCSS),Git,Github,VSCode,Postman",
+        "labels": [
+          "Skills"
+        ]
+      },
+      {
+        "start": 2158,
+        "end": 2231,
+        "text": "Làm việc nhóm, thuyết trình, tự học, quản lý công việc, quản lý thời gian",
+        "labels": [
+          "Skills"
+        ]
+      }
+    ],
+    "annotator": 1,
+    "annotation_id": 2,
+    "created_at": "2024-11-11T09:30:09.432266Z",
+    "updated_at": "2024-11-11T09:32:50.025532Z",
+    "lead_time": 166.96800000000002
+  }
+]
