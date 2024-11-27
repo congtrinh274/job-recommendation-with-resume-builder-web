@@ -1,3 +1,5 @@
+const mongoose = require('mongoose');
+
 const jobSchema = new mongoose.Schema(
     {
         recruiterId: { type: mongoose.Schema.Types.ObjectId, ref: 'Recruiter', required: true },
@@ -14,4 +16,4 @@ const jobSchema = new mongoose.Schema(
 );
 const Job = mongoose.model('Job', jobSchema);
 
-module.exports = { Job };
+module.exports = Job;
