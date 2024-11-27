@@ -4,12 +4,12 @@ const morgan = require('morgan');
 const methodOverride = require('method-override');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const { clerkMiddleware } = require('@clerk/express');
 
-const db = require('./configs/dbConfig');
+const route = require('./src/routes');
+const db = require('./src/configs/dbConfig');
 
 db.connect();
-
-console.log(db);
 
 const app = express();
 const port = 5000;
@@ -22,8 +22,18 @@ app.use(bodyParser.json());
 
 app.use(methodOverride('_method'));
 
+// Clerk with Auth
+app.use(
+    clerkMiddleware({
+        publishableKey: process.env.CLERK_PUBLISHABLE_KEY, // Đảm bảo publishable key đúng
+    }),
+);
+
 //HTTP logger
 app.use(morgan('combined'));
+
+// Route init
+route(app);
 
 app.get('/', (req, res) => {
     res.send('Hello World!');
