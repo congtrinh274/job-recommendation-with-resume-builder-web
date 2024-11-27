@@ -1,6 +1,7 @@
 require('dotenv').config();
 
 const Recruiter = require('../models/Recruiter');
+const User = require('../models/User');
 
 class RecruiterController {
     // [GET] recruiters/
@@ -27,6 +28,18 @@ class RecruiterController {
             if (existingRecruiter) {
                 return res.status(400).json({ message: 'This userId has already been registered as a recruiter.' });
             }
+
+            const user = await User.findById(userId);
+            if (!user) {
+                return res.status(404).json({ message: 'User not found.' });
+            }
+
+            if (user.role === 'recruiter') {
+                return res.status(400).json({ message: 'User is already a recruiter.' });
+            }
+
+            user.role = 'recruiter';
+            await user.save();
 
             const newRecruiter = new Recruiter({
                 userId,
