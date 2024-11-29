@@ -9,8 +9,6 @@ const candidateSchema = new mongoose.Schema(
         skills: [{ type: String }],
         experience: { type: String },
         education: { type: String },
-        uploadedCV: { type: String },
-        generatedCV: { type: String },
     },
     {
         timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' },
