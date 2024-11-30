@@ -1,3 +1,5 @@
+const multer = require('multer');
+
 // Cấu hình Multer
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -19,3 +21,5 @@ const upload = multer({
         }
     },
 });
+
+module.exports = upload;
