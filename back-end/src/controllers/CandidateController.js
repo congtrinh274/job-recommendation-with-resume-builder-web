@@ -13,7 +13,7 @@ class CandidateController {
         }
     };
 
-    // [GET] candidates/:id
+    // [GET] candidates/:userId
     getCandidateByUserId = async (req, res) => {
         try {
             const { userId } = req.params;
