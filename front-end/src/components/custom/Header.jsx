@@ -1,9 +1,11 @@
 import { Button } from '../ui/button';
 import { Link } from 'react-router-dom';
-import { UserButton, useUser } from '@clerk/clerk-react';
+import { UserButton } from '@clerk/clerk-react';
+import { useState } from 'react';
 
 function Header() {
-    const { isSignedIn } = useUser();
+    const [isSignedIn] = useState(false);
+
     return (
         <div className="p-2 px-4 flex justify-between shadow-md">
             <Link to={'/dashboard'}>
@@ -12,13 +14,13 @@ function Header() {
             {isSignedIn ? (
                 <div className="flex gap-2 items-center">
                     <Link to={'/dashboard'}>
-                        <Button variant="outline">Dashboard</Button>
+                        <Button variant="outline">Tổng quan</Button>
                     </Link>
                     <UserButton />
                 </div>
             ) : (
                 <Link to={'/auth/sign-in'}>
-                    <Button>Get Started</Button>
+                    <Button>Khám phá</Button>
                 </Link>
             )}
         </div>
