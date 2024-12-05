@@ -1,5 +1,6 @@
 import App from '@/App';
 import SignInPage from '@/pages/auth/signIn';
+import SignInSuccess from '@/pages/auth/signInSuccess';
 import Dashboard from '@/pages/dashboard';
 import Home from '@/pages/home';
 import Resume from '@/pages/resume';
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
             {
                 path: '/auth/sign-in',
                 element: <SignInPage />,
+            },
+            {
+                path: '/login-success/:userId',
+                element: <SignInSuccess />,
             },
             {
                 path: '/my-resume/:resumeId/view',
