@@ -1,4 +1,8 @@
 const SignInPage = () => {
+    const handleLoginWithGoogle = () => {
+        window.open('http://localhost:5000/api/auth/google', '_self');
+    };
+
     return (
         <div className="flex justify-center items-center  py-10">
             <div className="w-full max-w-3xl bg-white shadow-md rounded-lg overflow-hidden flex">
@@ -54,7 +58,10 @@ const SignInPage = () => {
 
                     <div className="mt-6 text-center text-gray-600">Or login with</div>
                     <div className="flex justify-between mt-4">
-                        <button className="w-1/3 bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 transition duration-200 mx-1">
+                        <button
+                            className="w-1/3 bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 transition duration-200 mx-1"
+                            onClick={handleLoginWithGoogle}
+                        >
                             Google
                         </button>
                         <button className="w-1/3 bg-blue-700 text-white py-2 rounded-lg hover:bg-blue-800 transition duration-200 mx-1">

@@ -6,11 +6,9 @@ function App() {
     return (
         <div className="relative w-full h-screen">
             <video autoPlay muted loop className="absolute top-0 left-0 w-full h-full object-cover z-0">
-                <source src="/5194-183786499_tiny.mp4" type="video/mp4" />
+                <source src="/2611250-uhd_3840_2160_30fps.mp4" type="video/mp4" />
                 Your browser does not support the video tag.
             </video>
-
-            <div className="absolute top-0 left-0 w-full h-full bg-black opacity-50 z-1"></div>
 
             <div className="relative z-10">
                 <Header />
