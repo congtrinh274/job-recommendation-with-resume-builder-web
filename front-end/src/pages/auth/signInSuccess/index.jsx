@@ -7,7 +7,6 @@ const SignInSuccess = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { userId, loginToken } = useParams();
-    console.log(userId, loginToken);
 
     useEffect(() => {
         const loginUser = async () => {
