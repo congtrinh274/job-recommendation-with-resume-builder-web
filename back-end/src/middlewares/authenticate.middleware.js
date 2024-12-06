@@ -6,10 +6,11 @@ const authenticateToken = async (req, res, next) => {
 
     try {
         const decoded = await decodeToken(token);
+        console.log(decoded);
         req.user = decoded.payload;
         next();
     } catch (err) {
-        return res.status(403).json({ message: 'Invalid token' });
+        return res.status(302).json({ message: 'Invalid token' });
     }
 };
 
