@@ -3,7 +3,7 @@ const User = require('../models/User');
 const { generateToken } = require('../utils/jwt.js');
 
 class AuthController {
-    // [POST] api/auth/login-success
+    // [POST] api/auth/login-success/
     loginSuccess = async (req, res) => {
         const { id } = req?.body;
         try {
@@ -32,6 +32,25 @@ class AuthController {
                 err: 0,
                 msg: 'Login successful',
                 token,
+            });
+        } catch (error) {
+            return res.status(500).json({
+                err: -1,
+                msg: 'Fail at AuthController: ' + error.message,
+            });
+        }
+    };
+
+    // [POST] api/auth/logout
+    logout = async (req, res) => {
+        try {
+            const userId = req.user.id;
+
+            await User.findOneAndUpdate({ authId: userId }, { loginToken: null });
+
+            return res.status(200).json({
+                err: 0,
+                msg: 'Logout successful',
             });
         } catch (error) {
             return res.status(500).json({

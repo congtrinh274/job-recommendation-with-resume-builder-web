@@ -25,7 +25,7 @@ const generateToken = async (
         return null;
     }
 };
-const decodeToken = async (token, secretKey) => {
+const decodeToken = async (token, secretKey = process.env.JWT_SECRET_KEY) => {
     try {
         return await verify(token, secretKey, {
             ignoreExpiration: true,

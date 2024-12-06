@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 const authController = require('../controllers/AuthController');
+const authenticateToken = require('../middlewares/authenticate.middleware');
 
 router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'], session: false }));
 
@@ -20,4 +21,5 @@ router.get(
 );
 
 router.post('/login-success', authController.loginSuccess);
+router.post('/logout', authenticateToken, authController.logout);
 module.exports = router;
