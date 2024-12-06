@@ -10,25 +10,6 @@ export const login = createAsyncThunk('auth/login', async (payload, { rejectWith
     }
 });
 
-export const logout = createAsyncThunk('auth/logout', async (_, { rejectWithValue }) => {
-    try {
-        const persistedState = JSON.parse(localStorage.getItem('persist:root'));
-        const token = JSON.parse(persistedState.auth).token;
-
-        await axios.post(
-            'http://localhost:5000/api/auth/logout',
-            {},
-            {
-                headers: { Authorization: token },
-            },
-        );
-
-        return true;
-    } catch (error) {
-        return rejectWithValue(error.response.data);
-    }
-});
-
 const authSlice = createSlice({
     name: 'auth',
     initialState: {
@@ -36,6 +17,16 @@ const authSlice = createSlice({
         isSignedIn: false,
         token: null,
         error: null,
+    },
+    reducers: {
+        logout: (state) => {
+            state.isLoading = false;
+            state.isSignedIn = false;
+            state.token = null;
+            state.error = null;
+
+            localStorage.removeItem('persist:root');
+        },
     },
     extraReducers: (builder) => {
         builder
@@ -54,18 +45,10 @@ const authSlice = createSlice({
                 state.isSignedIn = false;
                 state.token = null;
                 state.error = action.payload.msg || 'Login failed';
-            })
-            .addCase(logout.fulfilled, (state) => {
-                state.isLoading = false;
-                state.isSignedIn = false;
-                state.token = null;
-                state.error = null;
-            })
-            .addCase(logout.rejected, (state, action) => {
-                state.isLoading = false;
-                state.error = action.payload.msg || 'Logout failed';
             });
     },
 });
+
+export const { logout } = authSlice.actions;
 
 export default authSlice.reducer;
