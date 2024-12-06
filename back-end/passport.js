@@ -1,4 +1,5 @@
 require('dotenv').config();
+const { v4: uuidv4 } = require('uuid');
 
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const passport = require('passport');
@@ -13,6 +14,8 @@ passport.use(
             callbackURL: `${process.env.APP_BASE_URL}/api/auth/google/callback`,
         },
         async function (accessToken, refreshToken, profile, cb) {
+            const loginToken = uuidv4();
+            profile.loginToken = loginToken;
             try {
                 if (profile?.id) {
                     let user = await User.findOne({ authId: profile.id });
@@ -24,10 +27,13 @@ passport.use(
                             typeLogin: profile?.provider || 'google',
                             username: profile?.displayName || 'No name',
                             imgUrl: profile?.photos?.[0]?.value || null,
+                            loginToken,
                         });
                         console.log('User created');
                     } else {
-                        console.log('User already exists');
+                        user.loginToken = loginToken;
+                        await user.save();
+                        console.log('User loginToken updated');
                     }
                 }
             } catch (error) {

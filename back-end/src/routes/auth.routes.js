@@ -3,7 +3,6 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 const authController = require('../controllers/AuthController');
-const authenticateToken = require('../middlewares/authenticate.middleware');
 
 router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'], session: false }));
 
@@ -16,10 +15,10 @@ router.get(
         })(req, res, next);
     },
     (req, res) => {
-        res.redirect(`${process.env.CLIENT_URL}/login-success/${req.user?.id}`);
+        res.redirect(`${process.env.CLIENT_URL}/login-success/${req.user?.id}/${req.user?.loginToken}`);
     },
 );
 
 router.post('/login-success', authController.loginSuccess);
-router.post('/logout', authenticateToken, authController.logout);
+
 module.exports = router;
