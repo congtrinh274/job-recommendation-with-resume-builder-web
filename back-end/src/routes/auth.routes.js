@@ -19,6 +19,21 @@ router.get(
     },
 );
 
+router.get('/facebook', passport.authenticate('facebook', { session: false }));
+
+router.get(
+    '/facebook/callback',
+    (req, res, next) => {
+        passport.authenticate('facebook', (err, profile) => {
+            req.user = profile;
+            next();
+        })(req, res, next);
+    },
+    (req, res) => {
+        res.redirect(`${process.env.CLIENT_URL}/login-success/${req.user?.id}`);
+    },
+);
+
 router.post('/login-success', authController.loginSuccess);
 
 module.exports = router;

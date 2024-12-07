@@ -1,8 +1,15 @@
 import requests # type: ignore
 import csv
 import json
+import os
+import sys
 
-def fetch_job_data(api_config, csv_file='D:\Workspace\job-cv-ai\AI-services\data\jobs\job_listings.csv'):
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../'))
+sys.path.append(BASE_DIR)
+
+from paths import JOBS_FILE,ROOT_DIR
+
+def fetch_job_data(api_config, csv_file=JOBS_FILE):
     with open(csv_file, "a", newline='', encoding="utf-8") as file:
         writer = csv.writer(file)
         
@@ -36,7 +43,7 @@ def fetch_job_data(api_config, csv_file='D:\Workspace\job-cv-ai\AI-services\data
                 print(f"Failed to retrieve data from {config['name']}: {response.status_code}")
 
 if __name__ == "__main__":
-    with open('D:\Workspace\job-cv-ai\AI-services\config.json') as config_file:
+    with open(ROOT_DIR / "config.json") as config_file:
         config = json.load(config_file)
 
     api_config = [

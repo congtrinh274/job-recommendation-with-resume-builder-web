@@ -6,13 +6,13 @@ yarn-error.log
 .env
 
 # Python
-AI-services/venv/
-AI-services/*.pyc
-AI-services/__pycache__/
+AI-service/venv/
+AI-service/*.pyc
+AI-service/__pycache__/
 **/config.json
 **/config.cfg
-AI-services/models/cv-parser/model-best
-AI-services/models/cv-parser/model-last
+AI-service/models/cv-parser/model-best
+AI-service/models/cv-parser/model-last
 
 # front-end
 logs

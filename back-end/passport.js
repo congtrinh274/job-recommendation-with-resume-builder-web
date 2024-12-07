@@ -2,6 +2,7 @@ require('dotenv').config();
 const { v4: uuidv4 } = require('uuid');
 
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const FacebookStrategy = require('passport-facebook').Strategy;
 const passport = require('passport');
 
 const User = require('./src//models/User');
@@ -41,6 +42,21 @@ passport.use(
                 return cb(error, null);
             }
 
+            return cb(null, profile);
+        },
+    ),
+);
+
+passport.use(
+    new FacebookStrategy(
+        {
+            clientID: process.env.FACEBOOK_APP_ID,
+            clientSecret: process.env.FACEBOOK_APP_SECRET,
+            callbackURL: `${process.env.APP_BASE_URL}/api/auth/facebook/callback`,
+            profileFields: ['id', 'emails', 'name', 'photos', 'profile'],
+        },
+        function (accessToken, refreshToken, profile, cb) {
+            console.log(profile);
             return cb(null, profile);
         },
     ),

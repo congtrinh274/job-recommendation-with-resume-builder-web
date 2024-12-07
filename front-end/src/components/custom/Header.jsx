@@ -32,7 +32,7 @@ const Header = () => {
         }, 1000);
     };
     return (
-        <div className="p-4 px-6 flex justify-between items-center text-white">
+        <div className="p-4 px-6 flex justify-between items-center text-white ">
             {/* Logo */}
             <Link to={'/'} className="font-bold text-2xl flex items-center text-white">
                 <img src="/logo.svg" width={40} height={40} alt="Logo" />
@@ -99,7 +99,7 @@ const Header = () => {
             ) : (
                 <Link to="/auth/sign-in">
                     <Button className="rounded bg-red-500 text-white px-4 py-2 transition-transform hover:scale-105">
-                        Khám phá
+                        Bắt đầu
                     </Button>
                 </Link>
             )}

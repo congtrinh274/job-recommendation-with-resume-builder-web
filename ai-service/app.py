@@ -3,6 +3,11 @@ import os
 import sys
 sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 sys.path.append('scripts')
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../'))
+sys.path.append(BASE_DIR)
+
+
+from paths import ROOT_DIR, EXTRACTED_CV_FILE, JOBS_FILE
 
 from cv_analyzer.app import extract_cv_data_to_csv
 from job_recommender.app import recommend_jobs
@@ -10,8 +15,8 @@ from job_recommender.app import recommend_jobs
 
 app = Flask(__name__)
 
-DEFAULT_MODEL_PATH = "D:/Workspace/job-cv-ai/AI-services/models/cv-parser/model-best"
-DEFAULT_OUTPUT_CSV_PATH = "D:/Workspace/job-cv-ai/AI-services/data/candidate-cv/extracted_cv_data.csv"
+DEFAULT_MODEL_PATH = ROOT_DIR / "models/cv-parser/model-best"
+DEFAULT_OUTPUT_CSV_PATH = ROOT_DIR / "data/candidate-cv/extracted_cv_data.csv"
 
 @app.route('/upload_cv', methods=['POST'])
 def upload_cv():
@@ -29,7 +34,7 @@ def upload_cv():
 
         extract_cv_data_to_csv(pdf_path, DEFAULT_MODEL_PATH, DEFAULT_OUTPUT_CSV_PATH)
 
-        recommended_jobs = recommend_jobs("D:\Workspace\job-cv-ai\AI-services\data\candidate-cv\extracted_cv_data.csv", "D:\Workspace\job-cv-ai\AI-services\data\jobs\job_listings.csv")
+        recommended_jobs = recommend_jobs(EXTRACTED_CV_FILE, JOBS_FILE)
 
         return jsonify({
             "recommended_jobs": recommended_jobs

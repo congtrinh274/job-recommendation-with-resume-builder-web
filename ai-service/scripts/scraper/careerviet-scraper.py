@@ -2,8 +2,15 @@ import requests # type: ignore
 from bs4 import BeautifulSoup # type: ignore
 import csv
 import os
+import sys
 
-def scrape_jobs(base_urls, num_pages_to_scrape=2, output_filename='D:\Workspace\job-cv-ai\AI-services\data\jobs\job_listings.csv'):
+BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../'))
+sys.path.append(BASE_DIR)
+
+from paths import JOBS_FILE
+
+
+def scrape_jobs(base_urls, num_pages_to_scrape=2, output_filename=JOBS_FILE):
     headers = {
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
     }

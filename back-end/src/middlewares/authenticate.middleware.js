@@ -6,7 +6,6 @@ const authenticateToken = async (req, res, next) => {
 
     try {
         const decoded = await decodeToken(token);
-        console.log(decoded);
         req.user = decoded.payload;
         next();
     } catch (err) {
