@@ -1,41 +1,46 @@
-// FileUpload.js
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 // eslint-disable-next-line react/prop-types
-const FileUpload = ({ title = 'Kéo & Thả Tệp', btnName, btnHandle, acceptFileTypes = '.pdf', onFileUpload }) => {
+const FileUpload = ({ title = 'Kéo & Thả Tệp', btnName, acceptFileTypes = '.pdf', redirectPath }) => {
     const [fileName, setFileName] = useState('');
+    const [file, setFile] = useState(null);
+    const navigate = useNavigate();
 
     const handleFileChange = (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            setFileName(file.name);
-            if (onFileUpload) {
-                onFileUpload(file);
-            }
+        const selectedFile = e.target.files[0];
+        if (selectedFile) {
+            setFileName(selectedFile.name);
+            setFile(selectedFile);
         }
     };
 
-    const handleDragOver = (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-        e.dataTransfer.dropEffect = 'copy';
-    };
-
-    const handleDrop = (e) => {
-        e.preventDefault();
-        e.stopPropagation();
-
-        const file = e.dataTransfer.files[0];
-        if (file) {
-            setFileName(file.name);
-            if (onFileUpload) {
-                onFileUpload(file);
-            }
+    const handleSubmit = () => {
+        if (!file) {
+            alert('Vui lòng chọn một tệp để tải lên.');
+            return;
         }
+
+        if (!file.name.endsWith('.pdf')) {
+            alert('Tệp không đúng định dạng. Vui lòng chọn tệp PDF.');
+            return;
+        }
+
+        const reader = new FileReader();
+
+        reader.onloadend = () => {
+            const base64 = reader.result;
+            localStorage.setItem('pdfUrl', base64);
+            console.log('File đã được lưu vào localStorage');
+
+            navigate(redirectPath);
+        };
+
+        reader.readAsDataURL(file);
     };
 
     return (
-        <div className="bg-white rounded-lg shadow-lg p-6" onDragOver={handleDragOver} onDrop={handleDrop}>
+        <div className="bg-white rounded-lg shadow-lg p-6">
             {title && <h2 className="text-center text-xl font-bold mb-4">{title}</h2>}
 
             <div className="border-dashed border-2 border-purple-500 rounded-lg flex flex-col items-center justify-center py-2">
@@ -60,7 +65,7 @@ const FileUpload = ({ title = 'Kéo & Thả Tệp', btnName, btnHandle, acceptFi
             </div>
 
             <button
-                onClick={btnHandle}
+                onClick={handleSubmit}
                 className="w-full mt-4 bg-purple-500 text-white rounded-lg py-2 px-6 transition hover:bg-purple-600"
             >
                 {btnName}

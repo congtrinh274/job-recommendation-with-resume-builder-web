@@ -3,13 +3,6 @@ import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
     const navigate = useNavigate();
-    const handleFileUpload = (file) => {
-        console.log('Tệp đã chọn:', file.name);
-    };
-
-    const hanldeUploadBtn = () => {
-        navigate('/jobs-list');
-    };
 
     return (
         <div className="min-h-screen flex flex-col justify-center items-center pt-28">
@@ -41,13 +34,17 @@ const Home = () => {
                         <FileUpload
                             title="Tải Lên Hồ Sơ Xin Việc"
                             acceptFileTypes=".pdf,.docx"
-                            onFileUpload={handleFileUpload}
                             btnName="Xem danh sách công việc được đề xuất"
-                            btnHandle={hanldeUploadBtn}
+                            redirectPath="/jobs-list"
                         />
                     </div>
 
-                    <button className="bg-blue-500 text-white px-6 py-3 rounded-lg font-bold hover:bg-blue-400 transition">
+                    <button
+                        onClick={() => {
+                            navigate('/auth/sign-in');
+                        }}
+                        className="bg-blue-500 text-white px-6 py-3 rounded-lg font-bold hover:bg-blue-400 transition"
+                    >
                         Tạo Sơ Yếu Lý Lịch của bạn! →
                     </button>
                 </div>

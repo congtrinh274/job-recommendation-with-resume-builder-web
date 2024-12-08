@@ -4,7 +4,7 @@ const SignInPage = () => {
     };
 
     return (
-        <div className="min-h-screen flex justify-center items-center py-15 opacity-85 ">
+        <div className="min-h-screen flex justify-center items-center py-15 opacity-95 ">
             <div className="w-full max-w-3xl bg-white shadow-md rounded-lg overflow-hidden flex">
                 {/* Left Panel */}
                 <div className="w-1/2 bg-blue-400 p-8">

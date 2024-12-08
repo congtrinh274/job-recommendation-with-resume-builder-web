@@ -1,3 +1,4 @@
+'use client';
 import App from '@/App';
 import ErrorPage from '@/components/custom/ErrorPage';
 import SignInPage from '@/pages/auth/signIn';
@@ -23,6 +24,11 @@ const router = createBrowserRouter([
                 errorElement: <ErrorPage />,
             },
             {
+                path: '/jobs-list',
+                element: <JobsListPage />,
+                errorElement: <ErrorPage />,
+            },
+            {
                 path: '/auth/sign-in',
                 element: <SignInPage />,
                 errorElement: <ErrorPage />,
@@ -32,11 +38,7 @@ const router = createBrowserRouter([
                 element: <SignInSuccess />,
                 errorElement: <ErrorPage />,
             },
-            {
-                path: '/jobs-list',
-                element: <JobsListPage />,
-                errorElement: <ErrorPage />,
-            },
+
             {
                 path: '/my-resume/:resumeId/view',
                 element: <Resume />,
