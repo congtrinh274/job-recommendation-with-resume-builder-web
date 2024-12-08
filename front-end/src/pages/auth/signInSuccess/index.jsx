@@ -16,7 +16,7 @@ const SignInSuccess = () => {
         loginUser();
     }, [dispatch, navigate, userId, loginToken]);
 
-    return <div className="flex justify-center items-center py-10">Processing login...</div>;
+    return <div className="min-h-screen flex justify-center items-center py-10 text-white">Processing login...</div>;
 };
 
 export default SignInSuccess;

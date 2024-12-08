@@ -1,16 +1,17 @@
 import { Button } from '../ui/button';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { logout } from '@/redux/features/authSlice';
 import { clearUserData, fetchUser } from '@/redux/features/userSlice';
 
-const Header = () => {
+// eslint-disable-next-line react/prop-types
+const Header = ({ setIsLoading }) => {
     const { isSignedIn } = useSelector((state) => state.auth);
     const { data: userData } = useSelector((state) => state.user);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const [isLoading, setIsLoading] = useState(false);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (isSignedIn && !userData) {
@@ -29,16 +30,25 @@ const Header = () => {
             dispatch(logout());
             dispatch(clearUserData());
             setIsLoading(false);
+            navigate('/');
         }, 1000);
     };
     return (
-        <div className="p-4 px-6 flex justify-between items-center text-white ">
+        <div
+            className="fixed top-0 left-0 w-full p-4 px-6 flex justify-between items-center z-50 shadow-md"
+            style={{
+                backgroundColor: 'rgba(0, 0, 0, 0.5)', // Nền trong suốt
+                backdropFilter: 'blur(10px)', // Làm mờ nội dung phía sau
+                WebkitBackdropFilter: 'blur(10px)', // Hỗ trợ cho Safari
+            }}
+        >
             {/* Logo */}
             <Link to={'/'} className="font-bold text-2xl flex items-center text-white">
                 <img src="/logo.svg" width={40} height={40} alt="Logo" />
                 <span className="ml-2">AI CLERK</span>
             </Link>
 
+            {/* Menu */}
             <div className="hidden md:flex gap-8 font-semibold">
                 <Link to="/plans" className="hover:text-yellow-300 transition-all text-white">
                     Plans
@@ -57,6 +67,7 @@ const Header = () => {
                 </Link>
             </div>
 
+            {/* User Actions */}
             {isSignedIn ? (
                 <div onClick={toggleDropdown} className="relative">
                     <div className="flex items-center">
@@ -75,22 +86,17 @@ const Header = () => {
                     </div>
 
                     {isDropdownOpen && (
-                        <div className="absolute right-0 mt-2 w-40 rounded-lg shadow-lg overflow-hidden ">
-                            <Link to="/dashboard" className="text-white">
-                                <div className="p-2 hover:bg-blue-500 hover:text-yellow-300 cursor-pointer transition-all rounded">
-                                    Dashboard
-                                </div>
+                        <div className="absolute right-0 mt-2 w-40 rounded-lg shadow-lg overflow-hidden bg-black text-white">
+                            <Link to="/dashboard" className="block p-2 hover:bg-blue-500 hover:text-yellow-300">
+                                Dashboard
                             </Link>
                             <div
-                                className="p-2 hover:bg-blue-500 hover:text-yellow-300 cursor-pointer transition-all rounded"
+                                className="block p-2 hover:bg-blue-500 hover:text-yellow-300"
                                 onClick={() => console.log('Profile')}
                             >
                                 My Profile
                             </div>
-                            <div
-                                className="p-2 hover:bg-blue-500 hover:text-yellow-300 cursor-pointer transition-all rounded"
-                                onClick={handleLogout}
-                            >
+                            <div className="block p-2 hover:bg-blue-500 hover:text-yellow-300" onClick={handleLogout}>
                                 Logout
                             </div>
                         </div>
@@ -102,12 +108,6 @@ const Header = () => {
                         Bắt đầu
                     </Button>
                 </Link>
-            )}
-
-            {isLoading && (
-                <div className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50">
-                    <div className="animate-spin rounded-full h-16 w-16 border-t-4 border-yellow-300"></div>
-                </div>
             )}
         </div>
     );

@@ -3,8 +3,6 @@ import { useRouteError } from 'react-router-dom';
 const ErrorPage = () => {
     const error = useRouteError();
 
-    console.error(error);
-
     return (
         <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 text-gray-800">
             <img src="/404-error-3060993_1280.png" alt="Error illustration" className="w-80 h-auto mb-8" />

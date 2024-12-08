@@ -4,6 +4,7 @@ import SignInPage from '@/pages/auth/signIn';
 import SignInSuccess from '@/pages/auth/signInSuccess';
 import Dashboard from '@/pages/dashboard';
 import Home from '@/pages/home';
+import JobsListPage from '@/pages/jobs-list';
 import Resume from '@/pages/resume';
 import { createBrowserRouter } from 'react-router-dom';
 
@@ -29,6 +30,11 @@ const router = createBrowserRouter([
             {
                 path: '/login-success/:userId/:loginToken',
                 element: <SignInSuccess />,
+                errorElement: <ErrorPage />,
+            },
+            {
+                path: '/jobs-list',
+                element: <JobsListPage />,
                 errorElement: <ErrorPage />,
             },
             {
