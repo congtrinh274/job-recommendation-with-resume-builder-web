@@ -77,7 +77,7 @@ def scrape_jobs(base_urls, num_pages_to_scrape=2, output_filename=JOBS_FILE):
 
     with open(output_filename, mode='a', newline='', encoding='utf-8') as file:
         writer = csv.writer(file)
-        writer.writerow(['Title', 'Company', 'Salary', 'Location', 'ExpireDate', 'Link', 'ProjectDescription'])
+        writer.writerow(['Title', 'Company', 'Salary', 'Location', 'ExpireDate', 'Link', 'Description'])
         writer.writerows(jobs)
 
     print("Dữ liệu công việc đã được lưu thành công vào file CSV.")

@@ -1,6 +1,6 @@
 import pandas as pd
 import nltk
-from sklearn.feature_extraction.text import CountVectorizer
+from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity 
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
@@ -49,25 +49,31 @@ def recommend_jobs(cv_file, job_file):
     cv_data = pd.read_csv(cv_file)
     
     cv_data = cv_data.rename(columns={"Name": "Link", "Skills": "Description"})
-    
     merged_df = pd.concat([job_data, cv_data], ignore_index=True)
-    
+
     merged_df["Desc proc"] = merged_df["Description"].apply(preprocess_data)
     final_data = merged_df[["Link", "Desc proc"]]
-    
-    count = CountVectorizer()
-    count_matrix = count.fit_transform(final_data['Desc proc'])
-    cosine_sim = cosine_similarity(count_matrix)
 
-    
+    vectorizer = TfidfVectorizer()
+    tfidf_matrix = vectorizer.fit_transform(final_data['Desc proc'])
+    cosine_sim = cosine_similarity(tfidf_matrix)
+    print(cosine_sim)
+
     candidate_index = final_data.index[-1]
-    
     similar_jobs = list(enumerate(cosine_sim[candidate_index]))
+
     sorted_similar_jobs = sorted(similar_jobs, key=lambda x: x[1], reverse=True)
-    
+
     recommended_jobs = []
-    for job in sorted_similar_jobs[1:6]: 
-        job_link = final_data.iloc[job[0]]["Link"]
-        recommended_jobs.append(job_link)
+    for job in sorted_similar_jobs[1:6]:
+        job_index = job[0]
+        recommended_jobs.append({
+            "Title": merged_df.iloc[job_index].get("Title", "N/A"),
+            "Company": merged_df.iloc[job_index].get("Company", "N/A"),
+            "Salary": merged_df.iloc[job_index].get("Salary", "N/A"),
+            "Location": merged_df.iloc[job_index].get("Location", "N/A"),
+            "ExpireDate": merged_df.iloc[job_index].get("ExpireDate", "N/A"),
+            "Link": merged_df.iloc[job_index]["Link"]
+        })
     
-    return recommended_jobs
+    return recommended_jobs  

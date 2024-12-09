@@ -1,11 +1,9 @@
 from flask import Flask, request, jsonify
 import os
 import sys
+from flask_cors import CORS
 sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 sys.path.append('scripts')
-BASE_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '../../'))
-sys.path.append(BASE_DIR)
-
 
 from paths import ROOT_DIR, EXTRACTED_CV_FILE, JOBS_FILE
 
@@ -14,6 +12,8 @@ from job_recommender.app import recommend_jobs
 
 
 app = Flask(__name__)
+CORS(app)
+
 
 DEFAULT_MODEL_PATH = ROOT_DIR / "models/cv-parser/model-best"
 DEFAULT_OUTPUT_CSV_PATH = ROOT_DIR / "data/candidate-cv/extracted_cv_data.csv"
