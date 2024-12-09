@@ -1,3 +1,4 @@
+import JobItem from '@/components/custom/JobItem';
 import { useEffect, useState } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
 
@@ -6,17 +7,31 @@ pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/b
 const JobsList = () => {
     const [pdfUrl, setPdfUrl] = useState(null);
     const [numPages, setNumPages] = useState(0);
+    const [jobs, setJobs] = useState([]);
+    console.log(jobs);
+
+    const getJobsFromLocalStorage = () => {
+        try {
+            const jobsData = JSON.parse(localStorage.getItem('recommendedJobs'));
+            if (jobsData) {
+                setJobs(jobsData);
+            }
+        } catch (err) {
+            console.error(err + 'Failed to parse jobs data from localStorage');
+        }
+    };
 
     useEffect(() => {
         const storedPdf = localStorage.getItem('pdfUrl');
         if (storedPdf) {
             setPdfUrl(storedPdf);
+            getJobsFromLocalStorage();
         }
     }, []);
 
     return (
         <div className="min-h-screen flex justify-center items-start p-24 text-black">
-            <div className="w-3/5 border rounded-lg p-4">
+            <div className="w-1/2 border rounded-lg p-4">
                 <h2 className="mb-4 text-center text-xl font-bold text-white">Hồ sơ của bạn</h2>
 
                 {pdfUrl ? (
@@ -38,18 +53,13 @@ const JobsList = () => {
                 )}
             </div>
 
-            <div className="w-1/2 ml-4 p-4 rounded-lg shadow-lg">
+            <div className="w-1/2 ml-4 p-4 xs border rounded-lg shadow-lg">
                 <h2 className="text-xl font-bold mb-4 text-center text-white">Công việc phù hợp</h2>
-
-                <ul>
-                    {['Frontend Dev - Google', 'Backend Engineer - Amazon', 'AI Specialist - OpenAI'].map(
-                        (job, idx) => (
-                            <li key={idx} className="mb-2 rounded-lg bg-white p-3 shadow mt-1">
-                                {job}
-                            </li>
-                        ),
-                    )}
-                </ul>
+                <div style={{ height: '70vh', overflowY: 'auto', paddingRight: '4px' }}>
+                    {jobs.map((job, index) => (
+                        <JobItem key={index} job={job} />
+                    ))}
+                </div>
             </div>
         </div>
     );

@@ -5,6 +5,7 @@ import { Outlet } from 'react-router-dom';
 
 function App() {
     const [isLoading, setIsLoading] = useState(false);
+
     return (
         <div className="relative">
             <video autoPlay muted loop className="absolute top-0 left-0 w-full h-full object-cover z-0">
@@ -19,7 +20,7 @@ function App() {
                     </div>
                 )}
                 <Header setIsLoading={setIsLoading} />
-                <Outlet />
+                <Outlet context={{ isLoading, setIsLoading }} />
             </div>
         </div>
     );
