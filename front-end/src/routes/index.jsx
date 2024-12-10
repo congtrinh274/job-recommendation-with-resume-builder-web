@@ -8,6 +8,7 @@ import Home from '@/pages/home';
 import JobsListPage from '@/pages/jobs-list';
 import Resume from '@/pages/resume';
 import { createBrowserRouter } from 'react-router-dom';
+import RouteProtector from '@/utils/RouteProtector';
 
 const router = createBrowserRouter([
     {
@@ -20,7 +21,11 @@ const router = createBrowserRouter([
             },
             {
                 path: '/dashboard',
-                element: <Dashboard />,
+                element: (
+                    <RouteProtector allowedRoles={['CANDIDATE']}>
+                        <Dashboard />
+                    </RouteProtector>
+                ),
                 errorElement: <ErrorPage />,
             },
             {

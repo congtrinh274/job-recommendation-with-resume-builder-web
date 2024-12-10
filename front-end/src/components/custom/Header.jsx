@@ -1,9 +1,9 @@
 import { Button } from '../ui/button';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { logout } from '@/redux/features/authSlice';
-import { clearUserData, fetchUser } from '@/redux/features/userSlice';
+import { clearUserData } from '@/redux/features/userSlice';
 
 // eslint-disable-next-line react/prop-types
 const Header = ({ setIsLoading }) => {
@@ -13,33 +13,27 @@ const Header = ({ setIsLoading }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    useEffect(() => {
-        if (isSignedIn && !userData) {
-            dispatch(fetchUser());
-        }
-    }, [dispatch, isSignedIn, userData]);
-
     const toggleDropdown = () => {
         setIsDropdownOpen((prev) => !prev);
     };
 
-    const handleLogout = () => {
+    const handleLogout = async () => {
         setIsLoading(true);
 
         setTimeout(() => {
             dispatch(logout());
             dispatch(clearUserData());
             setIsLoading(false);
-            navigate('/');
         }, 1000);
+        navigate('/');
     };
     return (
         <div
             className="fixed top-0 left-0 w-full p-4 px-6 flex justify-between items-center z-50 shadow-md"
             style={{
-                backgroundColor: 'rgba(0, 0, 0, 0.5)', // Nền trong suốt
-                backdropFilter: 'blur(10px)', // Làm mờ nội dung phía sau
-                WebkitBackdropFilter: 'blur(10px)', // Hỗ trợ cho Safari
+                backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                backdropFilter: 'blur(10px)',
+                WebkitBackdropFilter: 'blur(10px)',
             }}
         >
             {/* Logo */}

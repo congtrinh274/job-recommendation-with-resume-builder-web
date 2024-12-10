@@ -1,10 +1,21 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import './App.css';
 import Header from './components/custom/Header';
 import { Outlet } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchUser } from './redux/features/userSlice';
 
 function App() {
+    const dispatch = useDispatch();
     const [isLoading, setIsLoading] = useState(false);
+    const { isSignedIn } = useSelector((state) => state.auth);
+    const { data: userData } = useSelector((state) => state.user);
+
+    useEffect(() => {
+        if (isSignedIn && !userData) {
+            dispatch(fetchUser());
+        }
+    }, [dispatch, isSignedIn, userData]);
 
     return (
         <div className="relative">
