@@ -87,17 +87,20 @@ const Header = ({ setIsLoading }) => {
 
                     {isDropdownOpen && (
                         <div className="absolute right-0 mt-2 w-40 rounded-lg shadow-lg overflow-hidden bg-black text-white">
-                            <Link to="/dashboard" className="block p-2 hover:bg-blue-500 hover:text-yellow-300">
-                                Dashboard
+                            <Link to="/dashboard" className="block p-2 hover:bg-blue-200 hover:text-black text-white">
+                                Tổng quan
+                            </Link>
+                            <Link
+                                to="/recruiter-register"
+                                className="block p-2 hover:bg-blue-200 hover:text-black text-white"
+                            >
+                                Đăng ký NTD
                             </Link>
                             <div
-                                className="block p-2 hover:bg-blue-500 hover:text-yellow-300"
-                                onClick={() => console.log('Profile')}
+                                className="block p-2 hover:bg-blue-200 hover:text-black cursor-pointer"
+                                onClick={handleLogout}
                             >
-                                My Profile
-                            </div>
-                            <div className="block p-2 hover:bg-blue-500 hover:text-yellow-300" onClick={handleLogout}>
-                                Logout
+                                Đăng xuất
                             </div>
                         </div>
                     )}

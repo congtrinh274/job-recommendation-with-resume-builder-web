@@ -106,7 +106,7 @@ const FileUpload = ({ title = 'Kéo & Thả Tệp', btnName, acceptFileTypes = '
                     className="hidden"
                 />
 
-                {fileName && <p className="mt-2 text-red-800">File: {fileName}</p>}
+                {fileName && <p className="mt-2 text-red-500">File: {fileName}</p>}
             </div>
 
             {errorMessage && <p className="text-red-500 mt-2">{errorMessage}</p>}
