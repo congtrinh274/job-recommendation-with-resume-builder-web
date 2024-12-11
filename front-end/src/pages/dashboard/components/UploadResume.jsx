@@ -1,13 +1,17 @@
 import { Upload } from 'lucide-react';
 import { useState, useRef } from 'react';
+import { useDispatch } from 'react-redux';
 
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { fetCandidate, updateCandidateCVs } from '@/redux/features/candidateSlice';
 
 function UploadResume() {
+    const dispatch = useDispatch();
     const [openDialog, setOpenDialog] = useState(false);
     const [selectedFile, setSelectedFile] = useState(null);
+    const [resumeTitle, setResumeTitle] = useState('');
     const [dragActive, setDragActive] = useState(false);
     const fileInputRef = useRef();
 
@@ -44,10 +48,29 @@ function UploadResume() {
         fileInputRef.current.click();
     };
 
-    const handleUpload = () => {
+    const handleUpload = async () => {
+        if (!resumeTitle.trim()) {
+            alert('Please provide a title for your resume.');
+            return;
+        }
+
         if (selectedFile) {
-            console.log('Uploading file:', selectedFile);
-            setOpenDialog(false);
+            console.log(selectedFile);
+            try {
+                const formData = new FormData();
+
+                formData.append('file', selectedFile);
+                formData.append('title', resumeTitle);
+                formData.append('isOwn', false);
+
+                await dispatch(updateCandidateCVs({ cvData: formData }));
+
+                dispatch(fetCandidate());
+
+                setOpenDialog(false);
+            } catch (err) {
+                console.error(err);
+            }
         } else {
             alert('No file selected.');
         }
@@ -67,7 +90,12 @@ function UploadResume() {
                     <DialogHeader>
                         <DialogTitle>Upload Resume</DialogTitle>
                         <DialogDescription>
-                            <div>Drag and drop your PDF file or click to select one.</div>
+                            <Input
+                                placeholder="Nhập tên hồ sơ *"
+                                value={resumeTitle}
+                                onChange={(e) => setResumeTitle(e.target.value)}
+                                className="mt-2 p-2 rounded border"
+                            />
                             <div
                                 className={`my-4 border-2 border-dashed rounded-lg p-4 text-center cursor-pointer ${
                                     dragActive ? 'border-blue-500 bg-blue-50' : 'border-gray-300'

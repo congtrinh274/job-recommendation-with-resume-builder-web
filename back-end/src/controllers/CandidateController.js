@@ -70,6 +70,7 @@ class CandidateController {
             }
 
             const { title, content, isPrimary, isOwn } = req.body;
+            console.log(isOwn);
 
             const candidate = await Candidate.findOne({ userId: userId });
             if (!candidate) {
@@ -85,8 +86,8 @@ class CandidateController {
                 title: title || file.originalname,
                 content: content,
                 uploadedCV: `/uploads/${req.file.filename}`,
-                isPrimary: isPrimary ? true : false,
-                isOwn: isOwn ? true : false,
+                isPrimary: isPrimary,
+                isOwn: isOwn,
             };
 
             if (newCV.isPrimary) {

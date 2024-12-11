@@ -20,6 +20,28 @@ export const fetCandidate = createAsyncThunk('candidate/fetchCandidate', async (
     }
 });
 
+export const updateCandidateCVs = createAsyncThunk(
+    'candidate/updateCandidateCVs',
+    async ({ cvData }, { rejectWithValue, getState }) => {
+        try {
+            const { auth } = getState();
+            const token = auth?.token;
+
+            if (!token) {
+                throw new Error('No token found');
+            }
+
+            const response = await axios.put(`http://localhost:5000/api/candidates/update-cvs`, cvData, {
+                headers: { Authorization: token },
+            });
+
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response?.data?.message || 'Failed to update candidate CVs');
+        }
+    },
+);
+
 const candidateSlice = createSlice({
     name: 'candidate',
     initialState: {
@@ -48,6 +70,22 @@ const candidateSlice = createSlice({
             .addCase(fetCandidate.rejected, (state, action) => {
                 state.isLoading = false;
                 state.data = null;
+                state.error = action.payload;
+            })
+            .addCase(updateCandidateCVs.pending, (state) => {
+                state.isLoading = true;
+                state.error = null;
+            })
+            .addCase(updateCandidateCVs.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.data = {
+                    ...state.data,
+                    ...action.payload,
+                };
+                state.error = null;
+            })
+            .addCase(updateCandidateCVs.rejected, (state, action) => {
+                state.isLoading = false;
                 state.error = action.payload;
             });
     },
