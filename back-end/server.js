@@ -4,6 +4,7 @@ const morgan = require('morgan');
 const methodOverride = require('method-override');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const path = require('path');
 
 const route = require('./src/routes');
 const db = require('./src/configs/dbConfig');
@@ -18,6 +19,9 @@ app.use(
         origin: process.env.CLIENT_URL,
     }),
 );
+
+app.use(express.static(path.join(__dirname, 'public')));
+app.use('/uploads', express.static('uploads'));
 
 app.use(methodOverride('_method'));
 

@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Link } from 'react-router-dom';
 
-function AddResumes() {
+function CreateResume() {
     const [openDialog, setOpenDialog] = useState(false);
 
     const handleCreate = () => {
@@ -16,7 +16,7 @@ function AddResumes() {
     return (
         <div>
             <div
-                className=" border items-center flex justify-center bg-secondary rounded-lg w-64 h-80 hover:scale-105 transition-all hover:shadow-md cursor-pointer border-dashed"
+                className=" border items-center flex justify-center bg-secondary rounded-lg  w-46 h-60 hover:scale-105 transition-all hover:shadow-md cursor-pointer border-dashed"
                 onClick={() => setOpenDialog(true)}
             >
                 <PlusSquare />
@@ -44,4 +44,4 @@ function AddResumes() {
     );
 }
 
-export default AddResumes;
+export default CreateResume;

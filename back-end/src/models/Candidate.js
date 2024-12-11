@@ -12,8 +12,10 @@ const candidateSchema = new mongoose.Schema(
         cvs: [
             {
                 title: { type: String, required: true, unique: true },
+                content: { type: Object },
                 uploadedCV: { type: String, required: true },
                 isPrimary: { type: Boolean, default: false },
+                isOwn: { type: Boolean, default: false },
             },
         ],
     },

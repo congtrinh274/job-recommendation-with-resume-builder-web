@@ -5,7 +5,7 @@ const Home = () => {
     const navigate = useNavigate();
 
     return (
-        <div className="min-h-screen flex flex-col justify-center items-center pt-36">
+        <div className="min-h-screen flex flex-col justify-center items-center pt-36 ">
             <div className="w-[90%] max-w-6xl mx-auto flex rounded-lg overflow-hidden shadow-lg mb-12">
                 <div className="w-1/2 p-8 flex flex-col justify-center items-start relative">
                     <div className="flex items-center">

@@ -69,7 +69,7 @@ class CandidateController {
                 return res.status(400).json({ message: 'No file provided or invalid file type.' });
             }
 
-            const { title, isPrimary } = req.body;
+            const { title, content, isPrimary, isOwn } = req.body;
 
             const candidate = await Candidate.findOne({ userId: userId });
             if (!candidate) {
@@ -83,8 +83,10 @@ class CandidateController {
 
             const newCV = {
                 title: title || file.originalname,
+                content: content,
                 uploadedCV: `/uploads/${req.file.filename}`,
                 isPrimary: isPrimary ? true : false,
+                isOwn: isOwn ? true : false,
             };
 
             if (newCV.isPrimary) {
