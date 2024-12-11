@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Candidate = require('./Candidate');
 
 const userSchema = new mongoose.Schema(
     {
@@ -15,6 +16,29 @@ const userSchema = new mongoose.Schema(
         timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' },
     },
 );
+
+userSchema.post('save', async function (doc, next) {
+    try {
+        const existingCandidate = await Candidate.findOne({ userId: doc._id });
+        if (!existingCandidate) {
+            await Candidate.create({
+                userId: doc._id,
+                fullName: '',
+                phone: '',
+                address: '',
+                skills: [],
+                experience: '',
+                education: '',
+                cvs: [],
+            });
+            console.log(`Candidate created for userId: ${doc._id}`);
+        }
+        next();
+    } catch (error) {
+        console.error('Error creating candidate:', error.message);
+        next(error);
+    }
+});
 
 const User = mongoose.model('User', userSchema);
 

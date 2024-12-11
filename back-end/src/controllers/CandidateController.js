@@ -13,43 +13,37 @@ class CandidateController {
         }
     };
 
-    // [GET] candidates/:userId
+    // [GET] candidates/get-one
     getCandidateByUserId = async (req, res) => {
         try {
-            const { userId } = req.params;
-            const candidate = await Candidate.findOne({ userId: userId });
-
+            const candidate = await Candidate.findOne({ userId: req.user?._id });
             if (!candidate) {
-                return res.status(404).json({ message: 'Candidate not found for this userId' });
+                return res.status(200).json({
+                    err: 1,
+                    msg: 'Candidate not found',
+                });
             }
-
-            res.status(200).json({ message: 'Candidate found successfully', data: candidate });
+            return res.status(200).json({
+                _id: candidate._id,
+                userId: candidate.userId,
+                fullName: candidate.email,
+                phone: candidate.phone,
+                address: candidate.address,
+                skills: candidate.skills,
+                experience: candidate.experience,
+                education: candidate.education,
+                cvs: candidate.cvs,
+            });
         } catch (error) {
-            res.status(500).json({ message: 'Error finding candidate', error: error.message });
+            console.log(error);
+            return res.status(404).json({
+                err: 2,
+                msg: 'Internal server error',
+            });
         }
     };
 
-    // [POST] candidates/
-    createCandidate = async (req, res) => {
-        try {
-            const { userId } = req.body; // Lấy userId từ body request
-
-            const existingCandidate = await Candidate.findOne({ userId });
-
-            if (existingCandidate) {
-                return res.status(400).json({ message: 'Candidate with this userId already exists' });
-            }
-
-            const newCandidate = new Candidate(req.body);
-            const savedCandidate = await newCandidate.save();
-
-            res.status(201).json({ message: 'Candidate created successfully', data: savedCandidate });
-        } catch (error) {
-            res.status(500).json({ message: 'Error creating candidate', error: error.message });
-        }
-    };
-
-    // [PUT] candidates/:id
+    // [PUT] candidates/update
     updateCandidate = async (req, res) => {
         try {
             const candidate = await Candidate.findByIdAndUpdate(req.params.id, req.body, {
@@ -62,6 +56,50 @@ class CandidateController {
             res.status(200).json({ message: 'Candidate updated successfully', data: candidate });
         } catch (error) {
             res.status(500).json({ message: 'Error updating candidate', error: error.message });
+        }
+    };
+
+    // [PUT] candidates/update-cv
+    updateCandidateCVs = async (req, res) => {
+        try {
+            const userId = req.user?._id;
+            const file = req.file;
+
+            if (!file) {
+                return res.status(400).json({ message: 'No file provided or invalid file type.' });
+            }
+
+            const { title, isPrimary } = req.body;
+
+            const candidate = await Candidate.findOne({ userId: userId });
+            if (!candidate) {
+                return res.status(404).json({ message: 'Candidate not found' });
+            }
+
+            const titleExists = candidate.cvs.some((cv) => cv.title === title);
+            if (titleExists) {
+                return res.status(400).json({ message: 'Title already exists. Each CV title must be unique.' });
+            }
+
+            const newCV = {
+                title: title || file.originalname,
+                uploadedCV: `/uploads/${req.file.filename}`,
+                isPrimary: isPrimary ? true : false,
+            };
+
+            if (newCV.isPrimary) {
+                candidate.cvs.forEach((cv) => (cv.isPrimary = false));
+            }
+
+            candidate.cvs.push(newCV);
+            await candidate.save();
+
+            res.status(200).json({
+                message: 'CV updated successfully',
+                data: candidate,
+            });
+        } catch (error) {
+            res.status(500).json({ message: 'Error updating CV', error: error.message });
         }
     };
 

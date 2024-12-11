@@ -29,7 +29,7 @@ class AuthController {
             user.loginToken = newLoginToken;
             await user.save();
 
-            const token = await generateToken({ id: user.authId, email: user.email, role: user.role });
+            const token = await generateToken({ _id: user._id, id: user.authId, email: user.email, role: user.role });
 
             return res.status(200).json({
                 err: 0,
