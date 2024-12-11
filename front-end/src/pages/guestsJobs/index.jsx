@@ -4,7 +4,7 @@ import { Document, Page, pdfjs } from 'react-pdf';
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
-const JobsList = () => {
+const GuestsJobsPage = () => {
     const [pdfUrl, setPdfUrl] = useState(null);
     const [numPages, setNumPages] = useState(0);
     const [jobs, setJobs] = useState([]);
@@ -65,4 +65,4 @@ const JobsList = () => {
     );
 };
 
-export default JobsList;
+export default GuestsJobsPage;

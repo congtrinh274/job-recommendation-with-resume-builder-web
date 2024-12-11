@@ -5,10 +5,11 @@ import SignInPage from '@/pages/auth/signIn';
 import SignInSuccess from '@/pages/auth/signInSuccess';
 import Dashboard from '@/pages/dashboard';
 import Home from '@/pages/home';
-import JobsListPage from '@/pages/jobs-list';
 import Resume from '@/pages/resume';
 import { createBrowserRouter } from 'react-router-dom';
 import RouteProtector from '@/utils/RouteProtector';
+import GuestsJobsPage from '@/pages/guestsJobs';
+import CandidateJobsPage from '@/pages/candidateJobs';
 
 const router = createBrowserRouter([
     {
@@ -29,8 +30,13 @@ const router = createBrowserRouter([
                 errorElement: <ErrorPage />,
             },
             {
-                path: '/jobs-list',
-                element: <JobsListPage />,
+                path: '/guests-jobs-page',
+                element: <GuestsJobsPage />,
+                errorElement: <ErrorPage />,
+            },
+            {
+                path: '/candidate-jobs-page',
+                element: <CandidateJobsPage />,
                 errorElement: <ErrorPage />,
             },
             {

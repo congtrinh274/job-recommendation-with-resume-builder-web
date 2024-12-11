@@ -28,7 +28,7 @@ function Dashboard() {
                 <h3 className="font-semibold text-2xl text-gray-200">Hồ Sơ Đã Tạo</h3>
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 mt-4">
                     {ownCVs.map((cv, index) => (
-                        <ResumeCard key={index} title={cv.title} uploadedCV={cv.uploadedCV} />
+                        <ResumeCard key={index} title={cv.title} uploadedCV={cv.uploadedCV} img="./resume-icon1.png" />
                     ))}
                     <CreateResume />
                 </div>
@@ -38,7 +38,13 @@ function Dashboard() {
                 <h3 className="font-semibold text-2xl text-gray-200">Hồ Sơ Đã Tải Lên</h3>
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 mt-4">
                     {uploadedCVs.map((cv, index) => (
-                        <ResumeCard key={index} title={cv.title} uploadedCV={cv.uploadedCV} />
+                        <ResumeCard
+                            key={index}
+                            title={cv.title}
+                            uploadedCV={cv.uploadedCV}
+                            img="./resume-icon2.png"
+                            isOwn={cv.isOwn}
+                        />
                     ))}
                     <UploadResume />
                 </div>

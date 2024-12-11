@@ -1,11 +1,20 @@
 import FileUpload from '@/components/custom/FileUpload';
+import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
     const navigate = useNavigate();
+    const { isSignedIn } = useSelector((state) => state.auth);
+    const handleCreateCVBtn = () => {
+        if (isSignedIn) {
+            navigate('/dashboard');
+        } else {
+            navigate('auth/sign-in');
+        }
+    };
 
     return (
-        <div className="min-h-screen flex flex-col justify-center items-center pt-36 ">
+        <div className="min-h-screen flex flex-col justify-center items-center pt-36">
             <div className="w-[90%] max-w-6xl mx-auto flex rounded-lg overflow-hidden shadow-lg mb-12">
                 <div className="w-1/2 p-8 flex flex-col justify-center items-start relative">
                     <div className="flex items-center">
@@ -35,14 +44,12 @@ const Home = () => {
                             title="Tải Lên Hồ Sơ Xin Việc"
                             acceptFileTypes=".pdf,.docx"
                             btnName="Xem danh sách công việc được đề xuất"
-                            redirectPath="/jobs-list"
+                            redirectPath="/guests-jobs-page"
                         />
                     </div>
 
                     <button
-                        onClick={() => {
-                            navigate('/auth/sign-in');
-                        }}
+                        onClick={handleCreateCVBtn}
                         className="bg-blue-500 text-white px-6 py-3 rounded-lg font-bold hover:bg-blue-400 transition"
                     >
                         Tạo Sơ Yếu Lý Lịch của bạn! →

@@ -61,7 +61,6 @@ const FileUpload = ({ title = 'Kéo & Thả Tệp', btnName, acceptFileTypes = '
 
         const formData = new FormData();
         formData.append('file', file);
-        console.log(file);
 
         try {
             const response = await fetch('http://127.0.0.1:5000/upload_cv', {
