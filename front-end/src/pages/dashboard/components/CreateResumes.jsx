@@ -4,13 +4,23 @@ import { useState } from 'react';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 function CreateResume() {
     const [openDialog, setOpenDialog] = useState(false);
+    const [resumeTitle, setResumeTitle] = useState('');
+    const navigate = useNavigate();
+
+    const handleInputChange = (event) => {
+        setResumeTitle(event.target.value);
+    };
 
     const handleCreate = () => {
-        return;
+        if (!resumeTitle) {
+            alert('Vui lòng nhập tên hồ sơ của bạn');
+        } else {
+            navigate('/resume-editor', { state: { resumeTitle } });
+        }
     };
 
     return (
@@ -21,21 +31,23 @@ function CreateResume() {
             >
                 <PlusSquare />
             </div>
-            <Dialog open={openDialog}>
+            <Dialog open={openDialog} onOpenChange={setOpenDialog}>
                 <DialogContent>
                     <DialogHeader>
-                        <DialogTitle>Create New Resume</DialogTitle>
+                        <DialogTitle>Tạo Hồ Sơ Mới</DialogTitle>
                         <DialogDescription>
-                            <p>Add your resume name</p>
-                            <Input className="my-2" placeholder="Ex.Full Stack resume" />
+                            <p>Nhập tên hồ sơ</p>
+                            <Input
+                                className="my-2"
+                                placeholder="Vd. Full Stack Developer"
+                                onChange={handleInputChange}
+                            />
                         </DialogDescription>
                         <div className="flex justify-end gap-5">
                             <Button onClick={() => setOpenDialog(false)} variant="ghost">
-                                Cancel
+                                Hủy
                             </Button>
-                            <Link to={'/resume-editer'}>
-                                <Button onClick={handleCreate}>Create</Button>
-                            </Link>
+                            <Button onClick={handleCreate}>Tạo mới</Button>
                         </div>
                     </DialogHeader>
                 </DialogContent>

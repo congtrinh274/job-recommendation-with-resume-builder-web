@@ -36,13 +36,11 @@ const Header = ({ setIsLoading }) => {
                 WebkitBackdropFilter: 'blur(10px)',
             }}
         >
-            {/* Logo */}
             <Link to={'/'} className="font-bold text-2xl flex items-center text-white">
-                <img src="/logo.svg" width={40} height={40} alt="Logo" />
+                <img src="/logo.svg" width={32} height={32} alt="Logo" />
                 <span className="ml-2">AI CLERK</span>
             </Link>
 
-            {/* Menu */}
             <div className="hidden md:flex gap-8 font-semibold">
                 <Link to="/plans" className="hover:text-yellow-300 transition-all text-white">
                     Plans
@@ -61,11 +59,10 @@ const Header = ({ setIsLoading }) => {
                 </Link>
             </div>
 
-            {/* User Actions */}
             {isSignedIn ? (
                 <div onClick={toggleDropdown} className="relative">
                     <div className="flex items-center">
-                        <div className="ml-4 rounded-full cursor-pointer overflow-hidden w-10 h-10">
+                        <div className="ml-4 rounded-full cursor-pointer overflow-hidden w-8 h-8">
                             <img
                                 src={userData ? `${userData.imgUrl}` : '/null.png'}
                                 alt="User"

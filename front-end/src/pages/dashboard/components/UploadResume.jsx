@@ -85,10 +85,10 @@ function UploadResume() {
                 <Upload />
             </div>
 
-            <Dialog open={openDialog}>
+            <Dialog open={openDialog} onOpenChange={setOpenDialog}>
                 <DialogContent>
                     <DialogHeader>
-                        <DialogTitle>Upload Resume</DialogTitle>
+                        <DialogTitle>Tải Lên Hồ Sơ</DialogTitle>
                         <DialogDescription>
                             <Input
                                 placeholder="Nhập tên hồ sơ *"
@@ -108,7 +108,7 @@ function UploadResume() {
                                 {selectedFile ? (
                                     <p className="text-gray-700">{selectedFile.name}</p>
                                 ) : (
-                                    <div className="text-gray-500">Drop your file here or click to upload</div>
+                                    <div className="text-gray-500">Kéo và thả hoặc tải lên hồ sơ của bạn</div>
                                 )}
                                 <Input
                                     ref={fileInputRef}
@@ -122,9 +122,9 @@ function UploadResume() {
 
                         <div className="flex justify-end gap-5">
                             <Button onClick={() => setOpenDialog(false)} variant="ghost">
-                                Cancel
+                                Hủy
                             </Button>
-                            <Button onClick={handleUpload}>Upload</Button>
+                            <Button onClick={handleUpload}>Tải lên</Button>
                         </div>
                     </DialogHeader>
                 </DialogContent>

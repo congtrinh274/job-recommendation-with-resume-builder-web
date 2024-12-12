@@ -5,11 +5,11 @@ import SignInPage from '@/pages/auth/signIn';
 import SignInSuccess from '@/pages/auth/signInSuccess';
 import Dashboard from '@/pages/dashboard';
 import Home from '@/pages/home';
-import Resume from '@/pages/resume';
 import { createBrowserRouter } from 'react-router-dom';
 import RouteProtector from '@/utils/RouteProtector';
 import GuestsJobsPage from '@/pages/guestsJobs';
 import CandidateJobsPage from '@/pages/candidateJobs';
+import ResumeEditor from '@/pages/resumeEditor';
 
 const router = createBrowserRouter([
     {
@@ -51,8 +51,8 @@ const router = createBrowserRouter([
             },
 
             {
-                path: '/my-resume/:resumeId/view',
-                element: <Resume />,
+                path: '/resume-editor',
+                element: <ResumeEditor />,
                 errorElement: <ErrorPage />,
             },
         ],
