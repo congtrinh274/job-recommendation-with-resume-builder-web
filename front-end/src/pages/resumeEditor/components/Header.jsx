@@ -4,8 +4,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { PDFDownloadLink } from '@react-pdf/renderer';
+import PDFCVPreview from './PDFCVPreview';
 
-const Header = ({ resumeTitle, setResumeTitle, onSave }) => {
+const Header = ({ resumeTitle, setResumeTitle, sections, themeColor, font, spacing }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [tempTitle, setTempTitle] = useState(resumeTitle);
     const navigate = useNavigate();
@@ -44,13 +46,17 @@ const Header = ({ resumeTitle, setResumeTitle, onSave }) => {
                 <button className="flex items-center text-white bg-green-400 px-4 py-1 rounded-lg hover:bg-red-600 mr-4">
                     Xem trước
                 </button>
-                <button className="flex items-center text-white bg-blue-400 px-4 py-1 rounded-lg hover:bg-red-600 mr-4">
-                    Lưu và tải xuống
-                </button>
-                <button
-                    onClick={onSave}
-                    className="flex items-center text-white bg-purple-400 px-4 py-1 rounded-lg hover:bg-red-600 mr-4"
+                <PDFDownloadLink
+                    document={
+                        <PDFCVPreview sections={sections} themeColor={themeColor} font={font} spacing={spacing} />
+                    }
+                    fileName="cv-preview.pdf"
+                    className="flex items-center text-white bg-green-400 px-4 py-1 rounded-lg hover:bg-red-600 mr-4"
                 >
+                    Lưu và tải
+                </PDFDownloadLink>
+
+                <button className="flex items-center text-white bg-purple-400 px-4 py-1 rounded-lg hover:bg-red-600 mr-4">
                     Lưu
                 </button>
                 <button

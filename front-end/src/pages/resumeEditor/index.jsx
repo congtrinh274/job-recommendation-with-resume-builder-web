@@ -1,11 +1,18 @@
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import html2pdf from 'html2pdf.js';
 
 import Header from './components/Header';
 import SubHeader from './components/SubHeader';
 import Sidebar from './components/Sidebar';
 import CVPreview from './components/CVPreview';
+import { Font } from '@react-pdf/renderer';
+
+import RobotoFont from '../../assets/fonts/Roboto/Roboto-Regular.ttf';
+
+Font.register({
+    family: 'Roboto',
+    src: RobotoFont,
+});
 
 const ResumeEditor = () => {
     const location = useLocation();
@@ -16,45 +23,20 @@ const ResumeEditor = () => {
     const [spacing, setSpacing] = useState('1');
     const [currentView, setCurrentView] = useState('Đổi mẫu CV');
 
-    const mockSections = [
-        { title: 'Education', content: 'University of Example, Bachelor of IT (2015-2019)', height: 100 },
-        { title: 'Skills', content: 'JavaScript, React, Node.js, Python', height: 100 },
-        { title: 'Experience', content: 'Software Engineer at ExampleCorp (2020-2023)', height: 100 },
-        { title: 'Projects', content: 'Developed AI-based CV recommendation system.', height: 100 },
-        { title: 'Education', content: 'University of Example, Bachelor of IT (2015-2019)', height: 100 },
-        { title: 'Skills', content: 'JavaScript, React, Node.js, Python', height: 100 },
-        { title: 'Experience', content: 'Software Engineer at ExampleCorp (2020-2023)', height: 100 },
-        { title: 'Projects', content: 'Developed AI-based CV recommendation system.', height: 100 },
-        { title: 'Education', content: 'University of Example, Bachelor of IT (2015-2019)', height: 100 },
-        { title: 'Experience', content: 'Software Engineer at ExampleCorp (2020-2023)', height: 100 },
-        { title: 'Experience', content: 'Software Engineer at ExampleCorp (2020-2023)', height: 100 },
-        { title: 'Education', content: 'University of Example, Bachelor of IT (2015-2019)', height: 100 },
-        { title: 'Skills', content: 'JavaScript, React, Node.js, Python', height: 100 },
-        { title: 'Experience', content: 'Software Engineer at ExampleCorp (2020-2023)', height: 100 },
-        { title: 'Projects', content: 'Developed AI-based CV recommendation system.', height: 100 },
-        { title: 'Education', content: 'University of Example, Bachelor of IT (2015-2019)', height: 100 },
-        { title: 'Skills', content: 'JavaScript, React, Node.js, Python', height: 100 },
-        { title: 'Experience', content: 'Software Engineer at ExampleCorp (2020-2023)', height: 100 },
-        { title: 'Projects', content: 'Developed AI-based CV recommendation system.', height: 100 },
-        { title: 'Education', content: 'University of Example, Bachelor of IT (2015-2019)', height: 100 },
-        { title: 'Experience', content: 'Software Engineer at ExampleCorp (2020-2023)', height: 100 },
-        { title: 'Experience', content: 'Software Engineer at ExampleCorp (2020-2023)', height: 100 },
+    const sections = [
+        { title: 'Kinh nghiệm làm việc', onEdit: () => alert('Edit Kinh nghiệm làm việc') },
+        { title: 'Học vấn', onEdit: () => alert('Edit Học vấn') },
+        { title: 'Kỹ năng', onEdit: () => alert('Edit Kỹ năng') },
+        { title: 'Kinh nghiệm', onEdit: () => alert('Edit Kinh nghiệm làm việc') },
+        { title: 'ABCvấn', onEdit: () => alert('Edit Học vấn') },
+        { title: 'Kỹaksjajkdnăng', onEdit: () => alert('Edit Kỹ năng') },
+        { title: 'Kinh nghiệm làm việc', onEdit: () => alert('Edit Kinh nghiệm làm việc') },
+        { title: 'Học vấn', onEdit: () => alert('Edit Học vấn') },
+        { title: 'Kỹ năng', onEdit: () => alert('Edit Kỹ năng') },
+        { title: 'Kinh nghiệm', onEdit: () => alert('Edit Kinh nghiệm làm việc') },
+        { title: 'ABCvấn', onEdit: () => alert('Edit Học vấn') },
+        { title: 'Kỹaksjajkdnăng', onEdit: () => alert('Edit Kỹ năng') },
     ];
-
-    const handleSaveAsPDF = () => {
-        console.log(123);
-        const resumeContent = document.getElementById('cv-preview');
-        const opt = {
-            margin: 0.5,
-            filename: 'resume.pdf',
-            image: { type: 'jpeg', quality: 0.95 },
-            html2canvas: { scale: 2 },
-            jsPDF: { unit: 'in', format: 'LETTER' },
-        };
-
-        // Tạo file PDF từ nội dung render trên website
-        html2pdf().from(resumeContent).set(opt).save();
-    };
 
     const handleThemeColorChange = (colorHex) => {
         setThemeColor(colorHex);
@@ -67,7 +49,14 @@ const ResumeEditor = () => {
 
     return (
         <div className="min-h-screen pt-12 pb-20">
-            <Header resumeTitle={resumeTitle} setResumeTitle={setResumeTitle} onSave={handleSaveAsPDF} />
+            <Header
+                resumeTitle={resumeTitle}
+                setResumeTitle={setResumeTitle}
+                sections={sections}
+                font={font}
+                themeColor={themeColor}
+                spacing={spacing}
+            />
             <SubHeader
                 currentLanguage={language}
                 onLanguageChange={setLanguage}
@@ -83,7 +72,7 @@ const ResumeEditor = () => {
             <div className="flex">
                 <Sidebar onChangeView={handleViewChange} />
                 <div className="flex-grow flex justify-center">
-                    <CVPreview sections={mockSections} />
+                    <CVPreview sections={sections} />
                 </div>
             </div>
         </div>
