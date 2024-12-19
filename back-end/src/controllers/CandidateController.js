@@ -43,34 +43,12 @@ class CandidateController {
         }
     };
 
-    // [PUT] candidates/update
-    updateCandidate = async (req, res) => {
-        try {
-            const candidate = await Candidate.findByIdAndUpdate(req.params.id, req.body, {
-                new: true,
-                runValidators: true,
-            });
-            if (!candidate) {
-                return res.status(404).json({ message: 'Candidate not found' });
-            }
-            res.status(200).json({ message: 'Candidate updated successfully', data: candidate });
-        } catch (error) {
-            res.status(500).json({ message: 'Error updating candidate', error: error.message });
-        }
-    };
-
-    // [PUT] candidates/update-cv
-    updateCandidateCVs = async (req, res) => {
+    // [POST] candidates/add-cv
+    addCandidateCV = async (req, res) => {
         try {
             const userId = req.user?._id;
+            const { title, isPrimary, isOwn } = req.body;
             const file = req.file;
-
-            if (!file) {
-                return res.status(400).json({ message: 'No file provided or invalid file type.' });
-            }
-
-            const { title, content, isPrimary, isOwn } = req.body;
-            console.log(isOwn);
 
             const candidate = await Candidate.findOne({ userId: userId });
             if (!candidate) {
@@ -79,12 +57,58 @@ class CandidateController {
 
             const titleExists = candidate.cvs.some((cv) => cv.title === title);
             if (titleExists) {
-                return res.status(400).json({ message: 'Title already exists. Each CV title must be unique.' });
+                return res.status(400).json({ message: 'Tên hồ sơ đã tồn tại, vui lòng chọn tên khác!' });
+            }
+
+            const newCV = {
+                title: title || (file ? file.originalname : 'Untitled'),
+                uploadedCV: file ? `/uploads/${file.filename}` : null,
+                isPrimary: isPrimary || false,
+                isOwn: isOwn || false,
+            };
+
+            if (newCV.isPrimary) {
+                candidate.cvs.forEach((cv) => (cv.isPrimary = false));
+            }
+
+            candidate.cvs.push(newCV);
+            await candidate.save();
+
+            const addedCV = candidate.cvs[candidate.cvs.length - 1];
+
+            res.status(201).json({
+                message: 'CV added successfully',
+                data: addedCV,
+            });
+        } catch (error) {
+            res.status(500).json({ message: 'Error adding CV', error: error.message });
+        }
+    };
+
+    // [PUT] candidates/upload-cv
+    uploadCandidateCV = async (req, res) => {
+        try {
+            const userId = req.user?._id;
+            const file = req.file;
+
+            if (!file) {
+                return res.status(400).json({ message: 'No file provided or invalid file type.' });
+            }
+
+            const { title, isPrimary, isOwn } = req.body;
+
+            const candidate = await Candidate.findOne({ userId: userId });
+            if (!candidate) {
+                return res.status(404).json({ message: 'Candidate not found' });
+            }
+
+            const titleExists = candidate.cvs.some((cv) => cv.title === title);
+            if (titleExists) {
+                return res.status(400).json({ message: 'Tên hồ sơ đã tồn tại, vui lòng chọn tên khác!' });
             }
 
             const newCV = {
                 title: title || file.originalname,
-                content: content,
                 uploadedCV: `/uploads/${req.file.filename}`,
                 isPrimary: isPrimary,
                 isOwn: isOwn,
@@ -100,6 +124,48 @@ class CandidateController {
             res.status(200).json({
                 message: 'CV updated successfully',
                 data: candidate,
+            });
+        } catch (error) {
+            res.status(500).json({ message: 'Error updating CV', error: error.message });
+        }
+    };
+
+    // [PUT] candidates/update-cv/:id
+    updateCandidateCV = async (req, res) => {
+        try {
+            const userId = req.user?._id;
+            const { cvId } = req.params;
+            const updateData = req.body;
+            console.log(updateData);
+
+            const candidate = await Candidate.findOne({ userId: userId });
+            if (!candidate) {
+                return res.status(404).json({ message: 'Candidate not found' });
+            }
+
+            const cv = candidate.cvs.id(cvId);
+            if (!cv) {
+                return res.status(404).json({ message: 'CV not found' });
+            }
+
+            if (updateData.title) {
+                const titleExists = candidate.cvs.some(
+                    (cv) => cv.title === updateData.title && cv._id.toString() !== cvId,
+                );
+                if (titleExists) {
+                    return res.status(400).json({ message: 'Tên hồ sơ đã tồn tại. Vui lòng nhập tên khác!' });
+                }
+            }
+
+            Object.keys(updateData).forEach((key) => {
+                cv[key] = updateData[key];
+            });
+
+            await candidate.save();
+
+            res.status(200).json({
+                message: 'CV updated successfully',
+                data: cv,
             });
         } catch (error) {
             res.status(500).json({ message: 'Error updating CV', error: error.message });

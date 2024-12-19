@@ -3,17 +3,46 @@ const mongoose = require('mongoose');
 const candidateSchema = new mongoose.Schema(
     {
         userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-        fullName: { type: String },
-        phone: { type: String },
-        address: { type: String },
-        skills: [{ type: String }],
-        experience: { type: String },
-        education: { type: String },
         cvs: [
             {
                 title: { type: String, required: true, unique: true },
-                content: { type: Object },
-                uploadedCV: { type: String, required: true },
+                firstName: { type: String },
+                lastName: { type: String },
+                jobTitle: { type: String },
+                address: { type: String },
+                phone: { type: String },
+                email: { type: String },
+                themeColor: { type: String },
+                summery: { type: String },
+                experience: [
+                    {
+                        title: { type: String },
+                        companyName: { type: String },
+                        city: { type: String },
+                        state: { type: String },
+                        startDate: { type: String },
+                        endDate: { type: String, default: '' },
+                        currentlyWorking: { type: Boolean, default: false },
+                        workSummery: { type: String },
+                    },
+                ],
+                education: [
+                    {
+                        universityName: { type: String },
+                        startDate: { type: String },
+                        endDate: { type: String },
+                        degree: { type: String },
+                        major: { type: String },
+                        description: { type: String },
+                    },
+                ],
+                skills: [
+                    {
+                        name: { type: String },
+                        rating: { type: Number },
+                    },
+                ],
+                uploadedCV: { type: String },
                 isPrimary: { type: Boolean, default: false },
                 isOwn: { type: Boolean, default: false },
             },

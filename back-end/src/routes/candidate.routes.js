@@ -6,11 +6,12 @@ const authenticateToken = require('../middlewares/authenticate.middleware');
 const upload = require('../middlewares/multer.middleware');
 
 router.get('/', candidateController.getCandidates);
-
 router.get('/get-one', authenticateToken, candidateController.getCandidateByUserId);
 
-router.put('/update', candidateController.updateCandidate);
-router.put('/update-cvs', upload.single('file'), authenticateToken, candidateController.updateCandidateCVs);
+router.post('/add-cv', authenticateToken, candidateController.addCandidateCV);
+
+router.put('/upload-cv', upload.single('file'), authenticateToken, candidateController.uploadCandidateCV);
+router.put('/update-cv/:cvId', upload.single('file'), authenticateToken, candidateController.updateCandidateCV);
 
 router.delete('/:id', candidateController.deleteCandidate);
 
