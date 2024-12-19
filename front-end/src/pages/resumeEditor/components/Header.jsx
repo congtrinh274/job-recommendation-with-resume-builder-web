@@ -2,19 +2,35 @@ import PropTypes from 'prop-types';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useState } from 'react';
-import { PDFDownloadLink } from '@react-pdf/renderer';
-import PDFCVPreview from './PDFCVPreview';
+import { useDispatch } from 'react-redux';
+import { updateCV } from '@/redux/features/candidateSlice';
 
-const Header = ({ resumeTitle, setResumeTitle, sections, themeColor, font, spacing }) => {
+const Header = ({ resumeTitle, setResumeTitle }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [tempTitle, setTempTitle] = useState(resumeTitle);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const { cvId } = useParams();
 
-    const handleSaveTitle = () => {
-        setIsEditing(false);
-        setResumeTitle(tempTitle);
+    const handleSaveTitle = async () => {
+        try {
+            setResumeTitle(tempTitle);
+
+            if (!cvId) {
+                alert('Không tìm thấy ID của CV!');
+                return;
+            }
+
+            const updateData = { title: tempTitle };
+            await dispatch(updateCV({ cvId, updateData, file: null })).unwrap();
+
+            setIsEditing(false);
+        } catch (error) {
+            console.error('Lỗi khi cập nhật tiêu đề CV:', error);
+            alert(error);
+        }
     };
 
     const handleKeyPress = (e) => {
@@ -22,6 +38,8 @@ const Header = ({ resumeTitle, setResumeTitle, sections, themeColor, font, spaci
             handleSaveTitle();
         }
     };
+
+    const handleDownloadPDF = async () => {};
 
     return (
         <header className="flex justify-between items-center border-b rounded-lg p-4 ml-4 mr-4 mt-4">
@@ -46,16 +64,12 @@ const Header = ({ resumeTitle, setResumeTitle, sections, themeColor, font, spaci
                 <button className="flex items-center text-white bg-green-400 px-4 py-1 rounded-lg hover:bg-red-600 mr-4">
                     Xem trước
                 </button>
-                <PDFDownloadLink
-                    document={
-                        <PDFCVPreview sections={sections} themeColor={themeColor} font={font} spacing={spacing} />
-                    }
-                    fileName="cv-preview.pdf"
+                <button
+                    onClick={handleDownloadPDF}
                     className="flex items-center text-white bg-green-400 px-4 py-1 rounded-lg hover:bg-red-600 mr-4"
                 >
-                    Lưu và tải
-                </PDFDownloadLink>
-
+                    Tải PDF
+                </button>
                 <button className="flex items-center text-white bg-purple-400 px-4 py-1 rounded-lg hover:bg-red-600 mr-4">
                     Lưu
                 </button>
@@ -73,7 +87,6 @@ const Header = ({ resumeTitle, setResumeTitle, sections, themeColor, font, spaci
 Header.propTypes = {
     resumeTitle: PropTypes.string,
     setResumeTitle: PropTypes.func.isRequired,
-    onSave: PropTypes.func.isRequired,
 };
 
 export default Header;

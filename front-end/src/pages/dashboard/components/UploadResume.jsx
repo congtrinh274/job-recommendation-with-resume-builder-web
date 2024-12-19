@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { fetCandidate, updateCandidateCVs } from '@/redux/features/candidateSlice';
+import { fetCandidate, uploadCV } from '@/redux/features/candidateSlice';
 
 function UploadResume() {
     const dispatch = useDispatch();
@@ -63,7 +63,11 @@ function UploadResume() {
                 formData.append('title', resumeTitle);
                 formData.append('isOwn', false);
 
-                await dispatch(updateCandidateCVs({ cvData: formData }));
+                const result = await dispatch(uploadCV({ cvData: formData }));
+
+                if (result.error) {
+                    alert(result.payload);
+                }
 
                 dispatch(fetCandidate());
 

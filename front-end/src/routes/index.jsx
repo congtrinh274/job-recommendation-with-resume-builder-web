@@ -51,7 +51,7 @@ const router = createBrowserRouter([
             },
 
             {
-                path: '/resume-editor',
+                path: '/resume-editor/:cvId',
                 element: <ResumeEditor />,
                 errorElement: <ErrorPage />,
             },

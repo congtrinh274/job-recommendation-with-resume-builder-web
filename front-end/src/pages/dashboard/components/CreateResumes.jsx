@@ -5,21 +5,32 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { createCV } from '@/redux/features/candidateSlice';
 
 function CreateResume() {
     const [openDialog, setOpenDialog] = useState(false);
     const [resumeTitle, setResumeTitle] = useState('');
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const handleInputChange = (event) => {
         setResumeTitle(event.target.value);
     };
 
-    const handleCreate = () => {
+    const handleCreate = async () => {
         if (!resumeTitle) {
             alert('Vui lòng nhập tên hồ sơ của bạn');
         } else {
-            navigate('/resume-editor', { state: { resumeTitle } });
+            const result = await dispatch(createCV({ cvData: { title: resumeTitle, isPrimary: false, isOwn: true } }));
+            console.log(result);
+
+            if (result.error) {
+                alert(result.payload);
+            } else {
+                const { data } = result.payload;
+                navigate(`/resume-editor/${result.payload.data._id}`, { state: { data } });
+            }
         }
     };
 

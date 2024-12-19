@@ -20,9 +20,47 @@ export const fetCandidate = createAsyncThunk('candidate/fetchCandidate', async (
     }
 });
 
-export const updateCandidateCVs = createAsyncThunk(
-    'candidate/updateCandidateCVs',
-    async ({ cvData }, { rejectWithValue, getState }) => {
+export const createCV = createAsyncThunk('candidate/createCV', async ({ cvData }, { rejectWithValue, getState }) => {
+    try {
+        const { auth } = getState();
+        const token = auth?.token;
+
+        if (!token) {
+            throw new Error('No token found');
+        }
+
+        const response = await axios.post('http://localhost:5000/api/candidates/add-cv', cvData, {
+            headers: { Authorization: token },
+        });
+
+        return response.data;
+    } catch (error) {
+        return rejectWithValue(error.response?.data?.message || 'Failed to create new CV');
+    }
+});
+
+export const uploadCV = createAsyncThunk('candidate/uploadCV', async ({ cvData }, { rejectWithValue, getState }) => {
+    try {
+        const { auth } = getState();
+        const token = auth?.token;
+
+        if (!token) {
+            throw new Error('No token found');
+        }
+
+        const response = await axios.put(`http://localhost:5000/api/candidates/upload-cv`, cvData, {
+            headers: { Authorization: token },
+        });
+
+        return response.data;
+    } catch (error) {
+        return rejectWithValue(error.response?.data?.message || 'Failed to update candidate CVs');
+    }
+});
+
+export const updateCV = createAsyncThunk(
+    'candidate/updateCV',
+    async ({ cvId, updateData, file }, { rejectWithValue, getState }) => {
         try {
             const { auth } = getState();
             const token = auth?.token;
@@ -31,13 +69,24 @@ export const updateCandidateCVs = createAsyncThunk(
                 throw new Error('No token found');
             }
 
-            const response = await axios.put(`http://localhost:5000/api/candidates/update-cvs`, cvData, {
-                headers: { Authorization: token },
+            const formData = new FormData();
+            if (file) {
+                formData.append('file', file);
+            }
+            Object.keys(updateData).forEach((key) => {
+                formData.append(key, updateData[key]);
+            });
+
+            const response = await axios.put(`http://localhost:5000/api/candidates/update-cv/${cvId}`, formData, {
+                headers: {
+                    Authorization: token,
+                    'Content-Type': 'multipart/form-data',
+                },
             });
 
             return response.data;
         } catch (error) {
-            return rejectWithValue(error.response?.data?.message || 'Failed to update candidate CVs');
+            return rejectWithValue(error.response?.data?.message || 'Failed to update CV');
         }
     },
 );
@@ -72,11 +121,11 @@ const candidateSlice = createSlice({
                 state.data = null;
                 state.error = action.payload;
             })
-            .addCase(updateCandidateCVs.pending, (state) => {
+            .addCase(uploadCV.pending, (state) => {
                 state.isLoading = true;
                 state.error = null;
             })
-            .addCase(updateCandidateCVs.fulfilled, (state, action) => {
+            .addCase(uploadCV.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.data = {
                     ...state.data,
@@ -84,7 +133,48 @@ const candidateSlice = createSlice({
                 };
                 state.error = null;
             })
-            .addCase(updateCandidateCVs.rejected, (state, action) => {
+            .addCase(uploadCV.rejected, (state, action) => {
+                state.isLoading = false;
+                state.error = action.payload;
+            })
+
+            .addCase(createCV.pending, (state) => {
+                state.isLoading = true;
+                state.error = null;
+            })
+            .addCase(createCV.fulfilled, (state, action) => {
+                state.isLoading = false;
+
+                if (state.data?.cvs) {
+                    state.data.cvs.push(action.payload.data);
+                } else {
+                    state.data = { cvs: [action.payload.data] };
+                }
+
+                state.error = null;
+            })
+            .addCase(createCV.rejected, (state, action) => {
+                state.isLoading = false;
+                state.error = action.payload;
+            })
+            .addCase(updateCV.pending, (state) => {
+                state.isLoading = true;
+                state.error = null;
+            })
+            .addCase(updateCV.fulfilled, (state, action) => {
+                state.isLoading = false;
+
+                const updatedCV = action.payload.data;
+                if (state.data?.cvs) {
+                    const index = state.data.cvs.findIndex((cv) => cv._id === updatedCV._id);
+                    if (index !== -1) {
+                        state.data.cvs[index] = updatedCV;
+                    }
+                }
+
+                state.error = null;
+            })
+            .addCase(updateCV.rejected, (state, action) => {
                 state.isLoading = false;
                 state.error = action.payload;
             });

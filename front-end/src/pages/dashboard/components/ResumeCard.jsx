@@ -5,7 +5,7 @@ import axios from 'axios';
 
 const apiBaseUrl = import.meta.env.VITE_SERVER_URL;
 
-const ResumeCard = ({ title, uploadedCV, img, isOwn }) => {
+const ResumeCard = ({ cvData, img }) => {
     const [isHovered, setIsHovered] = useState(false);
     const navigate = useNavigate();
     const { setIsLoading } = useOutletContext();
@@ -64,14 +64,16 @@ const ResumeCard = ({ title, uploadedCV, img, isOwn }) => {
         }
     };
 
-    const handleEdit = () => alert('Edit CV');
+    const handleEdit = () => {
+        navigate(`/resume-editor/${cvData._id}`, { state: { data: cvData } });
+    };
     const handleDelete = () => alert('Delete CV');
     const handleView = (uploadedCV) => {
         if (uploadedCV) {
             const fullURL = uploadedCV.startsWith('http') ? uploadedCV : `${apiBaseUrl}${uploadedCV}`;
             window.open(fullURL, '_blank');
         } else {
-            alert('Link không tồn tại');
+            alert('Nhấn cập nhật để hoàn thành hồ sơ!');
         }
     };
 
@@ -93,12 +95,12 @@ const ResumeCard = ({ title, uploadedCV, img, isOwn }) => {
                 <div className="absolute top-0 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex justify-center items-center">
                     <div className="grid grid-cols-2 gap-2 animate-spread">
                         <button
-                            onClick={() => handleGetRecommended(uploadedCV, title)}
+                            onClick={() => handleGetRecommended(cvData.uploadedCV, cvData.title)}
                             className="px-2 py-1 text-sm bg-blue-500 text-white rounded-lg shadow transform transition-all duration-300 hover:bg-blue-600"
                         >
                             Xem đề xuất
                         </button>
-                        {isOwn && (
+                        {cvData.isOwn && (
                             <button
                                 onClick={handleEdit}
                                 className="px-2 py-1 text-sm bg-green-500 text-white rounded-lg shadow transform transition-all duration-300 hover:bg-green-600"
@@ -113,7 +115,7 @@ const ResumeCard = ({ title, uploadedCV, img, isOwn }) => {
                             Xóa
                         </button>
                         <button
-                            onClick={() => handleView(uploadedCV)}
+                            onClick={() => handleView(cvData.uploadedCV)}
                             className="px-2 py-1 text-sm bg-yellow-500 text-white rounded-lg shadow transform transition-all duration-300 hover:bg-yellow-600"
                         >
                             Xem & Tải
@@ -123,7 +125,7 @@ const ResumeCard = ({ title, uploadedCV, img, isOwn }) => {
             )}
 
             <div className="absolute bottom-0 left-0 right-0 bg-gray-800 text-white py-2 flex items-center justify-center text-xs">
-                <span className="px-2 truncate max-w-full">{title}</span>
+                <span className="px-2 truncate max-w-full">{cvData.title}</span>
             </div>
         </div>
     );
