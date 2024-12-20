@@ -7,7 +7,7 @@ const EducationPreview = ({ resumeInfo }) => {
                 Education
             </h2>
             <hr className="border-[1.5px] my-2" style={{ borderColor: resumeInfo?.themeColor }}></hr>
-            {resumeInfo?.education.map((education, index) => (
+            {resumeInfo?.education?.map((education, index) => (
                 <div key={index} className="my-5">
                     <h2 className="text-sm font-bold" style={{ color: resumeInfo?.themeColor }}>
                         {education?.universityName}

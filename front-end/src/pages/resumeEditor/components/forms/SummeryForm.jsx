@@ -30,11 +30,14 @@ const SummeryForm = ({ enableNext }) => {
     const generateSummeryFromGemini = async () => {
         setLoading(true);
         const PROMPT = prompt.replace('{jobTitle}', resumeInfo.jobTitle);
-        console.log(PROMPT);
         const result = await AIChatSession.sendMessage(PROMPT);
-        console.log(JSON.parse(result.response.text()));
         setAiGeneratedSummeryList(JSON.parse(result.response.text()));
         setLoading(false);
+    };
+
+    const handleInputChange = (e) => {
+        enableNext(false);
+        setSummery(e.target.value);
     };
 
     const onSave = async (e) => {
@@ -83,7 +86,7 @@ const SummeryForm = ({ enableNext }) => {
                         className="mt-3"
                         defaultValue={resumeInfo.summery}
                         required
-                        onChange={(e) => setSummery(e.target.value)}
+                        onChange={handleInputChange}
                     />
                     <div className="mt-3 flex justify-end">
                         <Button type="submit" disabled={loading}>
@@ -93,7 +96,7 @@ const SummeryForm = ({ enableNext }) => {
                 </form>
             </div>
             {aiGeneratedSummeryList && (
-                <div className="bg-white mt-10 p-5 rounded-lg shadow-lg">
+                <div className="bg-white mt-10 p-5 rounded-lg">
                     <h2 className="font-bold text-lg">Đề xuất</h2>
                     {aiGeneratedSummeryList.map((item, index) => (
                         <div className="mt-4" key={index}>

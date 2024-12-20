@@ -182,3 +182,13 @@ button:focus-visible {
 .hover-card button {
     animation: animate-move-top 0.3s ease-in-out forwards;
 }
+
+.rsw-ce ul {
+    list-style: disc;
+    padding-left: 2em;
+}
+
+.rsw-ce ol {
+    list-style: decimal;
+    padding-left: 2em;
+}

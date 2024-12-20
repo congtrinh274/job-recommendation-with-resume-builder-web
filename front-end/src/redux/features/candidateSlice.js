@@ -20,6 +20,27 @@ export const fetCandidate = createAsyncThunk('candidate/fetchCandidate', async (
     }
 });
 
+export const getCVById = createAsyncThunk('candidate/getCVById', async ({ cvId }, { rejectWithValue, getState }) => {
+    try {
+        const { auth } = getState();
+        const token = auth?.token;
+
+        if (!token) {
+            throw new Error('No token found');
+        }
+
+        const response = await axios.get(`http://localhost:5000/api/candidates/get-cv/${cvId}`, {
+            headers: {
+                Authorization: token,
+            },
+        });
+
+        return response.data.data;
+    } catch (error) {
+        return rejectWithValue(error.response?.data?.message || 'Failed to fetch CV');
+    }
+});
+
 export const createCV = createAsyncThunk('candidate/createCV', async ({ cvData }, { rejectWithValue, getState }) => {
     try {
         const { auth } = getState();
@@ -73,14 +94,19 @@ export const updateCV = createAsyncThunk(
             if (file) {
                 formData.append('file', file);
             }
+
             Object.keys(updateData).forEach((key) => {
-                formData.append(key, updateData[key]);
+                const value = updateData[key];
+                if (typeof value === 'object') {
+                    formData.append(key, JSON.stringify(value));
+                } else {
+                    formData.append(key, value);
+                }
             });
 
             const response = await axios.put(`http://localhost:5000/api/candidates/update-cv/${cvId}`, formData, {
                 headers: {
                     Authorization: token,
-                    'Content-Type': 'multipart/form-data',
                 },
             });
 
@@ -176,6 +202,19 @@ const candidateSlice = createSlice({
             })
             .addCase(updateCV.rejected, (state, action) => {
                 state.isLoading = false;
+                state.error = action.payload;
+            })
+
+            .addCase(getCVById.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
+            .addCase(getCVById.fulfilled, (state, action) => {
+                state.loading = false;
+                state.currentCV = action.payload;
+            })
+            .addCase(getCVById.rejected, (state, action) => {
+                state.loading = false;
                 state.error = action.payload;
             });
     },

@@ -1,20 +1,38 @@
 import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 
 import Header from './components/Header';
 import FormSection from './components/FormSection';
 import ResumePreview from './components/ResumePreview';
 import { ResumeInfoContext } from '@/context/ResumeInfoContext';
-import dummy from '@/data/dummy';
+import { useDispatch, useSelector } from 'react-redux';
+import { getCVById } from '@/redux/features/candidateSlice';
 
 const ResumeEditor = () => {
     const location = useLocation();
+    const dispatch = useDispatch();
+    const { cvId } = useParams();
+    const { currentCV } = useSelector((state) => state.candidate);
     const [resumeTitle, setResumeTitle] = useState(location.state?.data?.title);
     const [resumeInfo, setResumeInfo] = useState();
 
     useEffect(() => {
-        setResumeInfo(dummy);
-    }, []);
+        if (cvId) {
+            dispatch(getCVById({ cvId }));
+        }
+    }, [cvId, dispatch]);
+
+    useEffect(() => {
+        if (currentCV) {
+            setResumeInfo({
+                title: currentCV.title,
+                skills: currentCV.skills,
+                experience: currentCV.experience,
+                education: currentCV.education,
+                ...currentCV,
+            });
+        }
+    }, [currentCV]);
 
     return (
         <ResumeInfoContext.Provider value={{ resumeInfo, setResumeInfo }}>
