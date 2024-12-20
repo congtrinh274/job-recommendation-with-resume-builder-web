@@ -43,6 +43,31 @@ class CandidateController {
         }
     };
 
+    // [GET] candidates/get-cv/:cvId
+    getCVById = async (req, res) => {
+        try {
+            const userId = req.user?._id;
+            const { cvId } = req.params;
+
+            const candidate = await Candidate.findOne({ userId: userId });
+            if (!candidate) {
+                return res.status(404).json({ message: 'Candidate not found' });
+            }
+
+            const cv = candidate.cvs.id(cvId);
+            if (!cv) {
+                return res.status(404).json({ message: 'CV not found' });
+            }
+
+            res.status(200).json({
+                message: 'CV retrieved successfully',
+                data: cv,
+            });
+        } catch (error) {
+            res.status(500).json({ message: 'Error retrieving CV', error: error.message });
+        }
+    };
+
     // [POST] candidates/add-cv
     addCandidateCV = async (req, res) => {
         try {
@@ -157,8 +182,47 @@ class CandidateController {
                 }
             }
 
+            if (updateData.skills) {
+                if (typeof updateData.skills === 'string') {
+                    try {
+                        updateData.skills = JSON.parse(updateData.skills);
+                    } catch (err) {
+                        return res.status(400).json({ message: 'Invalid experience format' });
+                    }
+                }
+
+                if (Array.isArray(updateData.skills) && updateData.skills.every((item) => typeof item === 'object')) {
+                    cv.skills = updateData.skills;
+                } else {
+                    return res.status(400).json({ message: 'Experience must be an array of objects' });
+                }
+            }
+
+            // Update experience
+            if (updateData.experience) {
+                if (typeof updateData.experience === 'string') {
+                    try {
+                        updateData.experience = JSON.parse(updateData.experience);
+                    } catch (err) {
+                        return res.status(400).json({ message: 'Invalid experience format' });
+                    }
+                }
+
+                if (
+                    Array.isArray(updateData.experience) &&
+                    updateData.experience.every((item) => typeof item === 'object')
+                ) {
+                    cv.experience = updateData.experience;
+                } else {
+                    return res.status(400).json({ message: 'Experience must be an array of objects' });
+                }
+            }
+
+            // Update other fields
             Object.keys(updateData).forEach((key) => {
-                cv[key] = updateData[key];
+                if (!['education', 'skills', 'experience'].includes(key)) {
+                    cv[key] = updateData[key];
+                }
             });
 
             await candidate.save();

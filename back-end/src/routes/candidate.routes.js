@@ -7,6 +7,7 @@ const upload = require('../middlewares/multer.middleware');
 
 router.get('/', candidateController.getCandidates);
 router.get('/get-one', authenticateToken, candidateController.getCandidateByUserId);
+router.get('/get-cv/:cvId', authenticateToken, candidateController.getCVById);
 
 router.post('/add-cv', authenticateToken, candidateController.addCandidateCV);
 
