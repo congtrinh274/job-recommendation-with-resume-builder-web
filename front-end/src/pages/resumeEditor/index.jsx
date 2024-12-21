@@ -7,6 +7,7 @@ import ResumePreview from './components/ResumePreview';
 import { ResumeInfoContext } from '@/context/ResumeInfoContext';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCVById } from '@/redux/features/candidateSlice';
+import dummy from '@/data/dummy';
 
 const ResumeEditor = () => {
     const location = useLocation();
@@ -23,7 +24,7 @@ const ResumeEditor = () => {
     }, [cvId, dispatch]);
 
     useEffect(() => {
-        if (currentCV) {
+        if (currentCV?.firstName) {
             setResumeInfo({
                 title: currentCV.title,
                 skills: currentCV.skills,
@@ -31,6 +32,8 @@ const ResumeEditor = () => {
                 education: currentCV.education,
                 ...currentCV,
             });
+        } else {
+            setResumeInfo(dummy);
         }
     }, [currentCV]);
 

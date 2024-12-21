@@ -79,7 +79,7 @@ const SummeryForm = ({ enableNext }) => {
                             onClick={() => generateSummeryFromGemini()}
                         >
                             <Brain className="h-4 w-4" />
-                            Sử dụng AI
+                            Nhận gợi ý từ AI
                         </Button>
                     </div>
                     <Textarea

@@ -18,7 +18,7 @@ import { ResumeInfoContext } from '@/context/ResumeInfoContext';
 import { AIChatSession } from '@/utils/AIModel';
 
 const prompt =
-    'position title: {position title} dựa vào position title cho tôi chuỗi text mô tả kinh nghiệm làm việc khoảng 5 dòng trong CV của tôi với tiếng việt (Vui lòng không thêm cấp độ kinh nghiệm và Không có mảng JSON)';
+    'position title: {position title} dựa vào position title cho tôi chuỗi text mô tả kinh nghiệm làm việc khoảng 5 dòng trong CV của tôi với tiếng việt (Vui lòng không thêm cấp độ kinh nghiệm và Không có mảng JSON và key mặc định là experience_description)';
 
 const RichTextEditor = ({ onRichTextEditorChange, defaultValue, index }) => {
     const [value, setValue] = useState(defaultValue);
@@ -37,6 +37,7 @@ const RichTextEditor = ({ onRichTextEditorChange, defaultValue, index }) => {
         const result = await AIChatSession.sendMessage(PROMPT);
         const res = JSON.parse(result.response.text());
         setValue(res.experience_description);
+        onRichTextEditorChange({ target: { value: res.experience_description } });
         setLoading(false);
     };
 

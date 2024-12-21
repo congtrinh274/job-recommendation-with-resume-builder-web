@@ -4,6 +4,8 @@ import { ArrowLeft, ArrowRight, LayoutGrid } from 'lucide-react';
 import { useState } from 'react';
 import SummeryForm from './forms/SummeryForm';
 import ExperienceForm from './forms/ExperienceForm';
+import EducationForm from './forms/EducationForm';
+import SkillsForm from './forms/SkillsForm';
 
 const FormSection = () => {
     const [activeFormIndex, setActiveFormIndex] = useState(1);
@@ -36,6 +38,10 @@ const FormSection = () => {
                 <SummeryForm enableNext={(v) => setEnableNext(v)} />
             ) : activeFormIndex === 3 ? (
                 <ExperienceForm enableNext={(v) => setEnableNext(v)} />
+            ) : activeFormIndex === 4 ? (
+                <EducationForm enableNext={(v) => setEnableNext(v)} />
+            ) : activeFormIndex === 5 ? (
+                <SkillsForm enableNext={(v) => setEnableNext(v)} />
             ) : null}
         </div>
     );
