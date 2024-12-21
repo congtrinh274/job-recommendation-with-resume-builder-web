@@ -187,14 +187,14 @@ class CandidateController {
                     try {
                         updateData.skills = JSON.parse(updateData.skills);
                     } catch (err) {
-                        return res.status(400).json({ message: 'Invalid experience format' });
+                        return res.status(400).json({ message: 'Invalid skills format' });
                     }
                 }
 
                 if (Array.isArray(updateData.skills) && updateData.skills.every((item) => typeof item === 'object')) {
                     cv.skills = updateData.skills;
                 } else {
-                    return res.status(400).json({ message: 'Experience must be an array of objects' });
+                    return res.status(400).json({ message: 'Skills must be an array of objects' });
                 }
             }
 
@@ -215,6 +215,26 @@ class CandidateController {
                     cv.experience = updateData.experience;
                 } else {
                     return res.status(400).json({ message: 'Experience must be an array of objects' });
+                }
+            }
+
+            // Update experience
+            if (updateData.education) {
+                if (typeof updateData.education === 'string') {
+                    try {
+                        updateData.education = JSON.parse(updateData.education);
+                    } catch (err) {
+                        return res.status(400).json({ message: 'Invalid education format' });
+                    }
+                }
+
+                if (
+                    Array.isArray(updateData.education) &&
+                    updateData.education.every((item) => typeof item === 'object')
+                ) {
+                    cv.education = updateData.education;
+                } else {
+                    return res.status(400).json({ message: 'Education must be an array of objects' });
                 }
             }
 
