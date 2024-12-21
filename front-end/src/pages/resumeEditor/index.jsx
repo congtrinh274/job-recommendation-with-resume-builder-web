@@ -40,7 +40,7 @@ const ResumeEditor = () => {
     return (
         <ResumeInfoContext.Provider value={{ resumeInfo, setResumeInfo }}>
             <div className="min-h-screen pt-12 pb-20 ">
-                <Header resumeTitle={resumeTitle} setResumeTitle={setResumeTitle} />
+                <Header resumeTitle={resumeTitle} setResumeTitle={setResumeTitle} cvId={cvId} />
                 <div className="grid grid-col-1 md:grid-cols-2 p-10 gap-10">
                     <FormSection />
 

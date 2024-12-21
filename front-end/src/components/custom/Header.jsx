@@ -29,6 +29,7 @@ const Header = ({ setIsLoading }) => {
     };
     return (
         <div
+            id="no-print"
             className="fixed top-0 left-0 w-full p-4 px-6 flex justify-between items-center z-50 shadow-md"
             style={{
                 backgroundColor: 'rgba(0, 0, 0, 0.5)',

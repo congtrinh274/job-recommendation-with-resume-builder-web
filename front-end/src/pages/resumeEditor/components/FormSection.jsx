@@ -6,12 +6,14 @@ import SummeryForm from './forms/SummeryForm';
 import ExperienceForm from './forms/ExperienceForm';
 import EducationForm from './forms/EducationForm';
 import SkillsForm from './forms/SkillsForm';
+import { Navigate, useParams } from 'react-router-dom';
 
 const FormSection = () => {
     const [activeFormIndex, setActiveFormIndex] = useState(1);
-    const [enableNext, setEnableNext] = useState(false);
+    const [enableNext, setEnableNext] = useState(true);
+    const { cvId } = useParams();
     return (
-        <div>
+        <div id="no-print">
             <div className="flex justify-between items-center">
                 <Button variant="outline" size="sm" className="flex gap-2">
                     <LayoutGrid /> Màu chủ đề
@@ -42,6 +44,8 @@ const FormSection = () => {
                 <EducationForm enableNext={(v) => setEnableNext(v)} />
             ) : activeFormIndex === 5 ? (
                 <SkillsForm enableNext={(v) => setEnableNext(v)} />
+            ) : activeFormIndex === 6 ? (
+                <Navigate to={'/resume-preview/' + cvId} />
             ) : null}
         </div>
     );

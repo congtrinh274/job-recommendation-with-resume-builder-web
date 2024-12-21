@@ -4,6 +4,27 @@
 
 /* ... */
 
+@media print {
+    #no-print {
+        display: none;
+    }
+
+    #print {
+        display: block !important;
+    }
+
+    body {
+        margin: 0;
+        padding: 0;
+        box-shadow: none;
+    }
+}
+
+@page {
+    size: auto;
+    margin: 0mm;
+}
+
 :root {
     font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
     line-height: 1.5;
