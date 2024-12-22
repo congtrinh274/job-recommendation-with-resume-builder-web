@@ -12,7 +12,6 @@ const Header = ({ resumeTitle, setResumeTitle, cvId }) => {
     const [tempTitle, setTempTitle] = useState(resumeTitle);
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    console.log(cvId);
 
     const handleSaveTitle = async () => {
         try {

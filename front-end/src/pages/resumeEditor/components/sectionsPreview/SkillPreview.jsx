@@ -17,7 +17,7 @@ function SkillPreview({ resumeInfo }) {
                                 style={{
                                     backgroundColor: resumeInfo?.themeColor,
                                     width: skill?.rating * 20 + '%',
-                                    '-webkit-print-color-adjust': 'exact',
+                                    WebkitPrintColorAdjust: 'exact',
                                 }}
                             ></div>
                         </div>

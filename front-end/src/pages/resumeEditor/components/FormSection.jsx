@@ -7,6 +7,7 @@ import ExperienceForm from './forms/ExperienceForm';
 import EducationForm from './forms/EducationForm';
 import SkillsForm from './forms/SkillsForm';
 import { useNavigate, useParams } from 'react-router-dom';
+import ThemeColor from './forms/ThemColor';
 
 const FormSection = () => {
     const [activeFormIndex, setActiveFormIndex] = useState(1);
@@ -22,9 +23,7 @@ const FormSection = () => {
     return (
         <div id="no-print">
             <div className="flex justify-between items-center">
-                <Button variant="outline" size="sm" className="flex gap-2">
-                    <LayoutGrid /> Màu chủ đề
-                </Button>
+                <ThemeColor />
                 <div className="flex gap-2">
                     {activeFormIndex > 1 && (
                         <Button size="sm" onClick={() => setActiveFormIndex(activeFormIndex - 1)}>
