@@ -10,7 +10,8 @@ import RouteProtector from '@/utils/RouteProtector';
 import GuestsJobsPage from '@/pages/guestsJobs';
 import CandidateJobsPage from '@/pages/candidateJobs';
 import ResumeEditor from '@/pages/resumeEditor';
-import ResumeView from '@/pages/resumeView';
+import ResumeDownloadPDF from '@/pages/resumeDownloadPDF';
+import ResumeView from '@/pages/ResumeView';
 
 const router = createBrowserRouter([
     {
@@ -56,11 +57,16 @@ const router = createBrowserRouter([
                 element: <ResumeEditor />,
                 errorElement: <ErrorPage />,
             },
+            {
+                path: '/resume-preview/:cvId',
+                element: <ResumeView />,
+                errorElement: <ErrorPage />,
+            },
         ],
     },
     {
-        path: '/resume-preview/:cvId',
-        element: <ResumeView />,
+        path: '/resume-download-pdf/:cvId',
+        element: <ResumeDownloadPDF />,
         errorElement: <ErrorPage />,
     },
     {

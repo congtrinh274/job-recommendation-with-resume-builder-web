@@ -3,13 +3,11 @@ import PropTypes from 'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { updateCV } from '@/redux/features/candidateSlice';
-import ResumeView from '@/pages/resumeView';
 
 const Header = ({ resumeTitle, setResumeTitle, cvId }) => {
-    const printRef = useRef();
     const [isEditing, setIsEditing] = useState(false);
     const [tempTitle, setTempTitle] = useState(resumeTitle);
     const navigate = useNavigate();
@@ -42,13 +40,18 @@ const Header = ({ resumeTitle, setResumeTitle, cvId }) => {
     };
 
     const handleDownloadPDF = async () => {
-        const resumeUrl = `http://localhost:5173/resume-preview/${cvId}`;
+        const resumeUrl = `http://localhost:5173/resume-download-pdf/${cvId}`;
 
         const printWindow = window.open(resumeUrl, '_blank', 'width=800,height=600');
 
         printWindow.onload = () => {
             printWindow.print();
+            printWindow.onafterprint = () => {};
         };
+    };
+
+    const handleGetCVPreview = async () => {
+        navigate('/resume-preview/' + cvId);
     };
 
     return (
@@ -72,7 +75,10 @@ const Header = ({ resumeTitle, setResumeTitle, cvId }) => {
                     )}
                 </div>
                 <div className="flex justify-between items-center rounded-lg">
-                    <button className="flex items-center text-white bg-green-400 px-4 py-1 rounded-lg hover:bg-red-600 mr-4">
+                    <button
+                        onClick={handleGetCVPreview}
+                        className="flex items-center text-white bg-green-400 px-4 py-1 rounded-lg hover:bg-red-600 mr-4"
+                    >
                         Xem trước
                     </button>
                     <button
@@ -80,9 +86,6 @@ const Header = ({ resumeTitle, setResumeTitle, cvId }) => {
                         className="flex items-center text-white bg-green-400 px-4 py-1 rounded-lg hover:bg-red-600 mr-4"
                     >
                         Tải PDF
-                    </button>
-                    <button className="flex items-center text-white bg-purple-400 px-4 py-1 rounded-lg hover:bg-red-600 mr-4">
-                        Lưu
                     </button>
                     <button
                         onClick={() => navigate(-1)}
@@ -92,10 +95,6 @@ const Header = ({ resumeTitle, setResumeTitle, cvId }) => {
                     </button>
                 </div>
             </header>
-
-            <div ref={printRef} style={{ display: 'none' }}>
-                <ResumeView cvId={cvId} />
-            </div>
         </>
     );
 };

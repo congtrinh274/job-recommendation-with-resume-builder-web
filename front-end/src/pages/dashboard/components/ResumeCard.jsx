@@ -68,12 +68,12 @@ const ResumeCard = ({ cvData, img }) => {
         navigate(`/resume-editor/${cvData._id}`, { state: { data: cvData } });
     };
     const handleDelete = () => alert('Delete CV');
-    const handleView = (uploadedCV) => {
-        if (uploadedCV) {
+    const handleView = (isOwn, uploadedCV, cvId) => {
+        if (!isOwn) {
             const fullURL = uploadedCV.startsWith('http') ? uploadedCV : `${apiBaseUrl}${uploadedCV}`;
             window.open(fullURL, '_blank');
         } else {
-            alert('Nhấn cập nhật để hoàn thành hồ sơ!');
+            navigate('/resume-preview/' + cvId);
         }
     };
 
@@ -115,7 +115,7 @@ const ResumeCard = ({ cvData, img }) => {
                             Xóa
                         </button>
                         <button
-                            onClick={() => handleView(cvData.uploadedCV)}
+                            onClick={() => handleView(cvData.isOwn, cvData.uploadedCV, cvData._id)}
                             className="px-2 py-1 text-sm bg-yellow-500 text-white rounded-lg shadow transform transition-all duration-300 hover:bg-yellow-600"
                         >
                             Xem & Tải

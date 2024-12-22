@@ -23,8 +23,8 @@ const SkillsForm = ({ enableNext }) => {
 
     const handleInputChange = (value, name, index) => {
         enableNext(false);
-        const newEntries = skillList.slice();
-        newEntries[index][name] = value;
+        const newEntries = skillList.map((item, i) => (i === index ? { ...item, [name]: value } : item));
+
         setSkillList(newEntries);
     };
 
