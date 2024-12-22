@@ -23,7 +23,6 @@ function CreateResume() {
             alert('Vui lòng nhập tên hồ sơ của bạn');
         } else {
             const result = await dispatch(createCV({ cvData: { title: resumeTitle, isPrimary: false, isOwn: true } }));
-            console.log(result);
 
             if (result.error) {
                 alert(result.payload);

@@ -117,6 +117,27 @@ export const updateCV = createAsyncThunk(
     },
 );
 
+export const deleteCV = createAsyncThunk('candidate/deleteCV', async ({ cvId }, { rejectWithValue, getState }) => {
+    try {
+        const { auth } = getState();
+        const token = auth?.token;
+
+        if (!token) {
+            throw new Error('No token found');
+        }
+
+        const response = await axios.delete(`http://localhost:5000/api/candidates/delete-cv/${cvId}`, {
+            headers: { Authorization: token },
+        });
+
+        console.log(response.data);
+
+        return response.data;
+    } catch (error) {
+        return rejectWithValue(error.response?.data?.message || 'Failed to delete CV');
+    }
+});
+
 const candidateSlice = createSlice({
     name: 'candidate',
     initialState: {
@@ -206,15 +227,33 @@ const candidateSlice = createSlice({
             })
 
             .addCase(getCVById.pending, (state) => {
-                state.loading = true;
+                state.isLoading = true;
                 state.error = null;
             })
             .addCase(getCVById.fulfilled, (state, action) => {
-                state.loading = false;
+                state.isLoading = false;
                 state.currentCV = action.payload;
             })
             .addCase(getCVById.rejected, (state, action) => {
-                state.loading = false;
+                state.isLoading = false;
+                state.error = action.payload;
+            })
+
+            .addCase(deleteCV.pending, (state) => {
+                state.isLoading = true;
+                state.error = null;
+            })
+            .addCase(deleteCV.fulfilled, (state, action) => {
+                state.isLoading = false;
+
+                if (state.data?.cvs) {
+                    state.data = action.payload.data;
+                }
+
+                state.error = null;
+            })
+            .addCase(deleteCV.rejected, (state, action) => {
+                state.isLoading = false;
                 state.error = action.payload;
             });
     },

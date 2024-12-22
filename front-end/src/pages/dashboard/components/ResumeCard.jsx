@@ -2,17 +2,21 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useNavigate, useOutletContext } from 'react-router-dom';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { deleteCV } from '@/redux/features/candidateSlice';
 
 const apiBaseUrl = import.meta.env.VITE_SERVER_URL;
 
 const ResumeCard = ({ cvData, img }) => {
     const [isHovered, setIsHovered] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false); // State để quản lý Modal
+    const [cvToDelete, setCvToDelete] = useState(null); // Lưu CV cần xóa
     const navigate = useNavigate();
     const { setIsLoading } = useOutletContext();
+    const dispatch = useDispatch();
 
     const handleGetRecommended = async (uploadedCV, title) => {
         try {
-            // Lấy file từ đường link
             const fileResponse = await axios.get(`${apiBaseUrl}${uploadedCV}`, {
                 responseType: 'blob',
             });
@@ -67,7 +71,33 @@ const ResumeCard = ({ cvData, img }) => {
     const handleEdit = () => {
         navigate(`/resume-editor/${cvData._id}`, { state: { data: cvData } });
     };
-    const handleDelete = () => alert('Delete CV');
+
+    // Mở modal xác nhận xóa
+    const handleConfirmDelete = (cvId) => {
+        setCvToDelete(cvId);
+        setIsModalOpen(true);
+    };
+
+    // Xử lý xác nhận xóa
+    const handleDelete = () => {
+        if (cvToDelete) {
+            dispatch(deleteCV({ cvId: cvToDelete }))
+                .unwrap()
+                .then(() => {
+                    alert('CV deleted successfully');
+                    setIsModalOpen(false); // Đóng modal sau khi xóa
+                })
+                .catch((error) => {
+                    alert(error);
+                    setIsModalOpen(false); // Đóng modal khi có lỗi
+                });
+        }
+    };
+
+    const handleCancelDelete = () => {
+        setIsModalOpen(false); // Đóng modal nếu người dùng hủy
+    };
+
     const handleView = (isOwn, uploadedCV, cvId) => {
         if (!isOwn) {
             const fullURL = uploadedCV.startsWith('http') ? uploadedCV : `${apiBaseUrl}${uploadedCV}`;
@@ -109,7 +139,7 @@ const ResumeCard = ({ cvData, img }) => {
                             </button>
                         )}
                         <button
-                            onClick={handleDelete}
+                            onClick={() => handleConfirmDelete(cvData._id)} // Mở modal khi click Xóa
                             className="px-2 py-1 text-sm bg-red-500 text-white rounded-lg shadow transform transition-all duration-300 hover:bg-red-600"
                         >
                             Xóa
@@ -127,6 +157,30 @@ const ResumeCard = ({ cvData, img }) => {
             <div className="absolute bottom-0 left-0 right-0 bg-gray-800 text-white py-2 flex items-center justify-center text-xs">
                 <span className="px-2 truncate max-w-full">{cvData.title}</span>
             </div>
+
+            {/* Modal Xác Nhận */}
+            {isModalOpen && (
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+                    <div className="bg-white p-6 rounded-lg w-[full]">
+                        <h3 className="text-sl font-bold mb-4 text-center">Xác Nhận </h3>
+                        <p className="text-sm text-center">Bạn có chắc chắn muốn xóa CV này không?</p>
+                        <div className="mt-4 flex justify-center space-x-4">
+                            <button
+                                onClick={handleCancelDelete}
+                                className="px-4 text-sm py-1 bg-gray-500 text-white rounded-lg hover:bg-gray-700"
+                            >
+                                Hủy
+                            </button>
+                            <button
+                                onClick={handleDelete}
+                                className="px-4 text-sm py-1 bg-red-500 text-white rounded-lg hover:bg-red-700"
+                            >
+                                Xóa
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
