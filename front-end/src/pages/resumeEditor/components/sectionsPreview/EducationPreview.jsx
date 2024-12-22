@@ -4,7 +4,7 @@ const EducationPreview = ({ resumeInfo }) => {
     return (
         <div className="my-6">
             <h2 className="text-center font-bold text-sm mb-2" style={{ color: resumeInfo?.themeColor }}>
-                Học Vấn
+                {resumeInfo?.language === 'en' ? 'Education Progress' : 'Học Vấn'}
             </h2>
             <hr className="border-[1.5px] my-2" style={{ borderColor: resumeInfo?.themeColor }}></hr>
             {resumeInfo?.education?.map((education, index) => (
@@ -13,9 +13,9 @@ const EducationPreview = ({ resumeInfo }) => {
                         {education?.universityName}
                     </h2>
                     <h2 className="text-xs flex justify-between">
-                        {education?.degree} ngành {education?.major}
+                        {education?.degree} {resumeInfo?.language === 'en' ? 'in' : 'ngành'} {education?.major}
                         <span>
-                            {education?.startDate} đến {education?.endDate}
+                            {education?.startDate} {resumeInfo?.language === 'en' ? 'To' : ' Đến '} {education?.endDate}
                         </span>
                     </h2>
                     <p className="text-xs my-2">{education?.description}</p>

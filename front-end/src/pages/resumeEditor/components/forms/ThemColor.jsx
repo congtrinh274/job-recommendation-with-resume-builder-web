@@ -37,8 +37,6 @@ function ThemeColor() {
     const [selectedColor, setSelectedColor] = useState();
     const { cvId } = useParams();
 
-    console.log(selectedColor);
-
     const onColorSelect = async (color) => {
         setSelectedColor(color);
         setResumeInfo({

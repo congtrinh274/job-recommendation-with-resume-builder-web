@@ -31,10 +31,13 @@ const ExperienceForm = ({ enableNext }) => {
 
     const handleChangeInput = (index, e) => {
         enableNext(false);
-        const newEntries = experienceList.slice();
         const { name, value } = e.target;
-        newEntries[index][name] = value;
-        setExperienceList(newEntries);
+
+        setExperienceList((prevList) => {
+            const newList = [...prevList];
+            newList[index] = { ...newList[index], [name]: value };
+            return newList;
+        });
     };
 
     const addNewExperience = () => {
@@ -59,9 +62,9 @@ const ExperienceForm = ({ enableNext }) => {
     const handleRichTextEditor = (e, name, index) => {
         const newEntries = experienceList.map((item, idx) => {
             if (idx === index) {
-                return { ...item, [name]: e.target.value }; // Sửa giá trị của phần tử cụ thể
+                return { ...item, [name]: e.target.value };
             }
-            return item; // Các phần tử khác không thay đổi
+            return item;
         });
 
         setExperienceList(newEntries);
@@ -157,6 +160,7 @@ const ExperienceForm = ({ enableNext }) => {
                                 <div className="col-span-2">
                                     <RichTextEditor
                                         index={index}
+                                        language={resumeInfo.language}
                                         defaultValue={item.workSummery}
                                         onRichTextEditorChange={(e) => handleRichTextEditor(e, 'workSummery', index)}
                                     />

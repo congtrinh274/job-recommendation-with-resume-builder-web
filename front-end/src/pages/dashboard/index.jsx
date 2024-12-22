@@ -9,7 +9,6 @@ function Dashboard() {
     const dispatch = useDispatch();
     const { isSignedIn } = useSelector((state) => state.auth);
     const { data: candidateData } = useSelector((state) => state.candidate);
-    console.log(candidateData);
 
     useEffect(() => {
         if (isSignedIn && !candidateData) {

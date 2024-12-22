@@ -10,7 +10,7 @@ import { updateCV } from '@/redux/features/candidateSlice';
 import { AIChatSession } from '@/utils/AIModel';
 
 const prompt =
-    'Education description: {universityName} , {degree} ngành {major}, dựa vào thông tin trên cho tôi một bản mô tả đầy đủ quá trình học phù hợp cho CV của tôi khoảng 6 dòng bằng tiếng việt  (Vui lòng không thêm cấp độ  và không có mảng JSON và key mặc định là education_description)';
+    'Education description: {universityName} , {degree} ngành {major}, dựa vào thông tin trên cho tôi một bản mô tả đầy đủ quá trình học phù hợp cho CV của tôi khoảng 6 dòng bằng {language}  (Vui lòng không thêm cấp độ  và không có mảng JSON và key mặc định là description)';
 
 const EducationForm = ({ enableNext }) => {
     const { cvId } = useParams();
@@ -26,21 +26,19 @@ const EducationForm = ({ enableNext }) => {
 
     const generateSummeryFromGemini = async (index) => {
         setLoading(true);
-        console.log(resumeInfo.education);
         const PROMPT = prompt
             .replace('{universityName}', resumeInfo?.education[index].universityName)
             .replace('{degree}', resumeInfo?.education[index].degree)
-            .replace('{major}', resumeInfo?.education[index].major);
-
-        console.log(PROMPT);
+            .replace('{major}', resumeInfo?.education[index].major)
+            .replace('{language}', resumeInfo?.language);
 
         const result = await AIChatSession.sendMessage(PROMPT);
-        const responseText = JSON.parse(result.response.text()).education_description;
+        const responseText = JSON.parse(result.response.text()).description;
 
         const updatedList = [...educationalList];
-        updatedList[index].description = responseText;
+        updatedList[index] = { ...updatedList[index], description: responseText };
+
         setEducationalList(updatedList);
-        console.log(JSON.parse(result.response.text()));
         setLoading(false);
     };
 

@@ -2,7 +2,7 @@ const ExperiencePreview = ({ resumeInfo }) => {
     return (
         <div className="my-6">
             <h2 className="text-center font-bold text-sm mb-2" style={{ color: resumeInfo?.themeColor }}>
-                Kinh Nghiệm Làm Việc
+                {resumeInfo?.language === 'en' ? 'Experiences' : 'Kinh Nghiệm Làm Việc'}
             </h2>
             <hr className="border-[1.5px] my-2" style={{ borderColor: resumeInfo?.themeColor }}></hr>
             {resumeInfo?.experience?.map((experience, index) => (
@@ -13,11 +13,11 @@ const ExperiencePreview = ({ resumeInfo }) => {
                     <h2 className="text-xs flex justify-between">
                         {experience?.companyName}, {experience?.city}, {experience?.state}
                         <span>
-                            Từ {experience?.startDate} đến{' '}
+                            {resumeInfo?.language === 'en' ? 'From' : 'Từ'} {experience?.startDate}
+                            {resumeInfo?.language === 'en' ? ' To ' : ' Đến '}
                             {experience?.currentlyWorking ? 'Present' : experience?.endDate}
                         </span>
                     </h2>
-                    {/* <p className="text-xs my-2">{experience?.workSummery}</p> */}
                     <div className="text-xs my-2" dangerouslySetInnerHTML={{ __html: experience.workSummery }} />
                 </div>
             ))}

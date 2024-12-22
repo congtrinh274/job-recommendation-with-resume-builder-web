@@ -39,9 +39,11 @@ const ResumeView = () => {
         setTimeout(
             (printWindow.onload = () => {
                 printWindow.print();
-                printWindow.onafterprint = () => {};
+                printWindow.onafterprint = () => {
+                    printWindow.close();
+                };
             }),
-            100,
+            1000,
         );
     };
     return (
@@ -64,7 +66,7 @@ const ResumeView = () => {
                         </button>
                     </div>
                 </div>
-                <div className=" w-3/4 max-w-3xl">
+                <div className=" w-3/4 max-w-3xl mb-20">
                     <ResumePreview />
                 </div>
             </div>

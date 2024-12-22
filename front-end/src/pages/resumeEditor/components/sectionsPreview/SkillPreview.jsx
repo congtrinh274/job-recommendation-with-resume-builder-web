@@ -4,7 +4,7 @@ function SkillPreview({ resumeInfo }) {
     return (
         <div className="my-6">
             <h2 className="text-center font-bold text-sm mb-2" style={{ color: resumeInfo?.themeColor }}>
-                Kỹ Năng Chuyên Môn
+                {resumeInfo?.language === 'en' ? 'Professional Skills' : 'Kỹ Năng Chuyên Môn'}
             </h2>
             <hr className="border-[1.5px] my-2" style={{ borderColor: resumeInfo?.themeColor }}></hr>
             <div className="grid grid-cols-2 gap-3 my-4">

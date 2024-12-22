@@ -17,7 +17,7 @@ export default {
             state: 'NY',
             startDate: 'Jan 2021',
             endDate: '',
-            currentlyWorking: true,
+            currentlyWorking: false,
             workSummery:
                 ' Designed, developed, and maintained full-stack applications using React and Node.js.\n' +
                 '• Implemented responsive user interfaces with React, ensuring seamless user experiences across\n' +

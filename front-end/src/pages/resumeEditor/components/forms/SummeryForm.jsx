@@ -9,7 +9,7 @@ import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 
 const prompt =
-    'JobTitle: Bản tóm tắt ngắn gọn khoảng 4-5 dòng cho vị trí {jobTitle} trong CV theo các level với tiếng Việt';
+    'JobTitle: Bản tóm tắt ngắn gọn khoảng 4-5 dòng cho vị trí {jobTitle} trong CV theo các level với {language} (măc định tên key là level và summary)';
 
 const SummeryForm = ({ enableNext }) => {
     const { resumeInfo, setResumeInfo } = useContext(ResumeInfoContext);
@@ -29,8 +29,9 @@ const SummeryForm = ({ enableNext }) => {
 
     const generateSummeryFromGemini = async () => {
         setLoading(true);
-        const PROMPT = prompt.replace('{jobTitle}', resumeInfo.jobTitle);
+        const PROMPT = prompt.replace('{jobTitle}', resumeInfo.jobTitle).replace('{language}', resumeInfo.language);
         const result = await AIChatSession.sendMessage(PROMPT);
+        console.log(JSON.parse(result.response.text()));
         setAiGeneratedSummeryList(JSON.parse(result.response.text()));
         setLoading(false);
     };
