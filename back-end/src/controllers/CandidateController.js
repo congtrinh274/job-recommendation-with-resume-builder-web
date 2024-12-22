@@ -161,7 +161,6 @@ class CandidateController {
             const userId = req.user?._id;
             const { cvId } = req.params;
             const updateData = req.body;
-            console.log(updateData);
 
             const candidate = await Candidate.findOne({ userId: userId });
             if (!candidate) {
@@ -256,16 +255,39 @@ class CandidateController {
         }
     };
 
-    // [DELETE] candidates/:id
+    // [DELETE] candidates/delete-cv/:cvId
     deleteCandidate = async (req, res) => {
         try {
-            const candidate = await Candidate.findByIdAndDelete(req.params.id);
-            if (!candidate) {
-                return res.status(404).json({ message: 'Candidate not found' });
+            const userId = req.user?._id;
+            const { cvId } = req.params;
+
+            if (!userId || !cvId) {
+                return res.status(400).json({ message: 'Thiếu thông tin userId hoặc cvId.' });
             }
-            res.status(200).json({ message: 'Candidate deleted successfully' });
+
+            const candidate = await Candidate.findOne({ userId: userId });
+
+            if (!candidate) {
+                return res.status(404).json({ message: 'Không tìm thấy ứng viên.' });
+            }
+
+            const cvIndex = candidate.cvs.findIndex((cv) => cv._id.toString() === cvId);
+
+            if (cvIndex === -1) {
+                return res.status(404).json({ message: 'Không tìm thấy CV cần xóa.' });
+            }
+
+            candidate.cvs.splice(cvIndex, 1);
+
+            await candidate.save();
+
+            return res.status(200).json({
+                message: 'Xóa CV thành công.',
+                data: candidate,
+            });
         } catch (error) {
-            res.status(500).json({ message: 'Error deleting candidate', error: error.message });
+            console.error('Lỗi khi xóa CV:', error);
+            return res.status(500).json({ message: 'Đã xảy ra lỗi khi xóa CV.', error });
         }
     };
 }

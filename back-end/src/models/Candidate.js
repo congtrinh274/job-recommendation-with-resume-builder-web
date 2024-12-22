@@ -13,6 +13,7 @@ const candidateSchema = new mongoose.Schema(
                 phone: { type: String },
                 email: { type: String },
                 themeColor: { type: String },
+                language: { type: String, default: 'vi' },
                 summery: { type: String },
                 experience: [
                     {

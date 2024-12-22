@@ -14,6 +14,6 @@ router.post('/add-cv', authenticateToken, candidateController.addCandidateCV);
 router.put('/upload-cv', upload.single('file'), authenticateToken, candidateController.uploadCandidateCV);
 router.put('/update-cv/:cvId', upload.single('file'), authenticateToken, candidateController.updateCandidateCV);
 
-router.delete('/:id', candidateController.deleteCandidate);
+router.delete('/delete-cv/:cvId', authenticateToken, candidateController.deleteCandidate);
 
 module.exports = router;
