@@ -8,10 +8,11 @@ import Home from '@/pages/home';
 import { createBrowserRouter } from 'react-router-dom';
 import RouteProtector from '@/utils/RouteProtector';
 import GuestsJobsPage from '@/pages/guestsJobs';
-import CandidateJobsPage from '@/pages/candidateJobs';
 import ResumeEditor from '@/pages/resumeEditor';
 import ResumeDownloadPDF from '@/pages/resumeDownloadPDF';
 import ResumeView from '@/pages/ResumeView';
+import JobsViewWithUploadCV from '@/pages/JobsViewWithUploadCV';
+import JobViewWithCVData from '@/pages/JobsViewWithCVData';
 
 const router = createBrowserRouter([
     {
@@ -38,7 +39,12 @@ const router = createBrowserRouter([
             },
             {
                 path: '/candidate-jobs-page',
-                element: <CandidateJobsPage />,
+                element: <JobsViewWithUploadCV />,
+                errorElement: <ErrorPage />,
+            },
+            {
+                path: '/candidate-jobs-own-page/:cvId',
+                element: <JobViewWithCVData />,
                 errorElement: <ErrorPage />,
             },
             {

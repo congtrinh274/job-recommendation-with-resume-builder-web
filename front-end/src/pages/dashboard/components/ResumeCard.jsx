@@ -4,6 +4,7 @@ import { useNavigate, useOutletContext } from 'react-router-dom';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { deleteCV } from '@/redux/features/candidateSlice';
+import { useJobListContext } from '@/context/JobListContext';
 
 const apiBaseUrl = import.meta.env.VITE_SERVER_URL;
 
@@ -13,9 +14,10 @@ const ResumeCard = ({ cvData, img }) => {
     const [cvToDelete, setCvToDelete] = useState(null); // Lưu CV cần xóa
     const navigate = useNavigate();
     const { setIsLoading } = useOutletContext();
+    const { setRecommendedJobs } = useJobListContext();
     const dispatch = useDispatch();
 
-    const handleGetRecommended = async (uploadedCV, title) => {
+    const handleGetRecommendedJobsWithUploadedCV = async (uploadedCV, title) => {
         try {
             const fileResponse = await axios.get(`${apiBaseUrl}${uploadedCV}`, {
                 responseType: 'blob',
@@ -40,7 +42,7 @@ const ResumeCard = ({ cvData, img }) => {
             const formData = new FormData();
             formData.append('file', file);
 
-            const response = await fetch('http://127.0.0.1:5000/upload_cv', {
+            const response = await fetch('http://127.0.0.1:5000/get_jobs_wucv', {
                 method: 'POST',
                 body: formData,
             });
@@ -65,6 +67,19 @@ const ResumeCard = ({ cvData, img }) => {
             console.error('Lỗi khi xử lý file:', error);
         } finally {
             setIsLoading(false);
+        }
+    };
+
+    const handleGetRecommendedJobsWithCVData = async (cvData) => {
+        const apiUrl = 'http://127.0.0.1:5000/get-jobs-wcvdata';
+        try {
+            const response = await axios.post(apiUrl, cvData);
+            console.log(response.data.recommended_jobs);
+            setRecommendedJobs(response.data.recommended_jobs);
+            navigate('/candidate-jobs-own-page/' + cvData._id);
+        } catch (error) {
+            console.error('Error fetching recommended jobs:', error);
+            return [];
         }
     };
 
@@ -125,7 +140,13 @@ const ResumeCard = ({ cvData, img }) => {
                 <div className="absolute top-0 left-0 right-0 bottom-0 bg-black bg-opacity-50 flex justify-center items-center">
                     <div className="grid grid-cols-2 gap-2 animate-spread">
                         <button
-                            onClick={() => handleGetRecommended(cvData.uploadedCV, cvData.title)}
+                            onClick={() => {
+                                if (cvData?.isOwn) {
+                                    handleGetRecommendedJobsWithCVData(cvData);
+                                } else {
+                                    handleGetRecommendedJobsWithUploadedCV(cvData.uploadedCV, cvData.title);
+                                }
+                            }}
                             className="px-2 py-1 text-sm bg-blue-500 text-white rounded-lg shadow transform transition-all duration-300 hover:bg-blue-600"
                         >
                             Xem đề xuất
@@ -186,10 +207,8 @@ const ResumeCard = ({ cvData, img }) => {
 };
 
 ResumeCard.propTypes = {
-    title: PropTypes.string,
-    uploadedCV: PropTypes.string,
+    cvData: PropTypes.object,
     img: PropTypes.string,
-    isOwn: PropTypes.bool,
 };
 
 export default ResumeCard;

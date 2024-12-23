@@ -43,45 +43,15 @@ const Header = ({ resumeTitle, setResumeTitle, cvId }) => {
 
         const printWindow = window.open(resumeUrl, '_blank', 'width=800,height=600');
 
-        printWindow.onload = async () => {
-            // Thực hiện in nội dung của cửa sổ (bạn có thể bỏ qua dòng này nếu không cần in)
-            printWindow.print();
-
-            // Sau khi in xong, ta có thể đóng cửa sổ
-            printWindow.onafterprint = () => {
-                printWindow.close();
-            };
-
-            // Đợi một thời gian ngắn để nội dung của trang PDF đã sẵn sàng trước khi tải xuống
-            setTimeout(async () => {
-                // Fetch dữ liệu PDF từ URL của file
-                const response = await fetch(resumeUrl);
-
-                if (!response.ok) {
-                    alert('Không thể tải file PDF');
-                    return;
-                }
-
-                // Tạo Blob từ dữ liệu PDF
-                const blob = await response.blob();
-
-                // Tạo URL tạm thời cho file PDF
-                const blobUrl = URL.createObjectURL(blob);
-
-                // Tạo thẻ <a> để tải file xuống
-                const link = document.createElement('a');
-                link.href = blobUrl;
-
-                // Đặt tên file khi tải xuống
-                link.download = `${resumeTitle || 'resume'}.pdf`;
-
-                // Kích hoạt tải file
-                link.click();
-
-                // Giải phóng URL blob
-                URL.revokeObjectURL(blobUrl);
-            }, 2000); // Chờ một chút để cửa sổ PDF tải hoàn toàn
-        };
+        setTimeout(
+            (printWindow.onload = () => {
+                printWindow.print();
+                printWindow.onafterprint = () => {
+                    printWindow.close();
+                };
+            }),
+            1000,
+        );
     };
 
     const handleGetCVPreview = async () => {

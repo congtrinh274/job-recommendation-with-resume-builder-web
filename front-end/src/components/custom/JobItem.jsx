@@ -3,22 +3,28 @@ import PropTypes from 'prop-types';
 const JobItem = ({ job }) => {
     return (
         <div className="group w-full border rounded-lg p-4 shadow-md hover:shadow-lg transition-shadow bg-white mb-4 relative">
-            <h2 className="text-lg font-semibold text-gray-800 mb-2">{job.Title}</h2>
+            <h2 className="text-lg font-semibold text-gray-800 mb-2">{job.title}</h2>
             <div className="flex justify-between text-sm text-gray-600 mb-1">
                 <p>
-                    <strong className="font-medium text-gray-700">Công ty:</strong> {job.Company}
+                    <strong className="font-medium text-gray-700">Công ty:</strong> {job.company}
                 </p>
                 <p>
-                    <strong className="font-medium text-gray-700">Vị trí:</strong> {job.Location}
+                    <strong className="font-medium text-gray-700">Địa chỉ:</strong> {job.location}
                 </p>
             </div>
-            <div className="flex justify-between text-sm text-gray-600 mb-3">
+            <div className="flex justify-between text-sm text-gray-600 mb-1">
                 <p>
-                    <strong className="font-medium text-gray-700">Lương:</strong> {job.Salary || 'Not provided'}
+                    <strong className="font-medium text-gray-700">Lương:</strong> {job.salary || 'Not provided'}
                 </p>
                 <p>
-                    <strong className="font-medium text-gray-700">Ngày hết hạn:</strong>{' '}
-                    {job.ExpireDate || 'Not specified'}
+                    <strong className="font-medium text-gray-700">Ngày hết hạn:</strong>
+                    {job.expiredDate || 'Not specified'}
+                </p>
+            </div>
+            <div className="flex justify-between text-sm text-gray-600 mb-1 w-full">
+                <p className="line-clamp-2">
+                    <strong className="font-medium text-gray-700">Yêu cầu: </strong>
+                    {job.requirements || 'Not specified'}
                 </p>
             </div>
             <a
@@ -33,14 +39,7 @@ const JobItem = ({ job }) => {
 };
 
 JobItem.propTypes = {
-    job: PropTypes.shape({
-        Title: PropTypes.string.isRequired,
-        Company: PropTypes.string.isRequired,
-        Salary: PropTypes.string,
-        Location: PropTypes.string.isRequired,
-        ExpireDate: PropTypes.string,
-        Link: PropTypes.string.isRequired,
-    }).isRequired,
+    job: PropTypes.object,
 };
 
 export default JobItem;

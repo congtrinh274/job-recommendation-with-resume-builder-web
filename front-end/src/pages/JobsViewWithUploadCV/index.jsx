@@ -8,7 +8,7 @@ import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
-const CandidateJobsPage = () => {
+const JobsViewWithUploadCV = () => {
     const [numPages, setNumPages] = useState(0);
     const [jobs, setJobs] = useState([]);
     const [base64Pdf, setBase64Pdf] = useState(null);
@@ -87,4 +87,4 @@ const CandidateJobsPage = () => {
     );
 };
 
-export default CandidateJobsPage;
+export default JobsViewWithUploadCV;
