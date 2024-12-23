@@ -16,7 +16,7 @@ def extract_cv_data_to_csv(pdf_path, model_path, output_csv_path):
 
     with open(output_csv_path, mode="w", newline="", encoding="utf-8") as file:
         writer = csv.writer(file)
-        writer.writerow(["Name", "Skills"])
+        writer.writerow(["Name", "Description"])
 
         name = ""
         skills = []
