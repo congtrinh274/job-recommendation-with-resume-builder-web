@@ -1,0 +1,206 @@
+[
+    {
+        "recruiterId": "64df82e46b4c0625e837c9b9",
+        "title": "Frontend Developer",
+        "description": "Developing and maintaining the user interface.",
+        "requirements": ["Proficient in JavaScript", "Experience with React.js"],
+        "skills": ["JavaScript", "React.js", "HTML", "CSS"],
+        "location": "New York, USA",
+        "salary": "$70,000 - $90,000",
+        "expiredDate": "2025-01-15"
+    },
+    {
+        "recruiterId": "64df82e46b4c0625e837c9b9",
+        "title": "Backend Developer",
+        "description": "Design and implement server-side logic.",
+        "requirements": ["Experience with Node.js", "Understanding of databases"],
+        "skills": ["Node.js", "MongoDB", "Express.js", "REST API"],
+        "location": "San Francisco, USA",
+        "salary": "$80,000 - $100,000",
+        "expiredDate": "2025-01-15"
+    },
+    {
+        "recruiterId": "64df82e46b4c0625e837c9b8",
+        "title": "Full Stack Developer",
+        "description": "Develop both client and server-side solutions.",
+        "requirements": ["Experience with MERN stack", "Proficient in JavaScript"],
+        "skills": ["React.js", "Node.js", "MongoDB", "Express.js"],
+        "location": "London, UK",
+        "salary": "£60,000 - £80,000",
+        "expiredDate": "2025-01-15"
+    },
+    {
+        "recruiterId": "64df82e46b4c0625e837c9b7",
+        "title": "Data Scientist",
+        "description": "Analyze and interpret complex data sets.",
+        "requirements": ["Experience with Python", "Knowledge of ML models"],
+        "skills": ["Python", "TensorFlow", "Pandas", "NumPy"],
+        "location": "Berlin, Germany",
+        "salary": "€70,000 - €90,000",
+        "expiredDate": "2025-01-15"
+    },
+    {
+        "recruiterId": "64df82e46b4c0625e837c9b6",
+        "title": "AI Engineer",
+        "description": "Design and deploy AI models and algorithms.",
+        "requirements": ["Experience with AI frameworks", "Knowledge of ML and DL"],
+        "skills": ["PyTorch", "Keras", "TensorFlow", "Python"],
+        "location": "Paris, France",
+        "salary": "€80,000 - €100,000",
+        "expiredDate": "2025-01-15"
+    },
+    {
+        "recruiterId": "64df82e46b4c0625e837c9b5",
+        "title": "DevOps Engineer",
+        "description": "Maintain and improve CI/CD pipelines.",
+        "requirements": ["Experience with Docker and Kubernetes", "Understanding of CI/CD"],
+        "skills": ["Docker", "Kubernetes", "Jenkins", "AWS"],
+        "location": "Sydney, Australia",
+        "salary": "AUD 100,000 - AUD 120,000",
+        "expiredDate": "2025-01-15"
+    },
+    {
+        "recruiterId": "64df82e46b4c0625e837c9b5",
+        "title": "Cloud Architect",
+        "description": "Design scalable cloud infrastructure.",
+        "requirements": ["Experience with AWS and Azure", "Knowledge of cloud architecture"],
+        "skills": ["AWS", "Azure", "Google Cloud", "Terraform"],
+        "location": "Singapore",
+        "salary": "SGD 120,000 - SGD 150,000",
+        "expiredDate": "2025-01-15"
+    },
+    {
+        "recruiterId": "64df82e46b4c0625e837c9b4",
+        "title": "UX/UI Designer",
+        "description": "Design user-friendly interfaces.",
+        "requirements": ["Experience with Figma", "Proficient in Adobe XD"],
+        "skills": ["Figma", "Adobe XD", "Sketch", "Wireframing"],
+        "location": "Tokyo, Japan",
+        "salary": "¥6,000,000 - ¥8,000,000",
+        "expiredDate": "2025-01-15"
+    },
+    {
+        "recruiterId": "64df82e46b4c0625e837c9b3",
+        "title": "Mobile Developer",
+        "description": "Develop and maintain mobile applications.",
+        "requirements": ["Experience with Flutter", "Knowledge of Android/iOS"],
+        "skills": ["Flutter", "Dart", "Java", "Swift"],
+        "location": "Seoul, South Korea",
+        "salary": "₩70,000,000 - ₩90,000,000",
+        "expiredDate": "2025-01-15"
+    },
+    {
+        "recruiterId": "64df82e46b4c0625e837c9b2",
+        "title": "Cybersecurity Analyst",
+        "description": "Ensure the security of IT systems.",
+        "requirements": ["Knowledge of network security", "Experience with penetration testing"],
+        "skills": ["Ethical Hacking", "Firewalls", "Encryption", "SIEM"],
+        "location": "Dubai, UAE",
+        "salary": "AED 200,000 - AED 300,000",
+        "expiredDate": "2025-01-15"
+    },
+    {
+        "recruiterId": "63f76f7b8b9a5c2f18a18b01",
+        "title": "Software Engineer",
+        "description": "Develop and maintain software applications.",
+        "requirements": [
+            "Bachelor's degree in Computer Science",
+            "2+ years of experience",
+            "Knowledge of Python and Java"
+        ],
+        "skills": ["Python", "Java", "Problem Solving"],
+        "location": "San Francisco, CA",
+        "salary": "$100,000 - $120,000",
+        "expiredDate": "2025-01-31"
+    },
+    {
+        "recruiterId": "63f76f7b8b9a5c2f18a18b02",
+        "title": "Frontend Developer",
+        "description": "Design and implement user-facing features.",
+        "requirements": ["Proficiency in HTML, CSS, and JavaScript", "Experience with React or Angular"],
+        "skills": ["HTML", "CSS", "JavaScript", "React"],
+        "location": "New York, NY",
+        "salary": "$80,000 - $100,000",
+        "expiredDate": "2025-02-15"
+    },
+    {
+        "recruiterId": "63f76f7b8b9a5c2f18a18b03",
+        "title": "Data Scientist",
+        "description": "Analyze data and build predictive models.",
+        "requirements": ["Master's degree in Data Science", "3+ years of experience in analytics"],
+        "skills": ["Python", "R", "Machine Learning", "SQL"],
+        "location": "Austin, TX",
+        "salary": "$110,000 - $130,000",
+        "expiredDate": "2025-03-01"
+    },
+    {
+        "recruiterId": "63f76f7b8b9a5c2f18a18b04",
+        "title": "DevOps Engineer",
+        "description": "Ensure efficient and secure CI/CD processes.",
+        "requirements": ["Experience with Docker and Kubernetes", "Knowledge of AWS or Azure"],
+        "skills": ["Docker", "Kubernetes", "AWS", "CI/CD"],
+        "location": "Seattle, WA",
+        "salary": "$90,000 - $115,000",
+        "expiredDate": "2025-02-28"
+    },
+    {
+        "recruiterId": "63f76f7b8b9a5c2f18a18b05",
+        "title": "UI/UX Designer",
+        "description": "Create intuitive user interfaces and experiences.",
+        "requirements": ["Portfolio showcasing design projects", "Proficiency in Figma or Adobe XD"],
+        "skills": ["Figma", "Adobe XD", "Wireframing", "Prototyping"],
+        "location": "Los Angeles, CA",
+        "salary": "$70,000 - $90,000",
+        "expiredDate": "2025-01-15"
+    },
+    {
+        "recruiterId": "63f76f7b8b9a5c2f18a18b06",
+        "title": "Full Stack Developer",
+        "description": "Develop scalable web applications.",
+        "requirements": ["Experience with Node.js and MongoDB", "Familiarity with React or Angular"],
+        "skills": ["Node.js", "MongoDB", "React", "Express"],
+        "location": "Chicago, IL",
+        "salary": "$95,000 - $120,000",
+        "expiredDate": "2025-03-31"
+    },
+    {
+        "recruiterId": "63f76f7b8b9a5c2f18a18b07",
+        "title": "Mobile App Developer",
+        "description": "Develop mobile applications for iOS and Android.",
+        "requirements": ["Proficiency in Swift and Kotlin", "Experience with cross-platform tools like Flutter"],
+        "skills": ["Swift", "Kotlin", "Flutter"],
+        "location": "Boston, MA",
+        "salary": "$85,000 - $105,000",
+        "expiredDate": "2025-04-15"
+    },
+    {
+        "recruiterId": "63f76f7b8b9a5c2f18a18b08",
+        "title": "Cybersecurity Analyst",
+        "description": "Monitor and protect IT infrastructure.",
+        "requirements": ["Experience with security tools", "Knowledge of threat analysis"],
+        "skills": ["Security Analysis", "Threat Detection", "Firewalls"],
+        "location": "Washington, DC",
+        "salary": "$90,000 - $115,000",
+        "expiredDate": "2025-03-20"
+    },
+    {
+        "recruiterId": "63f76f7b8b9a5c2f18a18b09",
+        "title": "Project Manager",
+        "description": "Lead software development projects.",
+        "requirements": ["PMP Certification", "Experience in agile methodologies"],
+        "skills": ["Project Management", "Agile", "Scrum"],
+        "location": "Denver, CO",
+        "salary": "$95,000 - $110,000",
+        "expiredDate": "2025-01-20"
+    },
+    {
+        "recruiterId": "63f76f7b8b9a5c2f18a18b10",
+        "title": "Backend Developer",
+        "description": "Develop server-side logic and APIs.",
+        "requirements": ["Proficiency in Java or Go", "Experience with RESTful services"],
+        "skills": ["Java", "Go", "APIs", "Database Design"],
+        "location": "Houston, TX",
+        "salary": "$90,000 - $115,000",
+        "expiredDate": "2025-02-25"
+    }
+]

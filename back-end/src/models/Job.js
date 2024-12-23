@@ -9,6 +9,7 @@ const jobSchema = new mongoose.Schema(
         skills: [{ type: String }],
         location: { type: String },
         salary: { type: String },
+        expiredDate: { type: String },
     },
     {
         timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' },
