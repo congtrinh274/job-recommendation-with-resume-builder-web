@@ -1,6 +1,7 @@
 import { login } from '@/redux/features/authSlice';
+import { fetchUser } from '@/redux/features/userSlice';
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
 
 const SignInSuccess = () => {
@@ -11,7 +12,12 @@ const SignInSuccess = () => {
     useEffect(() => {
         const loginUser = async () => {
             await dispatch(login({ id: userId, loginToken }));
-            navigate('/');
+            const res = await dispatch(fetchUser());
+            if (res?.payload?.role === 'ADMIN') {
+                navigate('/admin');
+            } else {
+                navigate('/');
+            }
         };
         loginUser();
     }, [dispatch, navigate, userId, loginToken]);

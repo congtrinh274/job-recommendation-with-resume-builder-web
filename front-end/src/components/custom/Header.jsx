@@ -79,6 +79,11 @@ const Header = ({ setIsLoading }) => {
 
                     {isDropdownOpen && (
                         <div className="absolute right-0 mt-2 w-40 rounded-lg shadow-lg overflow-hidden bg-black text-white">
+                            {userData?.role === 'ADMIN' && (
+                                <Link to="/admin" className="block p-2 hover:bg-blue-200 hover:text-black text-white">
+                                    Quản lý
+                                </Link>
+                            )}
                             <Link to="/dashboard" className="block p-2 hover:bg-blue-200 hover:text-black text-white">
                                 Tổng quan
                             </Link>
@@ -86,7 +91,7 @@ const Header = ({ setIsLoading }) => {
                                 to="/recruiter-register"
                                 className="block p-2 hover:bg-blue-200 hover:text-black text-white"
                             >
-                                Đăng ký NTD
+                                Tài khoản
                             </Link>
                             <div
                                 className="block p-2 hover:bg-blue-200 hover:text-black cursor-pointer"

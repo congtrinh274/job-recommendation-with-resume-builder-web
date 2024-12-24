@@ -13,6 +13,7 @@ import ResumeDownloadPDF from '@/pages/resumeDownloadPDF';
 import ResumeView from '@/pages/ResumeView';
 import JobsViewWithUploadCV from '@/pages/JobsViewWithUploadCV';
 import JobViewWithCVData from '@/pages/JobsViewWithCVData';
+import AdminHome from '@/pages/admin';
 
 const router = createBrowserRouter([
     {
@@ -26,7 +27,7 @@ const router = createBrowserRouter([
             {
                 path: '/dashboard',
                 element: (
-                    <RouteProtector allowedRoles={['CANDIDATE']}>
+                    <RouteProtector allowedRoles={['CANDIDATE', 'ADMIN']}>
                         <Dashboard />
                     </RouteProtector>
                 ),
@@ -66,6 +67,15 @@ const router = createBrowserRouter([
             {
                 path: '/resume-preview/:cvId',
                 element: <ResumeView />,
+                errorElement: <ErrorPage />,
+            },
+            {
+                path: '/admin',
+                element: (
+                    <RouteProtector allowedRoles={['ADMIN']}>
+                        <AdminHome />
+                    </RouteProtector>
+                ),
                 errorElement: <ErrorPage />,
             },
         ],

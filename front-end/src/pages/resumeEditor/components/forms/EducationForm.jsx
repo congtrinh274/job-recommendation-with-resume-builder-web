@@ -39,6 +39,7 @@ const EducationForm = ({ enableNext }) => {
         updatedList[index] = { ...updatedList[index], description: responseText };
 
         setEducationalList(updatedList);
+        enableNext(false);
         setLoading(false);
     };
 

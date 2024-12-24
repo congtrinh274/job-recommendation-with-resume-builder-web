@@ -60,6 +60,7 @@ const ExperienceForm = ({ enableNext }) => {
     };
 
     const handleRichTextEditor = (e, name, index) => {
+        enableNext(false);
         const newEntries = experienceList.map((item, idx) => {
             if (idx === index) {
                 return { ...item, [name]: e.target.value };

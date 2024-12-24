@@ -20,7 +20,7 @@ import { AIChatSession } from '@/utils/AIModel';
 const prompt =
     'position title: {position title} dựa vào position title cho tôi chuỗi text mô tả kinh nghiệm làm việc khoảng 5 dòng trong CV của tôi với {language} (Vui lòng không thêm cấp độ kinh nghiệm và Không có mảng JSON và key mặc định là experience_description)';
 
-const RichTextEditor = ({ onRichTextEditorChange, defaultValue, index, language }) => {
+const RichTextEditor = ({ onRichTextEditorChange, defaultValue, index }) => {
     const [value, setValue] = useState(defaultValue);
     const { resumeInfo, setResumeInfo } = useContext(ResumeInfoContext);
     const [loading, setLoading] = useState();
