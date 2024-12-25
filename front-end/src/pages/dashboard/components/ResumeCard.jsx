@@ -10,8 +10,8 @@ const apiBaseUrl = import.meta.env.VITE_SERVER_URL;
 
 const ResumeCard = ({ cvData, img }) => {
     const [isHovered, setIsHovered] = useState(false);
-    const [isModalOpen, setIsModalOpen] = useState(false); // State để quản lý Modal
-    const [cvToDelete, setCvToDelete] = useState(null); // Lưu CV cần xóa
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [cvToDelete, setCvToDelete] = useState(null);
     const navigate = useNavigate();
     const { setIsLoading } = useOutletContext();
     const { setRecommendedJobs } = useJobListContext();

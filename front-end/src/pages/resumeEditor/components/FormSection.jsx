@@ -32,7 +32,7 @@ const FormSection = () => {
                 language: newLanguage,
             }));
 
-            const updateData = newLanguage;
+            const updateData = { language: newLanguage };
             dispatch(updateCV({ cvId, updateData }));
         } catch (error) {
             console.error('Error updating language:', error);

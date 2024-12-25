@@ -55,7 +55,6 @@ function UploadResume() {
         }
 
         if (selectedFile) {
-            console.log(selectedFile);
             try {
                 const formData = new FormData();
 
@@ -67,11 +66,11 @@ function UploadResume() {
 
                 if (result.error) {
                     alert(result.payload);
+                    setResumeTitle('');
+                } else {
+                    dispatch(fetCandidate());
+                    setOpenDialog(false);
                 }
-
-                dispatch(fetCandidate());
-
-                setOpenDialog(false);
             } catch (err) {
                 console.error(err);
             }

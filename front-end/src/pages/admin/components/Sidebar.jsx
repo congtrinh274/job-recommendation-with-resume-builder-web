@@ -1,28 +1,70 @@
-const Sidebar = ({ setActiveComponent }) => {
-    const menuItems = [
-        { label: 'Trang chủ', value: 'home' },
-        { label: 'Hồ sơ', value: 'candidateProfiles', parent: 'Quản lý ứng viên' },
-        { label: 'Ứng viên', value: 'candidates', parent: 'Quản lý ứng viên' },
-        { label: 'NTD', value: 'employers', parent: 'Quản lý NTD' },
-        { label: 'Danh sách xét duyệt', value: 'pendingApprovals', parent: 'Quản lý NTD' },
-        { label: 'Danh sách công việc', value: 'jobList' },
-    ];
+import { useState } from 'react';
+
+const Sidebar = ({ activeItem, setActiveItem }) => {
+    const [isSubmenuOpen, setIsSubmenuOpen] = useState(false);
+    const [isJobSubmenuOpen, setIsJobSubmenuOpen] = useState(false);
 
     return (
-        <div className="w-64 h-screen">
-            <div className="p-4 text-lg font-bold border-b border-gray-700  text-white">Admin Panel</div>
-            <nav className="mt-4 gap-4 flex flex-col pl-2">
-                {menuItems.map((item, index) => (
-                    <div key={index}>
-                        <button
-                            className="block w-full text-left py-2 px-4 bg-gray-300 hover:bg-gray-700 rounded mt-"
-                            onClick={() => setActiveComponent(item.value)}
-                        >
-                            {item.label}
-                        </button>
+        <div className="w-1/5 bg-gray-800 text-white p-4">
+            <h1 className="text-2xl font-bold mb-6 border-b pb-2">Admin Panel</h1>
+            <ul className="space-y-4">
+                <li
+                    className={`cursor-pointer ${activeItem === 'Trang chủ' ? 'font-bold' : ''}`}
+                    onClick={() => setActiveItem('Trang chủ')}
+                >
+                    Trang chủ
+                </li>
+                <li>
+                    <div className="cursor-pointer" onClick={() => setIsSubmenuOpen(!isSubmenuOpen)}>
+                        Quản lý Ứng viên
                     </div>
-                ))}
-            </nav>
+                    {isSubmenuOpen && (
+                        <ul className="ml-4 mt-2 space-y-2">
+                            <li
+                                className={`cursor-pointer ${activeItem === 'Ứng viên' ? 'font-bold' : ''}`}
+                                onClick={() => setActiveItem('Ứng viên')}
+                            >
+                                Ứng viên
+                            </li>
+                            <li
+                                className={`cursor-pointer ${activeItem === 'Hồ sơ' ? 'font-bold' : ''}`}
+                                onClick={() => setActiveItem('Hồ sơ')}
+                            >
+                                Hồ sơ
+                            </li>
+                        </ul>
+                    )}
+                </li>
+                <li
+                    className={`cursor-pointer ${activeItem === 'Quản lý NTD' ? 'font-bold' : ''}`}
+                    onClick={() => setActiveItem('Quản lý NTD')}
+                >
+                    Quản lý NTD
+                </li>
+                <li>
+                    <div className="cursor-pointer" onClick={() => setIsJobSubmenuOpen(!isJobSubmenuOpen)}>
+                        Công Việc
+                    </div>
+                    {isJobSubmenuOpen && (
+                        <ul className="ml-4 mt-2 space-y-2">
+                            <li
+                                className={`cursor-pointer ${activeItem === 'Danh sách công việc' ? 'font-bold' : ''}`}
+                                onClick={() => setActiveItem('Danh sách công việc')}
+                            >
+                                Danh sách công việc
+                            </li>
+                            <li
+                                className={`cursor-pointer ${
+                                    activeItem === 'Công việc chờ xét duyệt' ? 'font-bold' : ''
+                                }`}
+                                onClick={() => setActiveItem('Công việc chờ xét duyệt')}
+                            >
+                                Công việc chờ xét duyệt
+                            </li>
+                        </ul>
+                    )}
+                </li>
+            </ul>
         </div>
     );
 };

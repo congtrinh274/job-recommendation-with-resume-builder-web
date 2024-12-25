@@ -29,7 +29,7 @@ export const getCVById = createAsyncThunk('candidate/getCVById', async ({ cvId }
             throw new Error('No token found');
         }
 
-        const response = await axios.get(`http://localhost:5000/api/candidates/get-cv/${cvId}`, {
+        const response = await axios.get(`http://localhost:5000/api/cvs/get-cv/${cvId}`, {
             headers: {
                 Authorization: token,
             },
@@ -50,7 +50,7 @@ export const createCV = createAsyncThunk('candidate/createCV', async ({ cvData }
             throw new Error('No token found');
         }
 
-        const response = await axios.post('http://localhost:5000/api/candidates/add-cv', cvData, {
+        const response = await axios.post('http://localhost:5000/api/cvs/add-cv', cvData, {
             headers: { Authorization: token },
         });
 
@@ -69,7 +69,7 @@ export const uploadCV = createAsyncThunk('candidate/uploadCV', async ({ cvData }
             throw new Error('No token found');
         }
 
-        const response = await axios.put(`http://localhost:5000/api/candidates/upload-cv`, cvData, {
+        const response = await axios.put(`http://localhost:5000/api/cvs/upload-cv`, cvData, {
             headers: { Authorization: token },
         });
 
@@ -104,7 +104,7 @@ export const updateCV = createAsyncThunk(
                 }
             });
 
-            const response = await axios.put(`http://localhost:5000/api/candidates/update-cv/${cvId}`, formData, {
+            const response = await axios.put(`http://localhost:5000/api/cvs/update-cv/${cvId}`, formData, {
                 headers: {
                     Authorization: token,
                 },
@@ -126,11 +126,9 @@ export const deleteCV = createAsyncThunk('candidate/deleteCV', async ({ cvId }, 
             throw new Error('No token found');
         }
 
-        const response = await axios.delete(`http://localhost:5000/api/candidates/delete-cv/${cvId}`, {
+        const response = await axios.delete(`http://localhost:5000/api/cvs/delete-cv/${cvId}`, {
             headers: { Authorization: token },
         });
-
-        console.log(response.data);
 
         return response.data;
     } catch (error) {

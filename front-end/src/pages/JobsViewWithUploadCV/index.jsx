@@ -37,9 +37,9 @@ const JobsViewWithUploadCV = () => {
 
                 <button
                     onClick={() => navigate(-1)}
-                    className="flex items-center text-white bg-red-500 px-4 py-2 rounded-lg hover:bg-red-600"
+                    className="flex items-center text-white bg-red-500 px-3 py-2 rounded-lg hover:bg-red-600"
                 >
-                    <FontAwesomeIcon icon={faArrowLeft} className="mr-2" />
+                    <FontAwesomeIcon icon={faArrowLeft} className="text-xs" />
                 </button>
             </div>
 

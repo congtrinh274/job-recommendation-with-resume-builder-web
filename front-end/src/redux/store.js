@@ -4,6 +4,7 @@ import storage from 'redux-persist/lib/storage';
 import authReducer from './features/authSlice';
 import userReducer from './features/userSlice';
 import candidateReducer from './features/candidateSlice';
+import managerReducer from './features/managerSlice';
 
 const persistConfig = {
     key: 'root',
@@ -12,6 +13,7 @@ const persistConfig = {
 };
 
 const rootReducer = combineReducers({
+    manager: managerReducer,
     auth: authReducer,
     user: userReducer,
     candidate: candidateReducer,

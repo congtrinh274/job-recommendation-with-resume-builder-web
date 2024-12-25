@@ -1,5 +1,5 @@
 const JobList = () => {
-    return <div className="text-xl">Trang chủ Admin</div>;
+    return <div className="text-xl">Danh sách công việc</div>;
 };
 
 export default JobList;

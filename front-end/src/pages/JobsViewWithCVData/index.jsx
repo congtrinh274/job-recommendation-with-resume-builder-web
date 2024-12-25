@@ -9,7 +9,7 @@ import JobItem from '@/components/custom/JobItem';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { Button } from '@/components/ui/button';
-import { Brain, CircleArrowLeft, CircleArrowRight, Expand } from 'lucide-react';
+import { CircleArrowLeft, CircleArrowRight, Expand } from 'lucide-react';
 
 const JobViewWithCVData = () => {
     const { recommendedJobs } = useJobListContext();
@@ -65,6 +65,7 @@ const JobViewWithCVData = () => {
                         <FontAwesomeIcon icon={faArrowLeft} />
                     </button>
                 </div>
+
                 <div className="flex justify-between items-start mt-4">
                     <div className="w-1/2 border rounded-lg p-4 mr-6">
                         <div className="flex justify-between items-center mt-4 mb-4 text-sm">
@@ -80,13 +81,15 @@ const JobViewWithCVData = () => {
                                 </Button>
                             </div>
                         </div>
-                        <div style={{ maxHeight: '111vh', overflowY: 'auto' }}>
-                            <ResumePreview />
+                        <div style={{ height: '114vh', overflowY: 'auto' }}>
+                            <div>
+                                <ResumePreview />
+                            </div>
                         </div>
                     </div>
 
                     {/* Right Block: Recommended Jobs */}
-                    <div className="w-1/2 ml-4 p-4 border rounded-lg shadow-lg">
+                    <div className="w-1/2 ml-4 p-4 border rounded-lg shadow-lg" style={{ height: '128vh' }}>
                         <div className="flex justify-between items-center mt-4 mb-4 text-sm">
                             <h2 className="text-xl font-bold text-center text-white">Công việc phù hợp</h2>
                             <div className="flex gap-3 items-center text-sm">
