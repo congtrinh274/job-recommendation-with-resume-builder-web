@@ -23,12 +23,6 @@ userSchema.post('save', async function (doc, next) {
         if (!existingCandidate) {
             await Candidate.create({
                 userId: doc._id,
-                fullName: '',
-                phone: '',
-                address: '',
-                skills: [],
-                experience: '',
-                education: '',
                 cvs: [],
             });
             console.log(`Candidate created for userId: ${doc._id}`);
