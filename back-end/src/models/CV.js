@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 
 const cvSchema = new mongoose.Schema(
     {
+        candidateId: { type: mongoose.Schema.Types.ObjectId, ref: 'Candidate', required: true },
         title: { type: String, required: true, unique: true },
         firstName: { type: String },
         lastName: { type: String },

@@ -2,22 +2,37 @@ require('dotenv').config();
 
 const Candidate = require('../models/Candidate');
 const CV = require('../models/CV');
+const User = require('../models/User');
 
 class CVController {
+    // [GET] cvs/
+    getCVs = async (req, res) => {
+        try {
+            const userId = req.user?._id;
+
+            const user = await User.findById(userId);
+            if (!user) {
+                return res.status(404).json({ message: 'Not permission!' });
+            }
+
+            const cvs = await CV.find().populate('candidateId');
+
+            res.status(200).json(cvs);
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: 'Error retrieving CV', error: error.message });
+        }
+    };
+
     // [GET] cvs/get-cv/:cvId
     getCVById = async (req, res) => {
         try {
             const userId = req.user?._id;
             const { cvId } = req.params;
 
-            const candidate = await Candidate.findOne({ userId: userId });
-            if (!candidate) {
-                return res.status(404).json({ message: 'Candidate not found' });
-            }
-
-            const isCVLinkedToCandidate = candidate.cvs.includes(cvId);
-            if (!isCVLinkedToCandidate) {
-                return res.status(404).json({ message: 'CV not associated with this candidate' });
+            const user = await User.findById(userId);
+            if (!user) {
+                return res.status(404).json({ message: 'Not permission!' });
             }
 
             const cv = await CV.findById(cvId);
@@ -53,6 +68,7 @@ class CVController {
             }
 
             const newCV = new CV({
+                candidateId: candidate._id,
                 title: title || (file ? file.originalname : 'Untitled'),
                 uploadedCV: file ? `/uploads/${file.filename}` : null,
                 isPrimary: isPrimary || false,
@@ -100,6 +116,7 @@ class CVController {
             }
 
             const newCV = new CV({
+                candidateId: candidate._id,
                 title: title || file.originalname,
                 uploadedCV: `/uploads/${file.filename}`,
                 isPrimary: isPrimary || false,

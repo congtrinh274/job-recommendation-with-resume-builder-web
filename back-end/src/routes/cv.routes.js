@@ -5,6 +5,7 @@ const CVController = require('../controllers/CVController');
 const authenticateToken = require('../middlewares/authenticate.middleware');
 const upload = require('../middlewares/multer.middleware');
 
+router.get('/', authenticateToken, CVController.getCVs);
 router.get('/get-cv/:cvId', authenticateToken, CVController.getCVById);
 
 router.post('/add-cv', authenticateToken, CVController.addCandidateCV);

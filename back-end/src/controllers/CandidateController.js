@@ -8,7 +8,7 @@ class CandidateController {
     getCandidates = async (req, res) => {
         try {
             // Sử dụng populate để lấy thông tin của user liên kết qua userId
-            const candidates = await Candidate.find().populate('userId');
+            const candidates = await Candidate.find().populate('userId').populate('cvs');
             res.status(200).json(candidates);
         } catch (error) {
             res.status(500).json({ message: 'Error fetching candidates', error: error.message });

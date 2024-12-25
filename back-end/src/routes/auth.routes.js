@@ -15,6 +15,7 @@ router.get(
         })(req, res, next);
     },
     (req, res) => {
+        console.log(req.user);
         res.redirect(`${process.env.CLIENT_URL}/login-success/${req.user?.id}/${req.user?.loginToken}`);
     },
 );
