@@ -87,30 +87,28 @@ const ResumeCard = ({ cvData, img }) => {
         navigate(`/resume-editor/${cvData._id}`, { state: { data: cvData } });
     };
 
-    // Mở modal xác nhận xóa
     const handleConfirmDelete = (cvId) => {
         setCvToDelete(cvId);
         setIsModalOpen(true);
     };
 
-    // Xử lý xác nhận xóa
     const handleDelete = () => {
         if (cvToDelete) {
             dispatch(deleteCV({ cvId: cvToDelete }))
                 .unwrap()
                 .then(() => {
                     alert('CV deleted successfully');
-                    setIsModalOpen(false); // Đóng modal sau khi xóa
+                    setIsModalOpen(false);
                 })
                 .catch((error) => {
                     alert(error);
-                    setIsModalOpen(false); // Đóng modal khi có lỗi
+                    setIsModalOpen(false);
                 });
         }
     };
 
     const handleCancelDelete = () => {
-        setIsModalOpen(false); // Đóng modal nếu người dùng hủy
+        setIsModalOpen(false);
     };
 
     const handleView = (isOwn, uploadedCV, cvId) => {
@@ -160,7 +158,7 @@ const ResumeCard = ({ cvData, img }) => {
                             </button>
                         )}
                         <button
-                            onClick={() => handleConfirmDelete(cvData._id)} // Mở modal khi click Xóa
+                            onClick={() => handleConfirmDelete(cvData._id)}
                             className="px-2 py-1 text-sm bg-red-500 text-white rounded-lg shadow transform transition-all duration-300 hover:bg-red-600"
                         >
                             Xóa
