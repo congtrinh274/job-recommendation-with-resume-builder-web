@@ -14,6 +14,9 @@ import ResumeView from '@/pages/ResumeView';
 import JobsViewWithUploadCV from '@/pages/JobsViewWithUploadCV';
 import JobViewWithCVData from '@/pages/JobsViewWithCVData';
 import AdminHome from '@/pages/admin';
+import Recruiter from '@/pages/Recruiter';
+import RecruiterRegister from '@/pages/Recruiter/recruiterRegister';
+import RecruiterDashboard from '@/pages/Recruiter/RecruiterDashboard';
 
 const router = createBrowserRouter([
     {
@@ -27,7 +30,7 @@ const router = createBrowserRouter([
             {
                 path: '/dashboard',
                 element: (
-                    <RouteProtector allowedRoles={['CANDIDATE', 'ADMIN']}>
+                    <RouteProtector allowedRoles={['CANDIDATE', 'ADMIN', 'RECRUITER']}>
                         <Dashboard />
                     </RouteProtector>
                 ),
@@ -76,6 +79,22 @@ const router = createBrowserRouter([
                         <AdminHome />
                     </RouteProtector>
                 ),
+                errorElement: <ErrorPage />,
+            },
+        ],
+    },
+    {
+        path: '/recruiter',
+        element: <Recruiter />,
+        children: [
+            {
+                path: 'register',
+                element: <RecruiterRegister />,
+                errorElement: <ErrorPage />,
+            },
+            {
+                path: 'dashboard',
+                element: <RecruiterDashboard />,
                 errorElement: <ErrorPage />,
             },
         ],

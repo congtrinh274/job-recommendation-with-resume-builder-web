@@ -1,9 +1,9 @@
-import { Button } from '../ui/button';
 import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { useState } from 'react';
 import { logout } from '@/redux/features/authSlice';
 import { clearUserData } from '@/redux/features/userSlice';
+import { Button } from '@/components/ui/button';
 
 // eslint-disable-next-line react/prop-types
 const Header = ({ setIsLoading }) => {
@@ -15,18 +15,6 @@ const Header = ({ setIsLoading }) => {
 
     const toggleDropdown = () => {
         setIsDropdownOpen((prev) => !prev);
-    };
-
-    const handleClickBtn = () => {
-        if (isSignedIn) {
-            if (userData.role === 'RECRUITER') {
-                window.open('/recruiter/dashboard', '_blank');
-            } else {
-                window.open('/recruiter/register', '_blank');
-            }
-        } else {
-            navigate('/auth/sign-in');
-        }
     };
 
     const handleLogout = async () => {
@@ -51,35 +39,23 @@ const Header = ({ setIsLoading }) => {
         >
             <Link to={'/'} className="font-bold text-2xl flex items-center text-white">
                 <img src="/logo.svg" width={32} height={32} alt="Logo" />
-                <span className="ml-2">AI CLERK</span>
+                <span className="ml-2">SMART CV</span>
             </Link>
 
-            <div className="hidden md:flex gap-8 font-semibold">
-                <Link to="/plans" className="hover:text-yellow-300 transition-all text-white">
-                    Plans
-                </Link>
-                <Link to="/library" className="hover:text-yellow-300 transition-all text-white">
-                    Library
-                </Link>
-                <Link to="/techdegree" className="hover:text-yellow-300 transition-all text-white">
-                    Techdegree
-                </Link>
-                <Link to="/business" className="hover:text-yellow-300 transition-all text-white">
-                    For Business
-                </Link>
-                <Link to="/schools" className="hover:text-yellow-300 transition-all text-white">
-                    For Schools
-                </Link>
-            </div>
+            {userData?.role === 'RECRUITER' ? (
+                <div className="hidden md:flex gap-8 font-semibold">
+                    <Link to="/plans" className="hover:text-yellow-300 transition-all text-white">
+                        Plans
+                    </Link>
+                    <Link to="/library" className="hover:text-yellow-300 transition-all text-white">
+                        Library
+                    </Link>
+                </div>
+            ) : (
+                <h2 className="font-medium text-white text-lg">Trang nhà tuyển dụng</h2>
+            )}
 
             <div className="flex gap-3">
-                <Button
-                    onClick={handleClickBtn}
-                    variant="outline"
-                    className="rounded bg-blue-500 text-white px-2 py-1 transition-transform hover:scale-105 text-xs"
-                >
-                    Dành cho nhà tuyển dụng
-                </Button>
                 {isSignedIn ? (
                     <div onClick={toggleDropdown} className="relative">
                         <div className="flex items-center">
@@ -107,12 +83,6 @@ const Header = ({ setIsLoading }) => {
                                         Quản lý
                                     </Link>
                                 )}
-                                <Link
-                                    to="/dashboard"
-                                    className="block p-2 hover:bg-blue-200 hover:text-black text-white"
-                                >
-                                    Tổng quan
-                                </Link>
                                 <Link
                                     to="/recruiter-register"
                                     className="block p-2 hover:bg-blue-200 hover:text-black text-white"

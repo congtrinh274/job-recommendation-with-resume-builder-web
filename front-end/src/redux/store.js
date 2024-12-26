@@ -5,6 +5,7 @@ import authReducer from './features/authSlice';
 import userReducer from './features/userSlice';
 import candidateReducer from './features/candidateSlice';
 import managerReducer from './features/managerSlice';
+import recruiterReducer from './features/recruiterSlice';
 
 const persistConfig = {
     key: 'root',
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
     auth: authReducer,
     user: userReducer,
     candidate: candidateReducer,
+    recruiter: recruiterReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
