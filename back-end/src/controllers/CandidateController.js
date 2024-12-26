@@ -18,7 +18,6 @@ class CandidateController {
     // [GET] candidates/get-one
     getCandidateByUserId = async (req, res) => {
         try {
-            // Tìm Candidate dựa trên userId
             const candidate = await Candidate.findOne({ userId: req.user?._id }).populate('cvs');
             if (!candidate) {
                 return res.status(200).json({
