@@ -16,6 +16,7 @@ const recruiterSchema = new mongoose.Schema(
         companyAddress: { type: String },
         webLink: { type: String },
         postedJobs: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Job' }],
+        level: { type: Number },
     },
     {
         timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' },

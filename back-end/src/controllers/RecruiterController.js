@@ -19,7 +19,9 @@ class RecruiterController {
     // [GET] recruiter/
     getRecruiter = async (req, res) => {
         try {
-            const recruiter = await Recruiter.findOne({ userId: req.user?._id }).populate('postedJobs');
+            const recruiter = await Recruiter.findOne({ userId: req.user?._id })
+                .populate('postedJobs')
+                .populate('userId');
             if (!recruiter) {
                 return res.status(200).json({
                     err: 1,
@@ -27,9 +29,7 @@ class RecruiterController {
                 });
             }
 
-            return res.status(200).json({
-                recruiter,
-            });
+            return res.status(200).json(recruiter);
         } catch (error) {
             console.error(error);
             return res.status(500).json({
@@ -126,7 +126,7 @@ class RecruiterController {
         }
     };
 
-    // [POST] recruiters/update
+    // [PUT] recruiters/update
     updateRecruiter = async (req, res) => {
         try {
             const userId = req.user?._id;
@@ -151,6 +151,7 @@ class RecruiterController {
                 'companyAddress',
                 'webLink',
                 'postedJobs',
+                'level',
             ];
             const filteredUpdateData = Object.keys(updateData)
                 .filter((key) => allowedFields.includes(key))
@@ -177,6 +178,36 @@ class RecruiterController {
         } catch (error) {
             console.error('Error updating recruiter:', error);
             return res.status(500).json({ message: 'Internal Server Error', error: error.message });
+        }
+    };
+
+    // [PUT] recruiter/upload-license
+    uploadLicense = async (req, res) => {
+        try {
+            const userId = req.user?._id;
+            const file = req.file;
+
+            if (!file) {
+                return res.status(400).json({ message: 'No file provided or invalid file type.' });
+            }
+
+            const recruiter = await Recruiter.findOne({ userId: userId }).populate('userId');
+            if (!recruiter) {
+                return res.status(404).json({ message: 'Recruiter not found' });
+            }
+
+            recruiter.businessLicense = `/uploads/${file.filename}`;
+            recruiter.level = 2;
+
+            await recruiter.save();
+
+            res.status(200).json({
+                message: 'upload Successfully',
+                data: recruiter,
+            });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: 'Error uploading license', error: error.message });
         }
     };
 }
