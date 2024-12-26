@@ -69,13 +69,35 @@ export const updateRecruiter = createAsyncThunk(
                 throw new Error('No token found');
             }
 
-            const response = await axios.post('http://localhost:5000/api/recruiters/update', updateData, {
+            const response = await axios.put('http://localhost:5000/api/recruiters/update', updateData, {
                 headers: { Authorization: token },
             });
 
             return response.data;
         } catch (error) {
             return rejectWithValue(error.response?.data?.message || 'Failed to fetch user data');
+        }
+    },
+);
+
+export const uploadLicense = createAsyncThunk(
+    'candidate/uploadLicense',
+    async ({ data }, { rejectWithValue, getState }) => {
+        try {
+            const { auth } = getState();
+            const token = auth?.token;
+
+            if (!token) {
+                throw new Error('No token found');
+            }
+
+            const response = await axios.put(`http://localhost:5000/api/recruiters/upload-license`, data, {
+                headers: { Authorization: token },
+            });
+
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response?.data?.message || 'Failed to update candidate CVs');
         }
     },
 );
@@ -146,6 +168,23 @@ const recruiterSlice = createSlice({
                 state.error = null;
             })
             .addCase(fetRecruiter.rejected, (state, action) => {
+                state.isLoading = false;
+                state.data = null;
+                state.error = action.payload;
+            })
+
+            // -----
+
+            .addCase(uploadLicense.pending, (state) => {
+                state.isLoading = true;
+                state.error = null;
+            })
+            .addCase(uploadLicense.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.data = action.payload;
+                state.error = null;
+            })
+            .addCase(uploadLicense.rejected, (state, action) => {
                 state.isLoading = false;
                 state.data = null;
                 state.error = action.payload;

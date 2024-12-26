@@ -42,18 +42,7 @@ const Header = ({ setIsLoading }) => {
                 <span className="ml-2">SMART CV</span>
             </Link>
 
-            {userData?.role === 'RECRUITER' ? (
-                <div className="hidden md:flex gap-8 font-semibold">
-                    <Link to="/plans" className="hover:text-yellow-300 transition-all text-white">
-                        Plans
-                    </Link>
-                    <Link to="/library" className="hover:text-yellow-300 transition-all text-white">
-                        Library
-                    </Link>
-                </div>
-            ) : (
-                <h2 className="font-medium text-white text-lg">Trang nhà tuyển dụng</h2>
-            )}
+            <h2 className="font-medium text-white text-lg">Trang nhà tuyển dụng</h2>
 
             <div className="flex gap-3">
                 {isSignedIn ? (
@@ -83,6 +72,12 @@ const Header = ({ setIsLoading }) => {
                                         Quản lý
                                     </Link>
                                 )}
+                                <Link
+                                    to="/recruiter-register"
+                                    className="block p-2 hover:bg-blue-200 hover:text-black text-white"
+                                >
+                                    Thông báo
+                                </Link>
                                 <Link
                                     to="/recruiter-register"
                                     className="block p-2 hover:bg-blue-200 hover:text-black text-white"

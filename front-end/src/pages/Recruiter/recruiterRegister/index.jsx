@@ -2,9 +2,10 @@ import { Button } from '@/components/ui/button';
 import { useState, useEffect } from 'react';
 import ReactSelect from 'react-select';
 import vietnamAddress from '@/data/vietnamAddress.json';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetRecruiter, updateRecruiter, verifiedEmail, verifyEmail } from '@/redux/features/recruiterSlice';
+import { useDispatch } from 'react-redux';
+import { updateRecruiter, verifiedEmail, verifyEmail } from '@/redux/features/recruiterSlice';
 import { LoaderCircle } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const RecruiterRegister = () => {
     const [formData, setFormData] = useState({
@@ -12,29 +13,22 @@ const RecruiterRegister = () => {
         code: '',
         isCodeSent: false,
         isCodeVerified: false,
-        name: '',
+        fullName: '',
         gender: '',
         companyName: '',
         taxCode: '',
         province: '',
         district: '',
         webLink: '',
+        level: 1,
     });
-
-    const { isSignedIn } = useSelector((state) => state.auth);
-    const { data: recruiterData } = useSelector((state) => state.recruiter);
 
     const [isLoading, setIsLoading] = useState();
 
     const [districts, setDistricts] = useState([]);
 
     const dispatch = useDispatch();
-
-    useEffect(() => {
-        if (isSignedIn && !recruiterData) {
-            dispatch(fetRecruiter());
-        }
-    });
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (formData.province) {
@@ -101,6 +95,7 @@ const RecruiterRegister = () => {
             await new Promise((resolve) => setTimeout(resolve, 1000));
             const updateData = formData;
             await dispatch(updateRecruiter({ updateData }));
+            navigate('/recruiter/dashboard');
             setIsLoading(false);
         } catch (error) {
             setIsLoading(false);
@@ -166,9 +161,9 @@ const RecruiterRegister = () => {
                     <div className="flex-1">
                         <input
                             type="text"
-                            name="name"
+                            name="fullName"
                             disabled={!formData.isCodeVerified}
-                            value={formData.name}
+                            value={formData.fullName}
                             onChange={handleChange}
                             placeholder="Họ và Tên"
                             className="w-full p-2 rounded text-black-400 focus:outline-none"
