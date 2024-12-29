@@ -8,7 +8,7 @@ class RecruiterController {
     // [GET] recruiters/
     getRecruiters = async (req, res) => {
         try {
-            const recruiters = await Recruiter.find();
+            const recruiters = await Recruiter.find().populate('userId').populate('postedJobs');
             res.status(200).json(recruiters);
         } catch (error) {
             console.error(error);
@@ -208,6 +208,48 @@ class RecruiterController {
         } catch (error) {
             console.error(error);
             res.status(500).json({ message: 'Error uploading license', error: error.message });
+        }
+    };
+
+    // [POST] recruiters/validated
+    recruiterValidated = async (req, res) => {
+        const userId = req.user?._id;
+        const { recruiterId, validated } = req.body;
+
+        try {
+            const user = await User.findOne({ _id: userId });
+            if (!user || user.role !== 'ADMIN') {
+                return res.status(403).json({ message: 'Not permission' });
+            }
+
+            const recruiter = await Recruiter.findOne({ _id: recruiterId });
+            if (!recruiter) {
+                return res.status(404).json({ message: 'Recruiter not found!' });
+            }
+
+            recruiter.validatedState = validated;
+            recruiter.notification =
+                validated === 'TRUE'
+                    ? 'Giấy phép của bạn đã được duyệt.'
+                    : 'Giấy phép của bạn đã bị hủy. Vui lòng cập nhật giấy phép mới!';
+            await recruiter.save();
+
+            const recruiters = await Recruiter.find().populate('userId').populate('postedJobs');
+            if (global.io) {
+                global.io.to(recruiter.userId.toString()).emit('notification', {
+                    message:
+                        validated === 'TRUE'
+                            ? 'Giấy phép của bạn đã được duyệt.'
+                            : 'Giấy phép của bạn đã bị hủy.  Vui lòng cập nhật giấy phép mới!',
+                    recruiterId: recruiterId,
+                    validated,
+                });
+            }
+
+            return res.status(200).json({ message: 'Updated successfully!', data: recruiters });
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({ message: 'Internal server error' });
         }
     };
 }
