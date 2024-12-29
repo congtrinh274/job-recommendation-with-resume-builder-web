@@ -51,7 +51,7 @@ const Header = ({ setIsLoading }) => {
         >
             <Link to={'/'} className="font-bold text-2xl flex items-center text-white">
                 <img src="/logo.svg" width={32} height={32} alt="Logo" />
-                <span className="ml-2">AI CLERK</span>
+                <span className="ml-2">SMART CV</span>
             </Link>
 
             <div className="hidden md:flex gap-8 font-semibold">

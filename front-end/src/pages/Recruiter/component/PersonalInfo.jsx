@@ -60,8 +60,6 @@ function PersonalInfo() {
 
     const dispatch = useDispatch();
 
-    console.log(formData);
-
     const provinces = vietnamAddress.map((p) => p.Name);
 
     const handleChange = (e) => {
@@ -267,6 +265,7 @@ function PersonalInfo() {
                 <h2 className="font-bold text-primary mb-3">
                     Cấp 2 * <span className="text-red-500">Thông tin giấy đăng ký doanh nghiệp</span>
                 </h2>
+                {data?.validatedState === 'CANCELED' && <p className="text-sm text-red-600">Cần cập nhật!</p>}
                 <div className="grid grid-cols-2 mb-8 gap-10">
                     {data?.businessLicense ? (
                         <div

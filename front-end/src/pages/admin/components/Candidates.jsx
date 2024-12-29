@@ -7,9 +7,9 @@ const apiBaseUrl = import.meta.env.VITE_SERVER_URL;
 const Candidates = () => {
     const dispatch = useDispatch();
     const { candidates } = useSelector((state) => state.manager);
-    const [modalData, setModalData] = useState(null); // Modal danh sách CV
-    const [mailModalData, setMailModalData] = useState(null); // Modal gửi mail
-    const [mailContent, setMailContent] = useState(''); // Nội dung thư
+    const [modalData, setModalData] = useState(null);
+    const [mailModalData, setMailModalData] = useState(null);
+    const [mailContent, setMailContent] = useState('');
 
     useEffect(() => {
         dispatch(getCandidates());
