@@ -102,11 +102,35 @@ export const uploadLicense = createAsyncThunk(
     },
 );
 
+export const fetchCategoryJobs = createAsyncThunk('jobCategory/fetchCategoryJobs', async () => {
+    const response = await axios.get('http://localhost:5000/api/job-categories');
+    return response.data.data;
+});
+
+export const createJob = createAsyncThunk('jobCategory/createJob', async (jobData, { rejectWithValue, getState }) => {
+    try {
+        const { auth } = getState();
+        const token = auth?.token;
+
+        if (!token) {
+            throw new Error('No token found');
+        }
+
+        const response = await axios.post('http://localhost:5000/api/jobs/create', jobData, {
+            headers: { Authorization: token },
+        });
+        return response.data;
+    } catch (error) {
+        return rejectWithValue(error.response.data);
+    }
+});
+
 const recruiterSlice = createSlice({
     name: 'recruiter',
     initialState: {
         isLoading: false,
         data: null,
+        categories: null,
         error: null,
     },
     extraReducers: (builder) => {
@@ -187,6 +211,41 @@ const recruiterSlice = createSlice({
             .addCase(uploadLicense.rejected, (state, action) => {
                 state.isLoading = false;
                 state.data = null;
+                state.error = action.payload;
+            })
+
+            // Fetch categories
+            .addCase(fetchCategoryJobs.pending, (state) => {
+                state.isLoading = true;
+                state.error = null;
+            })
+            .addCase(fetchCategoryJobs.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.categories = action.payload;
+                state.error = null;
+            })
+            .addCase(fetchCategoryJobs.rejected, (state, action) => {
+                state.isLoading = false;
+                state.categories = null;
+                state.error = action.payload;
+            })
+
+            // Create job
+            .addCase(createJob.pending, (state) => {
+                state.isLoading = true;
+                state.error = null;
+            })
+            .addCase(createJob.fulfilled, (state, action) => {
+                state.isLoading = false;
+                if (state.data?.postedJobs) {
+                    state.data.postedJobs.push(action.payload.data);
+                } else {
+                    state.data = { postedJobs: [action.payload.data] };
+                }
+                state.error = null;
+            })
+            .addCase(createJob.rejected, (state, action) => {
+                state.isLoading = false;
                 state.error = action.payload;
             });
     },

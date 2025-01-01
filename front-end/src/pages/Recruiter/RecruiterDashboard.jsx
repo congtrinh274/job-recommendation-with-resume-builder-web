@@ -1,10 +1,10 @@
 import { fetRecruiter } from '@/redux/features/recruiterSlice';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Sidebar from './component/Sidebar';
-import Main from './component/Main';
-import Recruitment from './component/Recruitment';
-import PersonalInfo from './component/PersonalInfo';
+import Sidebar from './components/Sidebar';
+import Main from './components/Main';
+import Recruitment from './components/recruitment/Recruitment';
+import PersonalInfo from './components/PersonalInfo';
 
 const RecruiterDashboard = () => {
     const { isSignedIn } = useSelector((state) => state.auth);
@@ -24,7 +24,7 @@ const RecruiterDashboard = () => {
             case 'main':
                 return <Main activeItem={activeItem} setActiveItem={setActiveItem} />;
             case 'recruitment':
-                return <Recruitment />;
+                return <Recruitment activeItem={activeItem} setActiveItem={setActiveItem} />;
             case 'personal':
                 return <PersonalInfo />;
             default:

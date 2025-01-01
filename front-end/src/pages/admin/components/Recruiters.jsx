@@ -1,3 +1,4 @@
+import { Button } from '@/components/ui/button';
 import { getRecruiters, recruiterValidated } from '@/redux/features/managerSlice';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -37,10 +38,10 @@ const Recruiters = () => {
     return (
         <div className="p-6" style={{ overflowX: 'auto' }}>
             <h1 className="text-2xl font-bold mb-4">Danh sách nhà tuyển dụng</h1>
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto w-full">
                 <table className="table-fixed w-full border-collapse border border-gray-300">
                     <thead>
-                        <tr className="bg-gray-200 text-gray-700">
+                        <tr className="bg-gray-200 ">
                             {[
                                 'User ID',
                                 'Email',
@@ -54,34 +55,37 @@ const Recruiters = () => {
                                 'Trạng thái',
                                 'Action',
                             ].map((header, index) => (
-                                <th key={index} className="border border-gray-300 px-4 py-2 w-[10%] text-xs">
+                                <th
+                                    key={index}
+                                    className="w-[200px] px-4 py-2 text-left text-sm font-semibold border border-gray-300"
+                                >
                                     {header}
                                 </th>
                             ))}
                         </tr>
                     </thead>
-                    <tbody className="text-sm text-gray-600">
+                    <tbody className="text-sm ">
                         {recruiters?.map((recruiter, index) => (
                             <tr key={index} className="hover:bg-gray-100">
-                                <td className="border border-gray-300 px-4 py-2 whitespace-normal break-words">
+                                <td className="px-4 py-2 text-sm whitespace-nowrap overflow-hidden text-ellipsis border border-gray-300">
                                     {recruiter?.userId?._id}
                                 </td>
-                                <td className="border border-gray-300 px-4 py-2 whitespace-normal break-words">
+                                <td className="px-4 py-2 text-sm whitespace-nowrap overflow-hidden text-ellipsis border border-gray-300">
                                     {recruiter?.email}
                                 </td>
-                                <td className="border border-gray-300 px-4 py-2 whitespace-normal break-words">
+                                <td className="px-4 py-2 text-sm whitespace-nowrap overflow-hidden text-ellipsis border border-gray-300">
                                     {recruiter?.fullName}
                                 </td>
-                                <td className="border border-gray-300 px-4 py-2 whitespace-normal break-words">
+                                <td className="px-4 py-2 text-sm whitespace-nowrap overflow-hidden text-ellipsis border border-gray-300">
                                     {recruiter?.companyName}
                                 </td>
-                                <td className="border border-gray-300 px-4 py-2 whitespace-normal break-words">
+                                <td className="px-4 py-2 text-sm whitespace-nowrap overflow-hidden text-ellipsis border border-gray-300">
                                     {recruiter?.taxCode}
                                 </td>
-                                <td className="border border-gray-300 px-4 py-2 whitespace-normal break-words">
+                                <td className="px-4 py-2 text-sm whitespace-nowrap overflow-hidden text-ellipsis border border-gray-300">
                                     {`${recruiter?.district}, ${recruiter?.province}`}
                                 </td>
-                                <td className="border border-gray-300 px-4 py-2 whitespace-normal break-words">
+                                <td className="px-4 py-2 text-sm whitespace-nowrap overflow-hidden text-ellipsis border border-gray-300">
                                     <a
                                         href={recruiter?.webLink}
                                         target="_blank"
@@ -91,12 +95,11 @@ const Recruiters = () => {
                                         {recruiter?.webLink ? 'Link' : 'N/A'}
                                     </a>
                                 </td>
-                                <td className="border border-gray-300 px-4 py-2 text-center">
+                                <td className="border border-gray-300 px-4 py-2 ">
                                     <div className="flex gap-2 items-center justify-center">
-                                        {recruiter?.postedJobs?.length}
-                                        {recruiter?.postedJobs?.length > 0 && (
-                                            <button className="text-blue-500 underline text-sm p-1">Xem</button>
-                                        )}
+                                        <Button className="text-xs p-1">
+                                            {`Xem (${recruiter?.postedJobs?.length})`}
+                                        </Button>
                                     </div>
                                 </td>
                                 <td className="border border-gray-300 px-4 py-2 whitespace-normal break-words">
@@ -109,24 +112,24 @@ const Recruiters = () => {
                                         {recruiter?.businessLicense ? 'Xem' : 'N/A'}
                                     </a>
                                 </td>
-                                <td className="border border-gray-300 px-4 py-2 text-center">
-                                    {recruiterState(recruiter)}
-                                </td>
-                                <td className="border-t border-gray-300 px-4 py-2 flex flex-col justify-center">
+                                <td className="border border-gray-300 px-4 py-2">{recruiterState(recruiter)}</td>
+                                <td className="border-t border-gray-300 px-4 py-1 ">
                                     {recruiter?.level === 2 && (
                                         <>
-                                            <button
-                                                className="bg-blue-500  text-white px-2 py-1 rounded hover:bg-blue-600 text-xs mt-5"
-                                                onClick={() => handleValidated('TRUE', recruiter?._id)}
-                                            >
-                                                Duyệt HS
-                                            </button>
-                                            <button
-                                                className="bg-red-500  text-white px-2 py-1 rounded hover:bg-red-600 text-xs mt-5"
+                                            {recruiter.validatedState !== 'TRUE' && (
+                                                <Button
+                                                    className="ml-2 w-[40%] px-4 py-2 bg-blue-500 text-white text-xs rounded-lg hover:bg-red-600 focus:outline-none"
+                                                    onClick={() => handleValidated('TRUE', recruiter?._id)}
+                                                >
+                                                    Duyệt HS
+                                                </Button>
+                                            )}
+                                            <Button
+                                                className="ml-2 w-[40%] px-4 py-2 bg-red-500 text-white text-xs rounded-lg hover:bg-red-600 focus:outline-none"
                                                 onClick={() => handleValidated('CANCELED', recruiter?._id)}
                                             >
                                                 Hủy HS
-                                            </button>
+                                            </Button>
                                         </>
                                     )}
                                 </td>

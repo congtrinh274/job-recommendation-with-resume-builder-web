@@ -18,6 +18,7 @@ function CreateResume() {
         setResumeTitle(event.target.value);
     };
 
+    console.log(resumeTitle);
     const handleCreate = async () => {
         if (!resumeTitle) {
             alert('Vui lòng nhập tên hồ sơ của bạn');
@@ -26,8 +27,10 @@ function CreateResume() {
 
             if (result.error) {
                 alert(result.payload);
+                setResumeTitle('');
             } else {
                 const { data } = result.payload;
+                setResumeTitle('');
                 navigate(`/resume-editor/${result.payload.data._id}`, { state: { data } });
             }
         }

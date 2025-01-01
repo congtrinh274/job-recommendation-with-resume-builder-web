@@ -7,7 +7,7 @@ const Sidebar = ({ activeItem, setActiveItem }) => {
     return (
         <div className="w-1/5 bg-gray-800 text-white p-4">
             <h1 className="text-2xl font-bold mb-6 border-b pb-2">Admin Panel</h1>
-            <ul className="space-y-4">
+            <ul className="space-y-4 list-none">
                 <li
                     className={`cursor-pointer ${activeItem === 'Trang chủ' ? 'font-bold' : ''}`}
                     onClick={() => setActiveItem('Trang chủ')}
@@ -19,7 +19,7 @@ const Sidebar = ({ activeItem, setActiveItem }) => {
                         Quản lý Ứng viên
                     </div>
                     {isSubmenuOpen && (
-                        <ul className="ml-4 mt-2 space-y-2">
+                        <ul className="ml-4 mt-2 space-y-2 list-none">
                             <li
                                 className={`cursor-pointer ${activeItem === 'Ứng viên' ? 'font-bold' : ''}`}
                                 onClick={() => setActiveItem('Ứng viên')}
@@ -46,12 +46,12 @@ const Sidebar = ({ activeItem, setActiveItem }) => {
                         Công Việc
                     </div>
                     {isJobSubmenuOpen && (
-                        <ul className="ml-4 mt-2 space-y-2">
+                        <ul className="ml-4 mt-2 space-y-2 list-none">
                             <li
                                 className={`cursor-pointer ${activeItem === 'Danh sách công việc' ? 'font-bold' : ''}`}
                                 onClick={() => setActiveItem('Danh sách công việc')}
                             >
-                                Danh sách công việc
+                                Danh sách công việc đã đăng
                             </li>
                             <li
                                 className={`cursor-pointer ${

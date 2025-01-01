@@ -27,7 +27,7 @@ const Sidebar = ({ activeItem, setActiveItem }) => {
                     </div>
                 </div>
             </div>
-            <ul className="space-y-4">
+            <ul className="space-y-4 list-none">
                 <li
                     className={`cursor-pointer ${activeItem === 'main' ? 'font-bold' : ''}`}
                     onClick={() => setActiveItem('main')}

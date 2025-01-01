@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
-import Header from './component/Header';
+import Header from './components/Header';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchUser } from '@/redux/features/userSlice';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Recruiter = () => {
     const dispatch = useDispatch();
@@ -32,6 +34,7 @@ const Recruiter = () => {
                 <Header setIsLoading={setIsLoading} />
                 <Outlet context={{ isLoading, setIsLoading }} />
             </div>
+            <ToastContainer />
         </div>
     );
 };

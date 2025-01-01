@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCandidates } from '@/redux/features/managerSlice';
+import { Button } from '@/components/ui/button';
 
 const apiBaseUrl = import.meta.env.VITE_SERVER_URL;
 
@@ -56,17 +57,12 @@ const Candidates = () => {
                             <td className="border border-gray-300 px-4 py-2">{candidate?.userId?.username}</td>
                             <td className="border border-gray-300 px-4 py-2">
                                 <div className="flex gap-2 items-center justify-center ml-4">
-                                    {candidate?.cvs?.length}
-                                    {candidate?.cvs.length > 0 ? (
-                                        <button
-                                            className="text-blue-500 underline text-sm p-1"
+                                    <div className="flex gap-2 items-center justify-center ml-4">
+                                        <Button
                                             onClick={() => handleViewCVs(candidate)}
-                                        >
-                                            Xem
-                                        </button>
-                                    ) : (
-                                        ''
-                                    )}
+                                            className="text-xs p-1"
+                                        >{`Xem (${candidate?.cvs?.length})`}</Button>
+                                    </div>
                                 </div>
                             </td>
                             <td className="border border-gray-300 px-4 py-2 flex justify-center">

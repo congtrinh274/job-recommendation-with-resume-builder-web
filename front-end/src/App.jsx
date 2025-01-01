@@ -3,6 +3,8 @@ import './App.css';
 import Header from './components/custom/Header';
 import { Outlet } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { fetchUser } from './redux/features/userSlice';
 import { JobProvider } from './context/JobListContext';
 
@@ -36,6 +38,7 @@ function App() {
                     <Outlet context={{ isLoading, setIsLoading }} />
                 </div>
             </div>
+            <ToastContainer />
         </JobProvider>
     );
 }
