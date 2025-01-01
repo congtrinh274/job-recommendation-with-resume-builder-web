@@ -1,0 +1,42 @@
+[
+    {
+        "title": "Software Engineering",
+        "description": "Jobs related to software development, including front-end, back-end, and full-stack development."
+    },
+    {
+        "title": "Data Science",
+        "description": "Jobs related to data analysis, machine learning, and data engineering."
+    },
+    {
+        "title": "Web Development",
+        "description": "Jobs focusing on building and maintaining websites and web applications."
+    },
+    {
+        "title": "Artificial Intelligence",
+        "description": "Jobs in AI, including research and development of AI models and systems."
+    },
+    {
+        "title": "Mobile Development",
+        "description": "Jobs related to developing mobile applications for iOS and Android platforms."
+    },
+    {
+        "title": "Cloud Computing",
+        "description": "Jobs focusing on cloud infrastructure, services, and solutions."
+    },
+    {
+        "title": "Cybersecurity",
+        "description": "Jobs focused on protecting systems and networks from cyber threats."
+    },
+    {
+        "title": "DevOps",
+        "description": "Jobs related to software development and IT operations to streamline processes."
+    },
+    {
+        "title": "Product Management",
+        "description": "Jobs related to managing the lifecycle of products from ideation to launch."
+    },
+    {
+        "title": "Quality Assurance",
+        "description": "Jobs related to testing and ensuring the quality of software products."
+    }
+]

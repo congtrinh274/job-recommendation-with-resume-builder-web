@@ -3,13 +3,19 @@ const mongoose = require('mongoose');
 const jobSchema = new mongoose.Schema(
     {
         recruiterId: { type: mongoose.Schema.Types.ObjectId, ref: 'Recruiter', required: true },
+        categoryId: { type: mongoose.Schema.Types.ObjectId, ref: 'CategoryJob' },
         title: { type: String, required: true },
+        level: { type: String },
         description: { type: String },
-        requirements: [{ type: String }],
-        skills: [{ type: String }],
+        requirements: { type: String },
+        skills: { type: String },
         location: { type: String },
         salary: { type: String },
-        expiredDate: { type: String },
+        expiredDate: { type: Date },
+        approved: { type: Boolean, default: false },
+        appliedList: [
+            { cvId: { type: mongoose.Schema.Types.ObjectId, ref: 'CV' }, isApplied: { type: Boolean, default: false } },
+        ],
     },
     {
         timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' },
