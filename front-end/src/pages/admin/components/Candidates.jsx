@@ -28,9 +28,8 @@ const Candidates = () => {
         if (mailModalData && mailContent.trim() !== '') {
             console.log(`Gửi mail tới: ${mailModalData.userId.email}`);
             console.log(`Nội dung thư: ${mailContent}`);
-            // Thực hiện logic gửi mail ở đây
             setMailContent('');
-            setMailModalData(null); // Đóng modal
+            setMailModalData(null);
         } else {
             alert('Vui lòng nhập nội dung thư.');
         }

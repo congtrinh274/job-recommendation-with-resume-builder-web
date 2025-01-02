@@ -2,7 +2,7 @@ import { Button } from '@/components/ui/button';
 import React from 'react';
 
 const JobItem = ({ job }) => {
-    const { title, level, location, salary, expiredDate, approvedState, description } = job;
+    const { _id, title, level, location, salary, expiredDate, approvedState, description } = job;
 
     const formattedDate = new Date(expiredDate).toLocaleDateString();
 
@@ -28,7 +28,7 @@ const JobItem = ({ job }) => {
 
     return (
         <div
-            className={`relative bg-white p-4 border shadow-md rounded-lg transition-all duration-300  ${stateColor()} hover:shadow-lg group`}
+            className={`relative bg-white p-4 pb-10 border shadow-md rounded-lg transition-all duration-300  ${stateColor()} hover:shadow-lg group`}
         >
             <h3 className="text-lg font-bold ">{title}</h3>
             <div className="grid grid-cols-2 gap-2 mt-4">
@@ -74,9 +74,12 @@ const JobItem = ({ job }) => {
                         Cập nhật
                     </Button>
                     <Button className="px-2 py-1 text-sm bg-red-600 text-white rounded-lg shadow transform transition-all duration-300 hover:bg-red-600">
-                        Xóa
+                        Ngừng nhận ứng tuyển
                     </Button>
                 </div>
+            </div>
+            <div className="absolute bottom-0 left-0 right-0 bg-gray-200 py-1 flex items-center justify-center text-sm">
+                <span className="px-2 truncate max-w-full">ID: {_id}</span>
             </div>
         </div>
     );

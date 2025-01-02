@@ -181,7 +181,7 @@ const Header = ({ setIsLoading }) => {
                             </div>
                             <div className="mt-4 flex justify-end">
                                 <button
-                                    className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+                                    className="bg-blue-500 text-sm text-white px-4 py-2 rounded hover:bg-blue-600"
                                     onClick={toggleModal}
                                 >
                                     Đóng

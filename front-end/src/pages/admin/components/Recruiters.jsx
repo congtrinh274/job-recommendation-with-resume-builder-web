@@ -1,3 +1,4 @@
+import JobDetailModal from '@/components/custom/JobDetailModal';
 import { Button } from '@/components/ui/button';
 import { getRecruiters, recruiterValidated } from '@/redux/features/managerSlice';
 import { useEffect, useState } from 'react';
@@ -9,10 +10,16 @@ const Recruiters = () => {
     const dispatch = useDispatch();
     const { recruiters } = useSelector((state) => state.manager);
     const [modalData, setModalData] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedJob, setSelectedJob] = useState(null);
 
     useEffect(() => {
         dispatch(getRecruiters());
     }, [dispatch]);
+
+    const handlePostedJobs = (candidate) => {
+        setModalData(candidate);
+    };
 
     const recruiterState = (recruiter) => {
         if (recruiter.level === 1) {
@@ -24,6 +31,16 @@ const Recruiters = () => {
         } else {
             return 'Đã xét duyệt';
         }
+    };
+
+    const handleViewDetails = (job) => {
+        setSelectedJob(job);
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+        setSelectedJob(null);
     };
 
     const handleValidated = async (validated, recruiterId) => {
@@ -97,7 +114,7 @@ const Recruiters = () => {
                                 </td>
                                 <td className="border border-gray-300 px-4 py-2 ">
                                     <div className="flex gap-2 items-center justify-center">
-                                        <Button className="text-xs p-1">
+                                        <Button onClick={() => handlePostedJobs(recruiter)} className="text-xs p-1">
                                             {`Xem (${recruiter?.postedJobs?.length})`}
                                         </Button>
                                     </div>
@@ -139,26 +156,19 @@ const Recruiters = () => {
                 </table>
             </div>
 
-            {/* Modal hiển thị Danh sách công việc */}
-            {/* {modalData && (
+            {modalData && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
                     <div className="flex bg-white rounded p-6 w-1/4 flex-col">
-                        <h2 className="text-xl font-bold mb-4 text-center">Danh sách hồ sơ</h2>
+                        <h2 className="text-xl font-bold mb-4 text-center">Danh sách công việc</h2>
                         <ul className="list-disc list-inside">
-                            {modalData.cvs?.map((cv, index) => (
-                                <a
+                            {modalData.postedJobs?.map((job, index) => (
+                                <li
+                                    className="cursor-pointer underline text-blue-800"
+                                    onClick={() => handleViewDetails(job)}
                                     key={index}
-                                    href={
-                                        cv.isOwn
-                                            ? `http://localhost:5173/resume-preview/${cv._id}`
-                                            : cv.uploadedCV.startsWith('http')
-                                            ? cv.uploadedCV
-                                            : `${apiBaseUrl}${cv.uploadedCV}`
-                                    }
-                                    target="_blank"
                                 >
-                                    <li>{cv.title}</li>
-                                </a>
+                                    {job.title}
+                                </li>
                             ))}
                         </ul>
                         <button
@@ -169,7 +179,8 @@ const Recruiters = () => {
                         </button>
                     </div>
                 </div>
-            )} */}
+            )}
+            <JobDetailModal isOpen={isModalOpen} onClose={closeModal} job={selectedJob} />
         </div>
     );
 };
