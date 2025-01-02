@@ -17,7 +17,15 @@ const recruiterSchema = new mongoose.Schema(
         webLink: { type: String },
         postedJobs: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Job' }],
         level: { type: Number },
-        notification: { type: String },
+        notifications: [
+            {
+                title: { type: String, required: true },
+                message: { type: String, required: true },
+                type: { type: String, enum: ['RESUME_APPROVAL', 'POST_APPROVAL', 'APPLICATION'], required: true },
+                createdAt: { type: Date, default: Date.now },
+                read: { type: Boolean, default: false },
+            },
+        ],
         validatedState: { type: String, enum: ['FALSE', 'TRUE', 'CANCELED'], default: 'FALSE' },
     },
     {

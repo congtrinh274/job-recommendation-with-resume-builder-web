@@ -12,7 +12,7 @@ const jobSchema = new mongoose.Schema(
         location: { type: String },
         salary: { type: String },
         expiredDate: { type: Date },
-        approved: { type: Boolean, default: false },
+        approvedState: { type: String, enum: ['PENDING', 'APPROVED', 'CANCELED'], default: 'PENDING' },
         appliedList: [
             { cvId: { type: mongoose.Schema.Types.ObjectId, ref: 'CV' }, isApplied: { type: Boolean, default: false } },
         ],
