@@ -40,7 +40,7 @@ const Resumes = () => {
                                     <td className="border border-gray-300 px-4 py-2 flex justify-center">
                                         <div className="flex gap-2">
                                             <button
-                                                className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600"
+                                                className="bg-blue-500 text-white px-3 py-1 text-xs rounded hover:bg-blue-600"
                                                 onClick={() => handleView(resume)}
                                             >
                                                 Xem
@@ -62,7 +62,6 @@ const Resumes = () => {
         </div>
     );
 
-    // Dummy handlers, replace with actual functionality
     function handleView(resume) {
         if (!resume.isOwn) {
             const fullURL = resume.uploadedCV.startsWith('http')
@@ -73,10 +72,6 @@ const Resumes = () => {
             const fullURL = `http://localhost:5173/resume-preview/${resume._id}`;
             window.open(fullURL, '_blank');
         }
-    }
-
-    function handleDelete(id) {
-        console.log(`Hủy hồ sơ với ID: ${id}`);
     }
 };
 

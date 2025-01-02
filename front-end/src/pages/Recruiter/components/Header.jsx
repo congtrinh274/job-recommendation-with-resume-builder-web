@@ -6,18 +6,26 @@ import { clearUserData } from '@/redux/features/userSlice';
 import { Button } from '@/components/ui/button';
 import ReactDOM from 'react-dom';
 import { io } from 'socket.io-client';
-
+import { fetRecruiter } from '@/redux/features/recruiterSlice';
 const Header = ({ setIsLoading }) => {
     const { isSignedIn } = useSelector((state) => state.auth);
     const { data: userData } = useSelector((state) => state.user);
+    const { data: recruiterData } = useSelector((state) => state.recruiter);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-    const [notification, setNotification] = useState(null);
+    const [notifications, setNotifications] = useState(recruiterData?.notifications || []);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const toggleDropdown = () => setIsDropdownOpen((prev) => !prev);
-    const toggleModal = () => setIsModalOpen((prev) => !prev);
+    // console.log(notifications);
+    // console.log(recruiterData);
+
+    useEffect(() => {
+        if (recruiterData?.notifications) {
+            dispatch(fetRecruiter);
+            setNotifications(recruiterData.notifications);
+        }
+    }, [recruiterData]);
 
     useEffect(() => {
         if (userData?._id) {
@@ -31,23 +39,24 @@ const Header = ({ setIsLoading }) => {
                 console.log('WebSocket connection error:', error);
             });
 
-            console.log('Registering user with ID:', userData._id);
-
             socket.emit('register', userData._id);
 
             socket.on('notification', (data) => {
-                setNotification(data.message);
+                console.log(data);
+                setNotifications((prev) => [data?.notificationItem, ...prev]);
             });
 
             return () => {
                 socket.disconnect();
             };
         }
-    }, [userData, setNotification]);
+    }, [userData]);
+
+    const toggleDropdown = () => setIsDropdownOpen((prev) => !prev);
+    const toggleModal = () => setIsModalOpen((prev) => !prev);
 
     const handleLogout = async () => {
         setIsLoading(true);
-
         setTimeout(() => {
             dispatch(logout());
             dispatch(clearUserData());
@@ -56,15 +65,23 @@ const Header = ({ setIsLoading }) => {
         navigate('/');
     };
 
+    const getColorByType = (type) => {
+        switch (type) {
+            case 'POST_APPROVAL':
+                return 'bg-green-100 text-green-800';
+            case 'RESUME_APPROVAL':
+                return 'bg-red-100 text-red-800';
+            case 'APPLICATION':
+                return 'bg-yellow-100 text-yellow-800';
+            default:
+                return 'bg-gray-100 text-gray-800';
+        }
+    };
+
     return (
         <div
             id="no-print"
             className="fixed top-0 left-0 w-full p-4 px-6 flex justify-between items-center z-50 shadow-md"
-            style={{
-                backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                backdropFilter: 'blur(10px)',
-                WebkitBackdropFilter: 'blur(10px)',
-            }}
         >
             <Link to={'/'} className="font-bold text-2xl flex items-center text-white">
                 <img src="/logo.svg" width={32} height={32} alt="Logo" />
@@ -87,9 +104,9 @@ const Header = ({ setIsLoading }) => {
                             {userData?.username && (
                                 <span className="ml-3 text-white font-medium cursor-pointer select-none relative">
                                     {userData.username}
-                                    {notification && (
+                                    {notifications.length > 0 && (
                                         <div className="absolute -top-2 -right-4 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
-                                            1
+                                            {notifications.length}
                                         </div>
                                     )}
                                 </span>
@@ -110,7 +127,7 @@ const Header = ({ setIsLoading }) => {
                                     className="block p-2 hover:bg-blue-200 hover:text-black cursor-pointer"
                                     onClick={toggleModal}
                                 >
-                                    Thông báo {notification && '(1)'}
+                                    Thông báo ({notifications.length})
                                 </div>
                                 <Link
                                     to="/recruiter-register"
@@ -139,9 +156,29 @@ const Header = ({ setIsLoading }) => {
             {isModalOpen &&
                 ReactDOM.createPortal(
                     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                        <div className="bg-white p-6 rounded shadow-lg w-96">
+                        <div className="bg-white p-6 rounded shadow-lg w-120 max-h-[80vh] overflow-hidden flex flex-col">
                             <h2 className="text-lg font-bold mb-4">Thông báo</h2>
-                            <p>{notification || 'Không có thông báo mới.'}</p>
+                            <div className="flex-1 overflow-y-auto">
+                                <ul className="space-y-2 list-none">
+                                    {notifications.length > 0 ? (
+                                        notifications.map((notification, index) => {
+                                            return (
+                                                <li
+                                                    key={index}
+                                                    className={`p-4 rounded shadow ${getColorByType(
+                                                        notification.type,
+                                                    )}`}
+                                                >
+                                                    <h3 className="font-bold">{notification.title}</h3>
+                                                    <p>{notification.message}</p>
+                                                </li>
+                                            );
+                                        })
+                                    ) : (
+                                        <li>Không có thông báo nào.</li>
+                                    )}
+                                </ul>
+                            </div>
                             <div className="mt-4 flex justify-end">
                                 <button
                                     className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"

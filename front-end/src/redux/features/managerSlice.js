@@ -75,7 +75,7 @@ export const recruiterValidated = createAsyncThunk(
 
             return response.data.data;
         } catch (error) {
-            return rejectWithValue(error.response?.data?.message || 'Failed to fetch resumes data');
+            return rejectWithValue(error.response?.data?.message || 'Failed to approving recruiter resume');
         }
     },
 );
