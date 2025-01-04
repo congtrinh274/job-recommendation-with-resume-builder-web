@@ -102,6 +102,25 @@ export const uploadLicense = createAsyncThunk(
     },
 );
 
+export const uploadImg = createAsyncThunk('candidate/uploadImg', async ({ data }, { rejectWithValue, getState }) => {
+    try {
+        const { auth } = getState();
+        const token = auth?.token;
+
+        if (!token) {
+            throw new Error('No token found');
+        }
+
+        const response = await axios.put(`http://localhost:5000/api/recruiters/upload-img`, data, {
+            headers: { Authorization: token },
+        });
+
+        return response.data;
+    } catch (error) {
+        return rejectWithValue(error.response?.data?.message || 'Failed to update candidate CVs');
+    }
+});
+
 export const fetchCategoryJobs = createAsyncThunk('jobCategory/fetchCategoryJobs', async () => {
     const response = await axios.get('http://localhost:5000/api/job-categories');
     return response.data.data;
@@ -124,6 +143,32 @@ export const createJob = createAsyncThunk('jobCategory/createJob', async (jobDat
         return rejectWithValue(error.response.data);
     }
 });
+
+export const changeApplicationState = createAsyncThunk(
+    'jobCategory/changeApplicationState',
+    async ({ state, jobId }, { rejectWithValue, getState }) => {
+        console.log(state);
+        try {
+            const { auth } = getState();
+            const token = auth?.token;
+
+            if (!token) {
+                throw new Error('No token found');
+            }
+
+            const response = await axios.post(
+                `http://localhost:5000/api/jobs/change-application-state/${jobId}`,
+                { state },
+                {
+                    headers: { Authorization: token },
+                },
+            );
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response.data);
+        }
+    },
+);
 
 const recruiterSlice = createSlice({
     name: 'recruiter',
@@ -214,6 +259,23 @@ const recruiterSlice = createSlice({
                 state.error = action.payload;
             })
 
+            // -----
+
+            .addCase(uploadImg.pending, (state) => {
+                state.isLoading = true;
+                state.error = null;
+            })
+            .addCase(uploadImg.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.data = action.payload;
+                state.error = null;
+            })
+            .addCase(uploadImg.rejected, (state, action) => {
+                state.isLoading = false;
+                state.data = null;
+                state.error = action.payload;
+            })
+
             // Fetch categories
             .addCase(fetchCategoryJobs.pending, (state) => {
                 state.isLoading = true;
@@ -245,6 +307,21 @@ const recruiterSlice = createSlice({
                 state.error = null;
             })
             .addCase(createJob.rejected, (state, action) => {
+                state.isLoading = false;
+                state.error = action.payload;
+            })
+
+            // change application state
+            .addCase(changeApplicationState.pending, (state) => {
+                state.isLoading = true;
+                state.error = null;
+            })
+            .addCase(changeApplicationState.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.data = action.payload;
+                state.error = null;
+            })
+            .addCase(changeApplicationState.rejected, (state, action) => {
                 state.isLoading = false;
                 state.error = action.payload;
             });

@@ -18,7 +18,6 @@ function CreateResume() {
         setResumeTitle(event.target.value);
     };
 
-    console.log(resumeTitle);
     const handleCreate = async () => {
         if (!resumeTitle) {
             alert('Vui lòng nhập tên hồ sơ của bạn');

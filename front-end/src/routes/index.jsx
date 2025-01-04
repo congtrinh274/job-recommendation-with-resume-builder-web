@@ -42,7 +42,7 @@ const router = createBrowserRouter([
                 errorElement: <ErrorPage />,
             },
             {
-                path: '/candidate-jobs-page',
+                path: '/candidate-jobs-page/:cvId',
                 element: <JobsViewWithUploadCV />,
                 errorElement: <ErrorPage />,
             },

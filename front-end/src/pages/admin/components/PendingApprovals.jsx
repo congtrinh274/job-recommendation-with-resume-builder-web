@@ -47,7 +47,7 @@ const PendingApprovals = () => {
             <div className="p-4 vw">
                 <h2 className="text-2xl font-semibold mb-4">Công việc chưa xét duyệt</h2>
                 <div className="overflow-x-auto w-full">
-                    {filteredJobs.length > 0 ? (
+                    {filteredJobs?.length > 0 ? (
                         <table className="bg-white border border-gray-200 rounded-lg shadow-md w-full table-fixed">
                             <thead className="bg-gray-100">
                                 <tr>

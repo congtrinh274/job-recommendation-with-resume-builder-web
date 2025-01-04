@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { fetchUser } from './redux/features/userSlice';
-import { JobProvider } from './context/JobListContext';
+import Footer from './components/custom/Footer';
 
 function App() {
     const dispatch = useDispatch();
@@ -21,7 +21,7 @@ function App() {
     }, [dispatch, isSignedIn, userData]);
 
     return (
-        <JobProvider>
+        <p>
             <div className="relative">
                 <video autoPlay muted loop className="absolute top-0 left-0 w-full h-full object-cover z-0">
                     <source src="/2611250-uhd_3840_2160_30fps.mp4" type="video/mp4" />
@@ -36,10 +36,11 @@ function App() {
                     )}
                     <Header setIsLoading={setIsLoading} />
                     <Outlet context={{ isLoading, setIsLoading }} />
+                    <Footer />
                 </div>
             </div>
             <ToastContainer />
-        </JobProvider>
+        </p>
     );
 }
 

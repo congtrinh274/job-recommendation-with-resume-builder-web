@@ -10,21 +10,19 @@ import { Button } from '@/components/ui/button';
 
 const apiBaseUrl = import.meta.env.VITE_SERVER_URL;
 
-const JobDetailModal = ({ isOpen, onClose, job }) => {
+const JobDetailModal = ({ isOpen, onClose, job, root }) => {
     function formatDate(date) {
         return new Date(date).toLocaleDateString();
     }
 
-    console.log(job);
     const getJobApprovalStatus = (approvedState) => {
-        console.log(approvedState);
         switch (approvedState) {
             case 'APPROVED':
                 return 'Đã duyệt';
             case 'CANCELED':
                 return 'Đã hủy';
             case 'PENDING':
-                return 'Chưa duyệt';
+                return 'Chờ xét duyệt';
             default:
                 return 'Trạng thái không xác định';
         }
@@ -38,9 +36,9 @@ const JobDetailModal = ({ isOpen, onClose, job }) => {
                     <DialogDescription>Thông tin chi tiết về công việc và nhà tuyển dụng.</DialogDescription>
                 </DialogHeader>
                 <div className="flex">
-                    <div className=" flex-[0.7] pr-2 ">
+                    <div className=" flex-[1]  pr-2 ">
                         <h3 className="text-lg font-semibold mb-4 border-b">Thông tin công việc</h3>
-                        <div className="grid grid-cols-2 pr-4 border-r overflow-y-auto max-h-[65vh]">
+                        <div className="grid grid-cols-2 pr-4 border-r overflow-y-auto max-h-[65vh] ">
                             <div>
                                 <strong>Vị trí:</strong> {job?.title}
                             </div>
@@ -77,39 +75,41 @@ const JobDetailModal = ({ isOpen, onClose, job }) => {
                         </div>
                     </div>
 
-                    <div className="flex-[0.3] pl-4">
-                        <h3 className="text-lg font-semibold mb-4 border-b">Thông tin nhà tuyển dụng</h3>
-                        <div className="grid grid-cols-1 gap-2 text-sm">
-                            <p>
-                                <strong>ID NTD:</strong> {job?.recruiterId?._id}
-                            </p>
-                            <p>
-                                <strong>Công ty:</strong> {job?.recruiterId?.companyName}
-                            </p>
-                            <p>
-                                <strong>Mã số thuế:</strong> {job?.recruiterId?.taxCode}
-                            </p>
-                            <p>
-                                <strong>Email:</strong> {job?.recruiterId?.email}
-                            </p>
-                            <p>
-                                <strong>Địa chỉ:</strong>{' '}
-                                {`${job?.recruiterId?.district}, ${job?.recruiterId?.province}`}
-                            </p>
-                            <p>
-                                <strong>Website:</strong>{' '}
-                                <a className="cursor-pointer" href={job?.recruiterId?.webLink} target="_blank">
-                                    Truy cập
-                                </a>
-                            </p>
-                            <p>
-                                <strong>Giấy phép:</strong>{' '}
-                                <a href={`${apiBaseUrl}${job?.recruiterId?.businessLicense}`} target="_blank">
-                                    Xem
-                                </a>
-                            </p>
+                    {root !== 'recruiter' && (
+                        <div className="flex-[0.3] pl-4">
+                            <h3 className="text-lg font-semibold mb-4 border-b">Thông tin nhà tuyển dụng</h3>
+                            <div className="grid grid-cols-1 gap-2 text-sm">
+                                <p>
+                                    <strong>ID NTD:</strong> {job?.recruiterId?._id}
+                                </p>
+                                <p>
+                                    <strong>Công ty:</strong> {job?.recruiterId?.companyName}
+                                </p>
+                                <p>
+                                    <strong>Mã số thuế:</strong> {job?.recruiterId?.taxCode}
+                                </p>
+                                <p>
+                                    <strong>Email:</strong> {job?.recruiterId?.email}
+                                </p>
+                                <p>
+                                    <strong>Địa chỉ:</strong>{' '}
+                                    {`${job?.recruiterId?.district}, ${job?.recruiterId?.province}`}
+                                </p>
+                                <p>
+                                    <strong>Website:</strong>{' '}
+                                    <a className="cursor-pointer" href={job?.recruiterId?.webLink} target="_blank">
+                                        Truy cập
+                                    </a>
+                                </p>
+                                <p>
+                                    <strong>Giấy phép:</strong>{' '}
+                                    <a href={`${apiBaseUrl}${job?.recruiterId?.businessLicense}`} target="_blank">
+                                        Xem
+                                    </a>
+                                </p>
+                            </div>
                         </div>
-                    </div>
+                    )}
                 </div>
                 <DialogFooter>
                     <Button variant="outline" className="bg-red-500 text-white " onClick={onClose}>

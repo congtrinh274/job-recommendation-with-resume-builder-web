@@ -5,7 +5,8 @@ import { useEffect, useRef, useState } from 'react';
 import vietnamAddress from '@/data/vietnamAddress.json';
 import { Button } from '@/components/ui/button';
 import { ArrowRightIcon, LoaderCircle } from 'lucide-react';
-import { fetRecruiter, updateRecruiter, uploadLicense } from '@/redux/features/recruiterSlice';
+import { fetRecruiter, updateRecruiter, uploadImg, uploadLicense } from '@/redux/features/recruiterSlice';
+import { toast } from 'react-toastify';
 
 const apiBaseUrl = import.meta.env.VITE_SERVER_URL;
 
@@ -15,9 +16,12 @@ function PersonalInfo() {
     const [districts, setDistricts] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
     const [selectedFile, setSelectedFile] = useState(null);
+    const [avtFile, setAvtFile] = useState(null);
 
     const [dragActive, setDragActive] = useState(false);
     const fileInputRef = useRef();
+
+    console.log(data);
 
     const handleFileChange = (event) => {
         const file = event.target.files[0];
@@ -91,6 +95,39 @@ function PersonalInfo() {
         }
     };
 
+    const handleImageChange = async (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setAvtFile(file);
+            try {
+                const formData = new FormData();
+
+                formData.append('file', file);
+
+                const result = await dispatch(uploadImg({ data: formData }));
+
+                if (result.error) {
+                    alert(result.payload);
+                    setIsLoading(false);
+                } else {
+                    dispatch(fetRecruiter());
+                    setIsLoading(false);
+                    toast.success('Tải ảnh thành công!');
+                }
+            } catch (err) {
+                console.error(err);
+                setIsLoading(false);
+            }
+        }
+    };
+
+    const filePreview = (file) => {
+        if (file && file.type.startsWith('image')) {
+            return URL.createObjectURL(file);
+        }
+        return '';
+    };
+
     const handleUpload = async () => {
         if (selectedFile) {
             setIsLoading(true);
@@ -142,6 +179,34 @@ function PersonalInfo() {
                 <h2 className="font-bold text-primary">
                     Cấp 1 * <span className="text-red-500">Thông tin doanh nghiệp</span>
                 </h2>
+                <div className="col-span-2">
+                    <label className="text-xs mb-1 font-bold">Ảnh đại diện</label>
+                    <div className="flex flex-col items-center">
+                        <div
+                            className="border-dashed border-2 p-4 rounded-lg text-center cursor-pointer"
+                            onClick={() => document.getElementById('fileInput').click()}
+                            style={{ backgroundColor: '#f9f9f9' }}
+                        >
+                            <input
+                                type="file"
+                                id="fileInput"
+                                name="avatar"
+                                onChange={handleImageChange}
+                                accept="image/*"
+                                className="hidden"
+                            />
+                            <p className="text-gray-500">Tải lên từ máy tính</p>
+                        </div>
+
+                        {data?.imgUrl && (
+                            <img
+                                src={data?.imgUrl ? `${apiBaseUrl}${data?.imgUrl}` : filePreview(avtFile)}
+                                alt="Preview"
+                                className="w-32 h-32 object-cover rounded-full mt-4"
+                            />
+                        )}
+                    </div>
+                </div>
                 <form onSubmit={onSave}>
                     <div className="grid grid-cols-2 mt-2 gap-5">
                         <div className="">

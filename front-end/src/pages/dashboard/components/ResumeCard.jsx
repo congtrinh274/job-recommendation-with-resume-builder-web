@@ -4,7 +4,6 @@ import { useNavigate, useOutletContext } from 'react-router-dom';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { deleteCV } from '@/redux/features/candidateSlice';
-import { useJobListContext } from '@/context/JobListContext';
 
 const apiBaseUrl = import.meta.env.VITE_SERVER_URL;
 
@@ -14,12 +13,11 @@ const ResumeCard = ({ cvData, img }) => {
     const [cvToDelete, setCvToDelete] = useState(null);
     const navigate = useNavigate();
     const { setIsLoading } = useOutletContext();
-    const { setRecommendedJobs } = useJobListContext();
     const dispatch = useDispatch();
 
-    const handleGetRecommendedJobsWithUploadedCV = async (uploadedCV, title) => {
+    const handleGetRecommendedJobsWithUploadedCV = async (cvData) => {
         try {
-            const fileResponse = await axios.get(`${apiBaseUrl}${uploadedCV}`, {
+            const fileResponse = await axios.get(`${apiBaseUrl}${cvData.uploadedCV}`, {
                 responseType: 'blob',
             });
 
@@ -47,23 +45,23 @@ const ResumeCard = ({ cvData, img }) => {
                 body: formData,
             });
 
+            const title = cvData.title;
             if (response.ok) {
                 const data = await response.json();
 
                 const localStorageData = {
                     recommendedJobs: data.recommended_jobs,
-                    uploadedCVBase64: base64File,
-                    uploadedCVTitle: title,
                 };
 
                 localStorage.setItem('candidateRecommendedJobsData', JSON.stringify(localStorageData));
 
-                navigate('/candidate-jobs-page', { state: { file, title } });
+                navigate('/candidate-jobs-page/' + cvData._id, { state: { file, title } });
             } else {
                 const errorData = await response.json();
                 console.error(errorData.error || 'Có lỗi xảy ra khi tải lên.');
             }
         } catch (error) {
+            setIsLoading(false);
             console.error('Lỗi khi xử lý file:', error);
         } finally {
             setIsLoading(false);
@@ -72,12 +70,18 @@ const ResumeCard = ({ cvData, img }) => {
 
     const handleGetRecommendedJobsWithCVData = async (cvData) => {
         const apiUrl = 'http://127.0.0.1:5000/get-jobs-wcvdata';
+        setIsLoading(true);
         try {
             const response = await axios.post(apiUrl, cvData);
-            console.log(response.data.recommended_jobs);
-            setRecommendedJobs(response.data.recommended_jobs);
+            const localStorageData = {
+                recommendedJobs: response.data.recommended_jobs,
+            };
+
+            localStorage.setItem('candidateRecommendedJobsWithCVData', JSON.stringify(localStorageData));
+            setIsLoading(false);
             navigate('/candidate-jobs-own-page/' + cvData._id);
         } catch (error) {
+            setIsLoading(false);
             console.error('Error fetching recommended jobs:', error);
             return [];
         }
@@ -142,7 +146,7 @@ const ResumeCard = ({ cvData, img }) => {
                                 if (cvData?.isOwn) {
                                     handleGetRecommendedJobsWithCVData(cvData);
                                 } else {
-                                    handleGetRecommendedJobsWithUploadedCV(cvData.uploadedCV, cvData.title);
+                                    handleGetRecommendedJobsWithUploadedCV(cvData);
                                 }
                             }}
                             className="px-2 py-1 text-sm bg-blue-500 text-white rounded-lg shadow transform transition-all duration-300 hover:bg-blue-600"

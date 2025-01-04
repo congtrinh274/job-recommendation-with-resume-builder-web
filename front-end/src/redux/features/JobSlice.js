@@ -11,6 +11,16 @@ export const fetchJobs = createAsyncThunk('user/fetchJobs', async (_, { rejectWi
     }
 });
 
+export const getJobById = createAsyncThunk('user/getJobById', async (jobId, { rejectWithValue }) => {
+    try {
+        const response = await axios.get(`http://localhost:5000/api/jobs/get-one/${jobId}`);
+
+        return response.data;
+    } catch (error) {
+        return rejectWithValue(error.response?.data?.message || 'Failed to fetch user data');
+    }
+});
+
 export const approveJob = createAsyncThunk(
     'jobs/approveJob',
     async ({ jobId, recruiterId, approvedState, cancelReason }, { rejectWithValue, getState }) => {
@@ -43,6 +53,7 @@ const jobSlice = createSlice({
     initialState: {
         isLoading: false,
         jobs: null,
+        currentJob: null,
         error: null,
     },
     extraReducers: (builder) => {
@@ -74,6 +85,21 @@ const jobSlice = createSlice({
             .addCase(approveJob.rejected, (state, action) => {
                 state.isLoading = false;
                 state.jobs = null;
+                state.error = action.payload;
+            })
+
+            .addCase(getJobById.pending, (state) => {
+                state.isLoading = true;
+                state.error = null;
+            })
+            .addCase(getJobById.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.currentJob = action.payload;
+                state.error = null;
+            })
+            .addCase(getJobById.rejected, (state, action) => {
+                state.isLoading = false;
+                state.currentJob = null;
                 state.error = action.payload;
             });
     },
