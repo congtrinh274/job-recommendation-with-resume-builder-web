@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-export const fetCandidate = createAsyncThunk('candidate/fetchCandidate', async (_, { rejectWithValue, getState }) => {
+export const fetchCandidate = createAsyncThunk('candidate/fetchCandidate', async (_, { rejectWithValue, getState }) => {
     try {
         const { auth } = getState();
         const token = auth?.token;
@@ -152,16 +152,16 @@ const candidateSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            .addCase(fetCandidate.pending, (state) => {
+            .addCase(fetchCandidate.pending, (state) => {
                 state.isLoading = true;
                 state.error = null;
             })
-            .addCase(fetCandidate.fulfilled, (state, action) => {
+            .addCase(fetchCandidate.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.data = action.payload;
                 state.error = null;
             })
-            .addCase(fetCandidate.rejected, (state, action) => {
+            .addCase(fetchCandidate.rejected, (state, action) => {
                 state.isLoading = false;
                 state.data = null;
                 state.error = action.payload;

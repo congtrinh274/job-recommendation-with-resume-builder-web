@@ -388,7 +388,7 @@ function PersonalInfo() {
                             >
                                 {isLoading ? (
                                     <LoaderCircle className="animate-spin" />
-                                ) : data.businessLicense ? (
+                                ) : data?.businessLicense ? (
                                     'Cập nhật'
                                 ) : (
                                     'Tải lên'

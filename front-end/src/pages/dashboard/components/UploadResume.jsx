@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { fetCandidate, uploadCV } from '@/redux/features/candidateSlice';
+import { fetchCandidate, uploadCV } from '@/redux/features/candidateSlice';
 
 function UploadResume() {
     const dispatch = useDispatch();
@@ -68,7 +68,7 @@ function UploadResume() {
                     alert(result.payload);
                     setResumeTitle('');
                 } else {
-                    dispatch(fetCandidate());
+                    dispatch(fetchCandidate());
                     setOpenDialog(false);
                 }
             } catch (err) {

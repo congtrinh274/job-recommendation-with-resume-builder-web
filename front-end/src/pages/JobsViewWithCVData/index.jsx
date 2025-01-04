@@ -26,7 +26,7 @@ const JobViewWithCVData = () => {
     }, [cvId, dispatch]);
 
     useEffect(() => {
-        const savedData = localStorage.getItem('candidateRecommendedJobsWithCVData');
+        const savedData = localStorage.getItem('candidateRecommendedJobsData');
 
         if (savedData) {
             try {

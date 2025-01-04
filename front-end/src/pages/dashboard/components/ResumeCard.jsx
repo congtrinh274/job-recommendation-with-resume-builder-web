@@ -25,16 +25,6 @@ const ResumeCard = ({ cvData, img }) => {
                 type: 'application/pdf',
             });
 
-            const convertToBase64 = (file) =>
-                new Promise((resolve, reject) => {
-                    const reader = new FileReader();
-                    reader.onload = () => resolve(reader.result);
-                    reader.onerror = (error) => reject(error);
-                    reader.readAsDataURL(file);
-                });
-
-            const base64File = await convertToBase64(file);
-
             setIsLoading(true);
 
             const formData = new FormData();
@@ -51,6 +41,7 @@ const ResumeCard = ({ cvData, img }) => {
 
                 const localStorageData = {
                     recommendedJobs: data.recommended_jobs,
+                    currentCvId: cvData._id,
                 };
 
                 localStorage.setItem('candidateRecommendedJobsData', JSON.stringify(localStorageData));
@@ -75,9 +66,10 @@ const ResumeCard = ({ cvData, img }) => {
             const response = await axios.post(apiUrl, cvData);
             const localStorageData = {
                 recommendedJobs: response.data.recommended_jobs,
+                currentCvId: cvData._id,
             };
 
-            localStorage.setItem('candidateRecommendedJobsWithCVData', JSON.stringify(localStorageData));
+            localStorage.setItem('candidateRecommendedJobsData', JSON.stringify(localStorageData));
             setIsLoading(false);
             navigate('/candidate-jobs-own-page/' + cvData._id);
         } catch (error) {

@@ -39,15 +39,6 @@ const Home = () => {
                 </div>
 
                 <div className="w-1/2 p-8 flex flex-col justify-center gap-6 opacity-90">
-                    <div className="w-full">
-                        <FileUpload
-                            title="Tải Lên Hồ Sơ Xin Việc"
-                            acceptFileTypes=".pdf,.docx"
-                            btnName="Xem danh sách công việc được đề xuất"
-                            redirectPath="/guests-jobs-page"
-                        />
-                    </div>
-
                     <button
                         onClick={handleCreateCVBtn}
                         className="bg-blue-500 text-white px-6 py-3 rounded-lg font-bold hover:bg-blue-400 transition"

@@ -48,6 +48,36 @@ export const approveJob = createAsyncThunk(
     },
 );
 
+export const applyJob = createAsyncThunk(
+    'jobs/applyJob',
+    async ({ jobId, cvId, appliedLetter, fullName, email, phone }, { rejectWithValue, getState }) => {
+        try {
+            const { auth } = getState();
+            const token = auth?.token;
+
+            if (!token) {
+                throw new Error('No token found');
+            }
+
+            const response = await axios.post(
+                `http://localhost:5000/api/jobs/apply/${jobId}`,
+                {
+                    cvId,
+                    appliedLetter,
+                    fullName,
+                    email,
+                    phone,
+                },
+                { headers: { Authorization: token } },
+            );
+
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response?.data?.message || 'Failed to apply for job');
+        }
+    },
+);
+
 const jobSlice = createSlice({
     name: 'job',
     initialState: {
@@ -100,6 +130,22 @@ const jobSlice = createSlice({
             .addCase(getJobById.rejected, (state, action) => {
                 state.isLoading = false;
                 state.currentJob = null;
+                state.error = action.payload;
+            })
+
+            .addCase(applyJob.pending, (state) => {
+                state.isLoading = true;
+                state.applicationStatus = null;
+                state.error = null;
+            })
+            .addCase(applyJob.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.currentJob = action.payload;
+                state.error = null;
+            })
+            .addCase(applyJob.rejected, (state, action) => {
+                state.isLoading = false;
+                state.applicationStatus = 'failed';
                 state.error = action.payload;
             });
     },

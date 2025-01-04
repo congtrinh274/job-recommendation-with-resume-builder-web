@@ -21,7 +21,7 @@ function App() {
     }, [dispatch, isSignedIn, userData]);
 
     return (
-        <p>
+        <>
             <div className="relative">
                 <video autoPlay muted loop className="absolute top-0 left-0 w-full h-full object-cover z-0">
                     <source src="/2611250-uhd_3840_2160_30fps.mp4" type="video/mp4" />
@@ -40,7 +40,7 @@ function App() {
                 </div>
             </div>
             <ToastContainer />
-        </p>
+        </>
     );
 }
 

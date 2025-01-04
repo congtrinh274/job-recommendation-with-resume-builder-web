@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import ResumeCard from './components/ResumeCard';
 import { useEffect } from 'react';
-import { fetCandidate } from '@/redux/features/candidateSlice';
+import { fetchCandidate } from '@/redux/features/candidateSlice';
 import CreateResume from './components/CreateResumes';
 import UploadResume from './components/UploadResume';
 
@@ -12,7 +12,7 @@ function Dashboard() {
 
     useEffect(() => {
         if (isSignedIn && !candidateData) {
-            dispatch(fetCandidate());
+            dispatch(fetchCandidate());
         }
     }, [dispatch, isSignedIn, candidateData]);
 

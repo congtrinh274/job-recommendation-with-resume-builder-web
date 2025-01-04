@@ -97,7 +97,7 @@ export const uploadLicense = createAsyncThunk(
 
             return response.data;
         } catch (error) {
-            return rejectWithValue(error.response?.data?.message || 'Failed to update candidate CVs');
+            return rejectWithValue(error.response?.data?.message || 'Lỗi tải lên file');
         }
     },
 );
@@ -117,7 +117,7 @@ export const uploadImg = createAsyncThunk('candidate/uploadImg', async ({ data }
 
         return response.data;
     } catch (error) {
-        return rejectWithValue(error.response?.data?.message || 'Failed to update candidate CVs');
+        return rejectWithValue(error.response?.data?.message || 'Lỗi tải lên ảnh');
     }
 });
 

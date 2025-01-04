@@ -17,6 +17,7 @@ import AdminHome from '@/pages/admin';
 import Recruiter from '@/pages/Recruiter';
 import RecruiterRegister from '@/pages/Recruiter/recruiterRegister';
 import RecruiterDashboard from '@/pages/Recruiter/RecruiterDashboard';
+import JobDetail from '@/pages/JobDetail/JobDetail';
 
 const router = createBrowserRouter([
     {
@@ -70,6 +71,11 @@ const router = createBrowserRouter([
             {
                 path: '/resume-preview/:cvId',
                 element: <ResumeView />,
+                errorElement: <ErrorPage />,
+            },
+            {
+                path: '/job-detail/:jobId',
+                element: <JobDetail />,
                 errorElement: <ErrorPage />,
             },
             {

@@ -1,12 +1,16 @@
 import PropTypes from 'prop-types';
 import Tooltip from './Tooltip'; // Import Tooltip
+import { useNavigate } from 'react-router-dom';
 
 const apiBaseUrl = import.meta.env.VITE_SERVER_URL;
 
 const JobItem = ({ job, recruiterData, itemKey }) => {
-    console.log(recruiterData);
-
     const isDivisibleByThree = itemKey % 3 === 0;
+    const navigate = useNavigate();
+
+    const handleGetJobDetail = (jobId) => {
+        navigate('/job-detail/' + jobId);
+    };
 
     return (
         <div key={itemKey} className="w-full h-[100px] border shadow-md bg-white relative hover:bg-gray-200">
@@ -20,7 +24,10 @@ const JobItem = ({ job, recruiterData, itemKey }) => {
                 </div>
                 <div className="w-2/3 pl-2 -ml-8">
                     <div className="group">
-                        <h2 className="font-semibold text-gray-800 mt-1 group-hover:underline group-hover:text-blue-600 cursor-pointer">
+                        <h2
+                            onClick={() => handleGetJobDetail(job.id)}
+                            className="font-semibold text-gray-800 mt-1 group-hover:underline group-hover:text-blue-600 cursor-pointer"
+                        >
                             {job.title}
                         </h2>
 

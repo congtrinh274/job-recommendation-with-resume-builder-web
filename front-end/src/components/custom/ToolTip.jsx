@@ -1,12 +1,19 @@
 import { Bookmark, ClockAlert, LocateIcon } from 'lucide-react';
 import PropTypes from 'prop-types';
 import { Button } from '../ui/button';
+import { useNavigate } from 'react-router-dom';
 const apiBaseUrl = import.meta.env.VITE_SERVER_URL;
 
 const Tooltip = ({ isDivisibleByThree, recruiterData, job }) => {
     function formatDate(date) {
         return new Date(date).toLocaleDateString();
     }
+
+    const navigate = useNavigate();
+
+    const handleGetJobDetail = (jobId) => {
+        navigate('/job-detail/' + jobId);
+    };
 
     return (
         <div
@@ -69,8 +76,10 @@ const Tooltip = ({ isDivisibleByThree, recruiterData, job }) => {
                     </div>
                 </div>
                 <div className="flex space-x-5 mt-auto justify-center">
-                    <Button variant="outline">Ứng tuyển</Button>
-                    <Button>Xem chi tiết</Button>
+                    <Button onClick={() => handleGetJobDetail(job?.id)} variant="outline">
+                        Ứng tuyển
+                    </Button>
+                    <Button onClick={() => handleGetJobDetail(job?.id)}>Xem chi tiết</Button>
                 </div>
             </div>
         </div>
