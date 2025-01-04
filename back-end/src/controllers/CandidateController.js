@@ -7,7 +7,6 @@ class CandidateController {
     // [GET] candidates/
     getCandidates = async (req, res) => {
         try {
-            // Sử dụng populate để lấy thông tin của user liên kết qua userId
             const candidates = await Candidate.find().populate('userId').populate('cvs');
             res.status(200).json(candidates);
         } catch (error) {
@@ -30,6 +29,7 @@ class CandidateController {
                 _id: candidate._id,
                 userId: candidate.userId,
                 cvs: candidate.cvs,
+                notifications: candidate.notifications,
             });
         } catch (error) {
             console.error(error);

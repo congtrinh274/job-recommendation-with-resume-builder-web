@@ -10,5 +10,6 @@ router.post('/create', authenticateToken, jobController.createJob);
 router.post('/approved/:jobId', authenticateToken, jobController.jobApproved);
 router.post('/change-application-state/:jobId', authenticateToken, jobController.changeAcceptingApplicationState);
 router.post('/apply/:jobId', authenticateToken, jobController.getApplication);
+router.post('/update-application-state', authenticateToken, jobController.updateApplicationState);
 
 module.exports = router;

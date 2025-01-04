@@ -21,6 +21,7 @@ const jobSchema = new mongoose.Schema(
                 fullName: { type: String },
                 email: { type: String },
                 phone: { type: String },
+                isApplied: { type: String, enum: ['PENDING', 'APPLIED', 'CANCELED'], default: 'PENDING' },
             },
         ],
     },
