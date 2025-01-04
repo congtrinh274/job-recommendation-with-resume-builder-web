@@ -126,6 +126,36 @@ class RecruiterController {
         }
     };
 
+    // [PUT] recruiter/upload-img
+    uploadImg = async (req, res) => {
+        try {
+            const userId = req.user?._id;
+            const file = req.file;
+
+            console.log(file);
+
+            if (!file) {
+                return res.status(400).json({ message: 'No file provided or invalid file type.' });
+            }
+
+            const recruiter = await Recruiter.findOne({ userId: userId }).populate('userId');
+            if (!recruiter) {
+                return res.status(404).json({ message: 'Recruiter not found' });
+            }
+
+            recruiter.imgUrl = `/uploads/${file.filename}`;
+            await recruiter.save();
+
+            res.status(200).json({
+                message: 'upload Successfully',
+                data: recruiter,
+            });
+        } catch (error) {
+            console.error(error);
+            res.status(500).json({ message: 'Error uploading img', error: error.message });
+        }
+    };
+
     // [PUT] recruiters/update
     updateRecruiter = async (req, res) => {
         try {

@@ -5,6 +5,7 @@ const recruiterSchema = new mongoose.Schema(
         userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
         fullName: { type: String },
         email: { type: String, required: true },
+        imgUrl: { type: String },
         validateEmail: { type: Boolean, default: false },
         verificationCode: { type: String },
         verificationExpires: { type: Date },

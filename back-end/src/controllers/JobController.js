@@ -17,6 +17,20 @@ class JobController {
         }
     };
 
+    // [GET] jobs/get-one/:jobId
+    getJobById = async (req, res) => {
+        const { jobId } = req.params;
+        try {
+            const job = await Job.findById(jobId)
+                .populate('recruiterId')
+                .populate('categoryId')
+                .populate('appliedList');
+            res.status(200).json(job);
+        } catch (error) {
+            res.status(500).json({ error: 'Internal server error' });
+        }
+    };
+
     // POST /jobs/create
     createJob = async (req, res) => {
         try {
@@ -131,7 +145,33 @@ class JobController {
             const jobs = await Job.find().populate('recruiterId').populate('categoryId');
             return res.status(200).json({ message: 'Updated successfully!', data: jobs });
         } catch (error) {
-            console.error(error);
+            return res.status(500).json({ message: 'Internal server error' });
+        }
+    };
+
+    // [POST] jobs/change-application-state/:jobId
+    changeAcceptingApplicationState = async (req, res) => {
+        const userId = req.user?._id;
+        const { state } = req.body;
+        const { jobId } = req.params;
+
+        console.log(state);
+        try {
+            const recruiter = await Recruiter.findOne({ userId: userId }).populate('userId').populate('postedJobs');
+            if (!recruiter) {
+                return res.status(404).json({ message: 'Recruiter not found!' });
+            }
+
+            const job = await Job.findById(jobId);
+            if (!job) {
+                return res.status(404).json({ message: 'Job not found.' });
+            }
+
+            job.isCanceled = state;
+            job.save();
+
+            res.status(200).json(recruiter);
+        } catch (error) {
             return res.status(500).json({ message: 'Internal server error' });
         }
     };

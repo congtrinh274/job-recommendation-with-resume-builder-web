@@ -12,5 +12,6 @@ router.post('/verified-code', authenticateToken, recruiterController.verifiedMai
 router.post('/validated', authenticateToken, recruiterController.recruiterValidated);
 router.put('/update', authenticateToken, recruiterController.updateRecruiter);
 router.put('/upload-license', authenticateToken, upload.single('file'), recruiterController.uploadLicense);
+router.put('/upload-img', authenticateToken, upload.single('file'), recruiterController.uploadImg);
 
 module.exports = router;
