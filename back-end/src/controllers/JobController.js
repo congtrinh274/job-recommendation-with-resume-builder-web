@@ -4,6 +4,7 @@ const Job = require('../models/Job');
 const Recruiter = require('../models/Recruiter');
 const CategoryJob = require('../models/CategoryJob');
 const User = require('../models/User');
+const Candidate = require('../models/Candidate');
 
 class JobController {
     // [GET] jobs/
@@ -173,6 +174,42 @@ class JobController {
             res.status(200).json(recruiter);
         } catch (error) {
             return res.status(500).json({ message: 'Internal server error' });
+        }
+    };
+
+    // POST jobs/apply/:jobId
+    getApplication = async (req, res) => {
+        const userId = req.user?._id;
+        const { jobId } = req.params;
+        const { cvId, appliedLetter, fullName, email, phone } = req.body;
+        try {
+            const candidate = await Candidate.findOne({ userId: userId });
+            if (!candidate) {
+                return res.status(404).json({ message: 'Candidate not found!' });
+            }
+            const job = await Job.findById(jobId);
+            if (!job) {
+                return res.status(404).json({ message: 'Job not found.' });
+            }
+
+            const alreadyApplied = job.appliedList.some((application) => application.cvId.toString() === cvId);
+            if (alreadyApplied) {
+                return res.status(400).json({ message: 'Bạn đã ứng tuyển công việc này trước đó!' });
+            }
+
+            job.appliedList.push({
+                cvId,
+                appliedLetter,
+                fullName,
+                email,
+                phone,
+            });
+
+            await job.save();
+            return res.status(200).json(job);
+        } catch (error) {
+            console.error(error);
+            return res.status(500).json({ message: 'Internal server error.' });
         }
     };
 }

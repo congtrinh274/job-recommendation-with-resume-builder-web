@@ -15,7 +15,13 @@ const jobSchema = new mongoose.Schema(
         approvedState: { type: String, enum: ['PENDING', 'APPROVED', 'CANCELED'], default: 'PENDING' },
         isCanceled: { type: Boolean, default: false },
         appliedList: [
-            { cvId: { type: mongoose.Schema.Types.ObjectId, ref: 'CV' }, isApplied: { type: Boolean, default: false } },
+            {
+                cvId: { type: mongoose.Schema.Types.ObjectId, ref: 'CV' },
+                appliedLetter: { type: String },
+                fullName: { type: String },
+                email: { type: String },
+                phone: { type: String },
+            },
         ],
     },
     {
