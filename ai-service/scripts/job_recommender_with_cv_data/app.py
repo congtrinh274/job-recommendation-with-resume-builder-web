@@ -1,6 +1,7 @@
 import pandas as pd
 import requests
 import nltk
+from bs4 import BeautifulSoup
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from nltk.corpus import stopwords
@@ -69,12 +70,23 @@ def prepare_cv_description(cv_data):
     description = f"Kỹ năng: {skills}. Kinh nghiệm: {experiences}. Giáo dục: {education}. Tóm tắt: {summary}"
     return description
 
+def clean_html(html_content):
+    if not isinstance(html_content, str):
+        return ""
+    soup = BeautifulSoup(html_content, "html.parser")
+    return soup.get_text(separator=" ").strip()
+
 def prepare_job_description(job_data):
-    skills = ", ".join(job_data.get('skills', [])) 
-    requirements = ". ".join(job_data.get('requirements', []))  
-    
-    description = f"Kỹ năng: {skills}. Yêu cầu công việc: {requirements}."
-    return description
+    description = job_data.get('description', '')
+    requirements = job_data.get('requirements', '')
+    skills = job_data.get('skills', '')
+
+    description_clean = clean_html(description)
+    requirements_clean = clean_html(requirements)
+    skills_clean = clean_html(skills)
+
+    combined_description = f"Kỹ năng: {skills_clean}. Yêu cầu công việc: {requirements_clean}. Mô tả: {description_clean}."
+    return combined_description
 
 
 def recommend_jobs_with_cv_data(cv_data):
@@ -89,11 +101,13 @@ def recommend_jobs_with_cv_data(cv_data):
 
     job_data = pd.DataFrame(job_data_list)
     job_data['Description'] = job_data.apply(lambda row: prepare_job_description(row), axis=1)
+    job_data.to_csv('job_data_list.csv', index=False, encoding='utf-8')
 
     merged_df = pd.concat([job_data, cv_data], ignore_index=True)
 
     merged_df["Desc proc"] = merged_df["Description"].apply(preprocess_data)
     final_data = merged_df[["Link", "Desc proc"]]
+    merged_df.to_csv('final_data.csv', index=False, encoding='utf-8')
 
     vectorizer = TfidfVectorizer()
     tfidf_matrix = vectorizer.fit_transform(final_data['Desc proc'])
@@ -110,16 +124,19 @@ def recommend_jobs_with_cv_data(cv_data):
 
     recommended_jobs = []
     for job in sorted_similar_jobs[1:11]:
+        print(job)
         job_index = job[0]
         recommended_jobs.append({
             "id": merged_df.iloc[job_index].get("_id", "N/A"),
             "recruiterId": merged_df.iloc[job_index].get("recruiterId", "N/A"),
             "title": merged_df.iloc[job_index].get("title", "N/A"),
+            "level": merged_df.iloc[job_index].get("level", "N/A"),
             "description": merged_df.iloc[job_index].get("description", "N/A"),
             "requirements": merged_df.iloc[job_index].get("requirements", "N/A"),
             "skills": merged_df.iloc[job_index].get("skills", "N/A"),
+            "location": merged_df.iloc[job_index]["location"],
             "salary": merged_df.iloc[job_index].get("salary", "N/A"),
-            "location": merged_df.iloc[job_index]["location"]
+            "expiredDate": merged_df.iloc[job_index].get("expiredDate", "N/A"),
         })
 
     return recommended_jobs
