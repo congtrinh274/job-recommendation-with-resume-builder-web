@@ -78,6 +78,31 @@ export const applyJob = createAsyncThunk(
     },
 );
 
+export const updateApplicationListState = createAsyncThunk(
+    'jobCategory/updateApplicationListState',
+    async ({ jobId, cvId, newStatus, responseLetter }, { rejectWithValue, getState }) => {
+        try {
+            const { auth } = getState();
+            const token = auth?.token;
+
+            if (!token) {
+                throw new Error('No token found');
+            }
+
+            const response = await axios.post(
+                `http://localhost:5000/api/jobs/update-application-state`,
+                { jobId, cvId, newStatus, responseLetter },
+                {
+                    headers: { Authorization: token },
+                },
+            );
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response.data);
+        }
+    },
+);
+
 const jobSlice = createSlice({
     name: 'job',
     initialState: {
@@ -146,6 +171,21 @@ const jobSlice = createSlice({
             .addCase(applyJob.rejected, (state, action) => {
                 state.isLoading = false;
                 state.applicationStatus = 'failed';
+                state.error = action.payload;
+            })
+
+            // update application list state
+            .addCase(updateApplicationListState.pending, (state) => {
+                state.isLoading = true;
+                state.error = null;
+            })
+            .addCase(updateApplicationListState.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.currentJob = action.payload;
+                state.error = null;
+            })
+            .addCase(updateApplicationListState.rejected, (state, action) => {
+                state.isLoading = false;
                 state.error = action.payload;
             });
     },

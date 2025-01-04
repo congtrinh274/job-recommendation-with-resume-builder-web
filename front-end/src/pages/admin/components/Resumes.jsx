@@ -7,7 +7,6 @@ const apiBaseUrl = import.meta.env.VITE_SERVER_URL;
 const Resumes = () => {
     const dispatch = useDispatch();
     const { resumes } = useSelector((state) => state.manager);
-    console.log(resumes);
 
     useEffect(() => {
         dispatch(getResumes());

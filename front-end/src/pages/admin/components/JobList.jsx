@@ -85,7 +85,7 @@ const JobList = () => {
                                 {jobs?.map((job, index) => (
                                     <tr key={index} className="border-b border-gray-300">
                                         <td className="px-4 py-2 text-sm whitespace-nowrap overflow-hidden text-ellipsis border border-gray-300">
-                                            {job?.recruiterId._id}
+                                            {job?.recruiterId?._id}
                                         </td>
                                         <td className="px-4 py-2 text-sm  whitespace-nowrap overflow-hidden text-ellipsis border border-gray-300">
                                             {job?.recruiterId?.companyName}
