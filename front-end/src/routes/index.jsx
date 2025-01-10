@@ -18,6 +18,7 @@ import Recruiter from '@/pages/Recruiter';
 import RecruiterRegister from '@/pages/Recruiter/recruiterRegister';
 import RecruiterDashboard from '@/pages/Recruiter/RecruiterDashboard';
 import JobDetail from '@/pages/JobDetail/JobDetail';
+import SignUpPage from '@/pages/auth/signUp';
 
 const router = createBrowserRouter([
     {
@@ -55,6 +56,11 @@ const router = createBrowserRouter([
             {
                 path: '/auth/sign-in',
                 element: <SignInPage />,
+                errorElement: <ErrorPage />,
+            },
+            {
+                path: '/auth/sign-up',
+                element: <SignUpPage />,
                 errorElement: <ErrorPage />,
             },
             {

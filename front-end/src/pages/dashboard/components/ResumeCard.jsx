@@ -4,6 +4,7 @@ import { useNavigate, useOutletContext } from 'react-router-dom';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { deleteCV } from '@/redux/features/candidateSlice';
+import { toast } from 'react-toastify';
 
 const apiBaseUrl = import.meta.env.VITE_SERVER_URL;
 
@@ -93,11 +94,11 @@ const ResumeCard = ({ cvData, img }) => {
             dispatch(deleteCV({ cvId: cvToDelete }))
                 .unwrap()
                 .then(() => {
-                    alert('CV deleted successfully');
+                    toast.success('CV deleted successfully');
                     setIsModalOpen(false);
                 })
                 .catch((error) => {
-                    alert(error);
+                    toast.error(error);
                     setIsModalOpen(false);
                 });
         }

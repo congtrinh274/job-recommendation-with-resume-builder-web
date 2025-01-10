@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { createCV } from '@/redux/features/candidateSlice';
+import { toast } from 'react-toastify';
 
 function CreateResume() {
     const [openDialog, setOpenDialog] = useState(false);
@@ -20,12 +21,12 @@ function CreateResume() {
 
     const handleCreate = async () => {
         if (!resumeTitle) {
-            alert('Vui lòng nhập tên hồ sơ của bạn');
+            toast.warning('Vui lòng nhập tên hồ sơ của bạn');
         } else {
             const result = await dispatch(createCV({ cvData: { title: resumeTitle, isPrimary: false, isOwn: true } }));
 
             if (result.error) {
-                alert(result.payload);
+                toast.error(result.payload);
                 setResumeTitle('');
             } else {
                 const { data } = result.payload;

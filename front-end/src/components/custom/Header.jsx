@@ -114,19 +114,13 @@ const Header = ({ setIsLoading }) => {
 
             <div className="hidden md:flex gap-8 font-semibold">
                 <Link to="/plans" className="hover:text-yellow-300 transition-all text-white">
-                    Plans
+                    Trang chủ
                 </Link>
                 <Link to="/library" className="hover:text-yellow-300 transition-all text-white">
-                    Library
+                    Thông tin
                 </Link>
                 <Link to="/techdegree" className="hover:text-yellow-300 transition-all text-white">
-                    Techdegree
-                </Link>
-                <Link to="/business" className="hover:text-yellow-300 transition-all text-white">
-                    For Business
-                </Link>
-                <Link to="/schools" className="hover:text-yellow-300 transition-all text-white">
-                    For Schools
+                    Việc làm mới
                 </Link>
             </div>
 

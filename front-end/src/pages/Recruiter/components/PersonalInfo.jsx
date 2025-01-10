@@ -30,7 +30,7 @@ function PersonalInfo() {
             if (allowedTypes.includes(file.type)) {
                 setSelectedFile(file);
             } else {
-                alert('Please upload a valid file. Only PDF, JPEG, and PNG are allowed.');
+                toast.warning('Vui lòng tải lên một file hợp lệ(pdf,jpeg,png).');
             }
         }
     };
@@ -53,7 +53,7 @@ function PersonalInfo() {
             if (allowedTypes.includes(file.type)) {
                 setSelectedFile(file);
             } else {
-                alert('Please upload a valid file. Only PDF, JPEG, and PNG are allowed.');
+                toast.warning('Vui lòng tải lên một file hợp lệ(pdf,jpeg,png).');
             }
         }
     };
@@ -88,10 +88,10 @@ function PersonalInfo() {
             const updateData = formData;
             await dispatch(updateRecruiter({ updateData }));
             setIsLoading(false);
-            alert('Cập nhật thông tin thành công!');
+            toast.success('Cập nhật thông tin thành công!');
         } catch (error) {
             setIsLoading(false);
-            alert(error);
+            toast.error(error);
         }
     };
 
@@ -107,7 +107,7 @@ function PersonalInfo() {
                 const result = await dispatch(uploadImg({ data: formData }));
 
                 if (result.error) {
-                    alert(result.payload);
+                    toast.error(result.payload);
                     setIsLoading(false);
                 } else {
                     dispatch(fetRecruiter());
@@ -139,19 +139,19 @@ function PersonalInfo() {
                 const result = await dispatch(uploadLicense({ data: formData }));
 
                 if (result.error) {
-                    alert(result.payload);
+                    toast.error(result.payload);
                     setIsLoading(false);
                 } else {
                     dispatch(fetRecruiter());
                     setIsLoading(false);
-                    alert('Tải thành công!');
+                    toast.success('Tải thành công!');
                 }
             } catch (err) {
                 console.error(err);
                 setIsLoading(false);
             }
         } else {
-            alert('Chưa có file nào được chọn!');
+            toast.error('Chưa có file nào được chọn!');
         }
     };
 

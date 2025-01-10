@@ -6,6 +6,7 @@ import { updateCV } from '@/redux/features/candidateSlice';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { LoaderCircle } from 'lucide-react';
+import { toast } from 'react-toastify';
 
 function PersonalDetailForm({ enableNext }) {
     const { resumeInfo, setResumeInfo } = useContext(ResumeInfoContext);
@@ -36,7 +37,7 @@ function PersonalDetailForm({ enableNext }) {
         try {
             await new Promise((resolve) => setTimeout(resolve, 1000));
             if (!cvId) {
-                alert('Không tìm thấy ID của CV!');
+                toast.warning('Không tìm thấy ID của CV!');
                 return;
             }
 
@@ -47,7 +48,7 @@ function PersonalDetailForm({ enableNext }) {
         } catch (error) {
             console.error('Lỗi khi cập nhật tiêu đề CV:', error);
             setLoading(false);
-            alert(error);
+            toast.error(error);
         }
     };
 

@@ -1,6 +1,13 @@
+import { useNavigate } from 'react-router-dom';
+
 const SignInPage = () => {
+    const navigate = useNavigate();
     const handleLoginWithGoogle = () => {
         window.open('http://localhost:5000/api/auth/google', '_self');
+    };
+
+    const handleLoginWithGithub = () => {
+        window.open('http://localhost:5000/api/auth/github', '_self');
     };
 
     return (
@@ -9,9 +16,9 @@ const SignInPage = () => {
                 {/* Left Panel */}
                 <div className="w-1/2 bg-blue-400 p-8">
                     <h1 className="text-2xl font-bold text-white mb-4">
-                        Tạo <span className="text-red-500">Hồ sơ</span> Và Tìm Công Việc IT Phù Hợp
+                        Tạo <span className="text-blue-800">Hồ sơ</span> Và Tìm Công Việc IT Phù Hợp
                     </h1>
-                    <p className="text-white mb-6">Đăng nhập để bắt đầu</p>
+                    <p className="text-white mb-6 font-bold">Đăng nhập để bắt đầu</p>
                     <img
                         src="/vecteezy_3d-cute-astronaut-isolated_47307951.png"
                         alt="Illustration"
@@ -59,23 +66,28 @@ const SignInPage = () => {
                     <div className="mt-6 text-center text-gray-600">Hoặc đăng nhập với</div>
                     <div className="flex justify-between mt-4">
                         <button
-                            className="w-1/3 bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 transition duration-200 mx-1"
+                            className="w-1/2 bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 transition duration-200 mx-1"
                             onClick={handleLoginWithGoogle}
                         >
                             Google
                         </button>
-                        <button className="w-1/3 bg-blue-700 text-white py-2 rounded-lg hover:bg-blue-800 transition duration-200 mx-1">
-                            Facebook
-                        </button>
-                        <button className="w-1/3 bg-blue-800 text-white py-2 rounded-lg hover:bg-blue-900 transition duration-200 mx-1">
-                            LinkedIn
+                        <button
+                            onClick={handleLoginWithGithub}
+                            className="w-1/2 bg-blue-700 text-white py-2 rounded-lg hover:bg-blue-800 transition duration-200 mx-1"
+                        >
+                            Github
                         </button>
                     </div>
                     <div className="mt-6 text-center">
                         <span className="text-gray-600">Chưa có tài khoản? </span>
-                        <a href="#" className="text-blue-600 hover:underline">
+                        <span
+                            onClick={() => {
+                                navigate('/auth/sign-up');
+                            }}
+                            className="font-semibold text-blue-600 hover:underline"
+                        >
                             Đăng ký
-                        </a>
+                        </span>
                     </div>
                 </div>
             </div>

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCandidates } from '@/redux/features/managerSlice';
 import { Button } from '@/components/ui/button';
+import { toast } from 'react-toastify';
 
 const apiBaseUrl = import.meta.env.VITE_SERVER_URL;
 
@@ -31,7 +32,7 @@ const Candidates = () => {
             setMailContent('');
             setMailModalData(null);
         } else {
-            alert('Vui lòng nhập nội dung thư.');
+            toast.warning('Vui lòng nhập nội dung thư.');
         }
     };
 

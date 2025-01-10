@@ -6,6 +6,7 @@ import { useDispatch } from 'react-redux';
 import { updateRecruiter, verifiedEmail, verifyEmail } from '@/redux/features/recruiterSlice';
 import { LoaderCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const RecruiterRegister = () => {
     const [formData, setFormData] = useState({
@@ -55,9 +56,9 @@ const RecruiterRegister = () => {
             await dispatch(verifyEmail({ data: { email } })).unwrap();
             setFormData((prev) => ({ ...prev, isCodeSent: true }));
             setIsLoading(false);
-            alert('Đã gửi mã xác minh, vui lòng kiểm tra email!');
+            toast.success('Đã gửi mã xác minh, vui lòng kiểm tra email!');
         } catch (error) {
-            alert(error);
+            toast.error(error);
             setIsLoading(false);
         }
     };
@@ -70,10 +71,10 @@ const RecruiterRegister = () => {
 
             setFormData((prev) => ({ ...prev, isCodeVerified: true }));
             setIsLoading(false);
-            alert('Xác minh email thành công!');
+            toast.success('Xác minh email thành công!');
         } catch (error) {
             setIsLoading(false);
-            alert(error);
+            toast.error(error);
         }
     };
 
@@ -99,7 +100,7 @@ const RecruiterRegister = () => {
             setIsLoading(false);
         } catch (error) {
             setIsLoading(false);
-            alert(error);
+            toast.error(error);
         }
     };
 

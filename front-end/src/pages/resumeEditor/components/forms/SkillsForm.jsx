@@ -8,6 +8,7 @@ import { ResumeInfoContext } from '@/context/ResumeInfoContext';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { updateCV } from '@/redux/features/candidateSlice';
+import { toast } from 'react-toastify';
 
 const SkillsForm = ({ enableNext }) => {
     const { cvId } = useParams();
@@ -48,7 +49,7 @@ const SkillsForm = ({ enableNext }) => {
         try {
             await new Promise((resolve) => setTimeout(resolve, 1000));
             if (!cvId) {
-                alert('Không tìm thấy ID của CV!');
+                toast.warning('Không tìm thấy ID của CV!');
                 return;
             }
 
@@ -58,7 +59,7 @@ const SkillsForm = ({ enableNext }) => {
             setLoading(false);
         } catch (error) {
             setLoading(false);
-            alert(error);
+            toast.error(error);
         }
     };
 

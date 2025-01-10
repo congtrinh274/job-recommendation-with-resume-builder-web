@@ -1,3 +1,4 @@
+import JobDetailModal from '@/components/custom/JobDetailModal';
 import { Button } from '@/components/ui/button';
 import { approveJob, fetchJobs } from '@/redux/features/JobSlice';
 import { useEffect, useState } from 'react';
@@ -6,6 +7,8 @@ import { toast } from 'react-toastify';
 const PendingApprovals = () => {
     const dispatch = useDispatch();
     const { jobs } = useSelector((state) => state.job);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedJob, setSelectedJob] = useState(null);
 
     useEffect(() => {
         dispatch(fetchJobs());
@@ -40,6 +43,16 @@ const PendingApprovals = () => {
             .catch(() => {
                 toast.error('Có lỗi xảy ra khi duyệt công việc.');
             });
+    };
+
+    const handleViewDetails = (job) => {
+        setSelectedJob(job);
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+        setSelectedJob(null);
     };
 
     return (
@@ -111,7 +124,12 @@ const PendingApprovals = () => {
                                             {formatDate(job?.expiredDate)}
                                         </td>
                                         <td className="px-4 py-2 text-center border border-gray-300">
-                                            <Button className="text-xs text-white hover:underline">Xem chi tiết</Button>
+                                            <Button
+                                                onClick={() => handleViewDetails(job)}
+                                                className="text-xs text-white hover:underline"
+                                            >
+                                                Xem chi tiết
+                                            </Button>
                                         </td>
                                         <td className="px-4 py-2 text-center border border-gray-300">
                                             {job?.approvedState === 'APPROVED' ? (
@@ -144,6 +162,8 @@ const PendingApprovals = () => {
                     )}
                 </div>
             </div>
+
+            <JobDetailModal isOpen={isModalOpen} onClose={closeModal} job={selectedJob} />
         </div>
     );
 };

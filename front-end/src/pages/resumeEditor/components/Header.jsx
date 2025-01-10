@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { updateCV } from '@/redux/features/candidateSlice';
+import { toast } from 'react-toastify';
 
 const Header = ({ resumeTitle, setResumeTitle, cvId }) => {
     const [isEditing, setIsEditing] = useState(false);
@@ -18,7 +19,7 @@ const Header = ({ resumeTitle, setResumeTitle, cvId }) => {
             setResumeTitle(tempTitle);
 
             if (!cvId) {
-                alert('Không tìm thấy ID của CV!');
+                toast.warning('Không tìm thấy ID của CV!');
                 return;
             }
 
@@ -28,7 +29,7 @@ const Header = ({ resumeTitle, setResumeTitle, cvId }) => {
             setIsEditing(false);
         } catch (error) {
             console.error('Lỗi khi cập nhật tiêu đề CV:', error);
-            alert(error);
+            toast.error(error);
         }
     };
 

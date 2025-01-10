@@ -6,6 +6,7 @@ import { ResumeInfoContext } from '@/context/ResumeInfoContext';
 import { useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { updateCV } from '@/redux/features/candidateSlice';
+import { toast } from 'react-toastify';
 
 function ThemeColor() {
     const colors = [
@@ -47,14 +48,14 @@ function ThemeColor() {
         try {
             await new Promise((resolve) => setTimeout(resolve, 1000));
             if (!cvId) {
-                alert('Không tìm thấy ID của CV!');
+                toast.warning('Không tìm thấy ID của CV!');
                 return;
             }
 
             const updateData = { themeColor: color };
             await dispatch(updateCV({ cvId, updateData, file: null }));
         } catch (error) {
-            alert(error);
+            toast.error(error);
         }
     };
 

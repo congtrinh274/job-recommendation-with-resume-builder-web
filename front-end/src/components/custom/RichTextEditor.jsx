@@ -16,6 +16,7 @@ import { Button } from '../ui/button';
 import { Brain, LoaderCircle } from 'lucide-react';
 import { ResumeInfoContext } from '@/context/ResumeInfoContext';
 import { AIChatSession } from '@/utils/AIModel';
+import { toast } from 'react-toastify';
 
 const prompt =
     'position title: {position title} dựa vào position title cho tôi chuỗi text mô tả kinh nghiệm làm việc khoảng 5 dòng trong CV của tôi với {language} (Vui lòng không thêm cấp độ kinh nghiệm và Không có mảng JSON và key mặc định là experience_description)';
@@ -28,7 +29,7 @@ const RichTextEditor = ({ onRichTextEditorChange, defaultValue, index }) => {
     const generateSummaryFromAI = async () => {
         setLoading(true);
         if (!resumeInfo.experience[index].title) {
-            alert('Vui lòng thêm vị trí kinh nghiệm làm việc!');
+            toast.warning('Vui lòng thêm vị trí kinh nghiệm làm việc!');
             setLoading(false);
             return;
         }

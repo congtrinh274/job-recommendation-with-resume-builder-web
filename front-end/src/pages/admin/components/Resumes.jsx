@@ -21,6 +21,7 @@ const Resumes = () => {
                         <tr className="bg-gray-200 text-left">
                             <th className="border border-gray-300 px-4 py-2">ID</th>
                             <th className="border border-gray-300 px-4 py-2">ID ứng viên</th>
+                            <th className="border border-gray-300 px-4 py-2">Email ứng viên</th>
                             <th className="border border-gray-300 px-4 py-2">Tên hồ sơ</th>
                             <th className="border border-gray-300 px-4 py-2 ">Loại CV</th>
                             <th className="border border-gray-300 px-4 py-2 text-center">Action</th>
@@ -28,13 +29,14 @@ const Resumes = () => {
                     </thead>
                     <tbody>
                         {resumes?.length > 0 ? (
-                            resumes.map((resume) => (
-                                <tr key={resume.id} className="hover:bg-gray-100">
-                                    <td className="border border-gray-300 px-4 py-2">{resume._id}</td>
-                                    <td className="border border-gray-300 px-4 py-2">{resume.candidateId._id}</td>
-                                    <td className="border border-gray-300 px-4 py-2">{resume.title}</td>
+                            resumes?.map((resume) => (
+                                <tr key={resume?.id} className="hover:bg-gray-100">
+                                    <td className="border border-gray-300 px-4 py-2">{resume?._id}</td>
+                                    <td className="border border-gray-300 px-4 py-2">{resume?.candidateId._id}</td>
+                                    <td className="border border-gray-300 px-4 py-2">{resume?.email}</td>
+                                    <td className="border border-gray-300 px-4 py-2">{resume?.title}</td>
                                     <td className="border border-gray-300 px-4 py-2">
-                                        {resume.isOwn ? 'Đã tạo' : 'Tải lên'}
+                                        {resume?.isOwn ? 'Đã tạo' : 'Tải lên'}
                                     </td>
                                     <td className="border border-gray-300 px-4 py-2 flex justify-center">
                                         <div className="flex gap-2">

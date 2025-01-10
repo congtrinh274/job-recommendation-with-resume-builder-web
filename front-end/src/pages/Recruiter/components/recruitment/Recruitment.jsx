@@ -27,9 +27,9 @@ const Recruitment = ({ activeItem, setActiveItem }) => {
 
     const indexOfLastJob = currentPage * jobsPerPage;
     const indexOfFirstJob = indexOfLastJob - jobsPerPage;
-    const currentJobs = recruiterData?.postedJobs.slice(indexOfFirstJob, indexOfLastJob);
+    const currentJobs = recruiterData?.postedJobs?.slice(indexOfFirstJob, indexOfLastJob);
 
-    const totalPages = Math.ceil(recruiterData?.postedJobs.length / jobsPerPage);
+    const totalPages = Math.ceil(recruiterData?.postedJobs?.length / jobsPerPage);
 
     const handlePrevPage = () => {
         if (currentPage > 1) {
@@ -96,7 +96,7 @@ const Recruitment = ({ activeItem, setActiveItem }) => {
                     className="flex justify-center items-center m-auto text-red-500 font-bold italic cursor-pointer"
                     onClick={() => setActiveItem('personal')}
                 >
-                    Cần hoàn thiện hồ sơ trước khi được phép đăng tin tuyển dụng!
+                    Cần hoàn thiện hồ sơ và đợi xét duyệt từ quản trị viên trước khi được phép đăng tin tuyển dụng!
                 </div>
             )}
             {isModalOpen && <JobCreationModal onClose={handleCloseModal} />}

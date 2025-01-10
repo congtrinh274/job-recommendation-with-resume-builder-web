@@ -7,6 +7,7 @@ import { LoaderCircle } from 'lucide-react';
 import { useContext, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const formField = {
     title: '',
@@ -77,7 +78,7 @@ const ExperienceForm = ({ enableNext }) => {
         try {
             await new Promise((resolve) => setTimeout(resolve, 1000));
             if (!cvId) {
-                alert('Không tìm thấy ID của CV!');
+                toast.warning('Không tìm thấy ID của CV!');
                 return;
             }
 
@@ -88,7 +89,7 @@ const ExperienceForm = ({ enableNext }) => {
         } catch (error) {
             console.error('Lỗi khi cập nhật tiêu đề CV:', error);
             setLoading(false);
-            alert(error);
+            toast.error(error);
         }
     };
 

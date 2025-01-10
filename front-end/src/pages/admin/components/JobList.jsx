@@ -1,6 +1,6 @@
 import JobDetailModal from '@/components/custom/JobDetailModal';
 import { Button } from '@/components/ui/button';
-import { approveJob, fetchJobs } from '@/redux/features/JobSlice';
+import { fetchJobs } from '@/redux/features/JobSlice';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 const JobList = () => {

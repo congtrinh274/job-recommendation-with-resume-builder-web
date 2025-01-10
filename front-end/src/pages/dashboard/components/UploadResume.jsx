@@ -6,6 +6,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { fetchCandidate, uploadCV } from '@/redux/features/candidateSlice';
+import { toast } from 'react-toastify';
 
 function UploadResume() {
     const dispatch = useDispatch();
@@ -20,7 +21,7 @@ function UploadResume() {
         if (file && file.type === 'application/pdf') {
             setSelectedFile(file);
         } else {
-            alert('Please upload a valid PDF file.');
+            toast.warning('Vui lòng tải lên file pdf.');
         }
     };
 
@@ -40,7 +41,7 @@ function UploadResume() {
         if (file && file.type === 'application/pdf') {
             setSelectedFile(file);
         } else {
-            alert('Please upload a valid PDF file.');
+            toast.warning('Vui lòng tải lên file pdf.');
         }
     };
 
@@ -50,7 +51,7 @@ function UploadResume() {
 
     const handleUpload = async () => {
         if (!resumeTitle.trim()) {
-            alert('Please provide a title for your resume.');
+            toast.warning('Vui lòng nhập tiêu đề CV.');
             return;
         }
 
@@ -65,7 +66,7 @@ function UploadResume() {
                 const result = await dispatch(uploadCV({ cvData: formData }));
 
                 if (result.error) {
-                    alert(result.payload);
+                    toast.error(result.payload);
                     setResumeTitle('');
                 } else {
                     dispatch(fetchCandidate());
@@ -75,7 +76,7 @@ function UploadResume() {
                 console.error(err);
             }
         } else {
-            alert('No file selected.');
+            toast.error('Không có file nào được tải lên.');
         }
     };
 

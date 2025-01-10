@@ -8,6 +8,7 @@ import { useDispatch } from 'react-redux';
 import { ResumeInfoContext } from '@/context/ResumeInfoContext';
 import { updateCV } from '@/redux/features/candidateSlice';
 import { AIChatSession } from '@/utils/AIModel';
+import { toast } from 'react-toastify';
 
 const prompt =
     'Education description: {universityName} , {degree} ngành {major}, dựa vào thông tin trên cho tôi một bản mô tả đầy đủ quá trình học phù hợp cho CV của tôi khoảng 6 dòng bằng {language}  (Vui lòng không thêm cấp độ  và không có mảng JSON và key mặc định là description)';
@@ -78,7 +79,7 @@ const EducationForm = ({ enableNext }) => {
         try {
             await new Promise((resolve) => setTimeout(resolve, 1000));
             if (!cvId) {
-                alert('Không tìm thấy ID của CV!');
+                toast.warning('Không tìm thấy ID của CV!');
                 return;
             }
 
@@ -88,7 +89,7 @@ const EducationForm = ({ enableNext }) => {
             setLoading(false);
         } catch (error) {
             setLoading(false);
-            alert(error);
+            toast.error(error);
         }
     };
 
