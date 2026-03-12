@@ -3,11 +3,11 @@ import { useNavigate } from 'react-router-dom';
 const SignInPage = () => {
     const navigate = useNavigate();
     const handleLoginWithGoogle = () => {
-        window.open('http://localhost:5000/api/auth/google', '_self');
+        window.open(`${import.meta.env.VITE_API_URL}/api/auth/google`, '_self');
     };
 
     const handleLoginWithGithub = () => {
-        window.open('http://localhost:5000/api/auth/github', '_self');
+        window.open(`${import.meta.env.VITE_API_URL}/api/auth/github`, '_self');
     };
 
     return (

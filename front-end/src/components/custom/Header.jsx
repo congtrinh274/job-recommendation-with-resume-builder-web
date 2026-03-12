@@ -40,7 +40,7 @@ const Header = ({ setIsLoading }) => {
 
     useEffect(() => {
         if (userData?._id) {
-            const socket = io('http://localhost:5000');
+            const socket = io(`${import.meta.env.VITE_API_URL}`);
 
             socket.on('connect', () => {
                 console.log('WebSocket connected with ID:', socket.id);
@@ -97,6 +97,17 @@ const Header = ({ setIsLoading }) => {
         }
     };
 
+    const handleNavigateToSection = (sectionId) => {
+        navigate('/');
+
+        setTimeout(() => {
+            const element = document.getElementById(sectionId);
+            if (element) {
+                element.scrollIntoView({ behavior: 'smooth' });
+            }
+        }, 200);
+    };
+
     return (
         <div
             id="no-print"
@@ -113,15 +124,24 @@ const Header = ({ setIsLoading }) => {
             </Link>
 
             <div className="hidden md:flex gap-8 font-semibold">
-                <Link to="/plans" className="hover:text-yellow-300 transition-all text-white">
+                <div
+                    onClick={() => handleNavigateToSection('home')}
+                    className="hover:text-yellow-300 transition-all text-white cursor-pointer"
+                >
                     Trang chủ
-                </Link>
-                <Link to="/library" className="hover:text-yellow-300 transition-all text-white">
+                </div>
+                <div
+                    onClick={() => handleNavigateToSection('info')}
+                    className="hover:text-yellow-300 transition-all text-white cursor-pointer"
+                >
                     Thông tin
-                </Link>
-                <Link to="/techdegree" className="hover:text-yellow-300 transition-all text-white">
+                </div>
+                <div
+                    onClick={() => handleNavigateToSection('search')}
+                    className="hover:text-yellow-300 transition-all text-white cursor-pointer"
+                >
                     Việc làm mới
-                </Link>
+                </div>
             </div>
 
             <div className="flex gap-3">

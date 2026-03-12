@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import ReactQuill from 'react-quill';
 import {} from '@/redux/features/recruiterSlice';
 import { toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
 
 const apiBaseUrl = import.meta.env.VITE_SERVER_URL;
 
@@ -16,6 +17,8 @@ const AppliedListDialog = ({ isOpen, onClose, jobId }) => {
     const [selectedApplication, setSelectedApplication] = useState(null);
     const [isApproveModalOpen, setIsApproveModalOpen] = useState(false);
     const [isRejectModalOpen, setIsRejectModalOpen] = useState(false);
+    const [isDetailModalOpen, setIsDetailModalOpen] = useState(false);
+    const [applicationDetails, setApplicationDetails] = useState(null);
 
     const dispatch = useDispatch();
 
@@ -27,6 +30,11 @@ const AppliedListDialog = ({ isOpen, onClose, jobId }) => {
     const handleReject = (application) => {
         setSelectedApplication(application);
         setIsRejectModalOpen(true);
+    };
+
+    const handleViewDetails = (application) => {
+        setApplicationDetails(application);
+        setIsDetailModalOpen(true);
     };
 
     const handleConfirmApprove = async () => {
@@ -72,7 +80,7 @@ const AppliedListDialog = ({ isOpen, onClose, jobId }) => {
                 : `${apiBaseUrl}${application?.cvId?.uploadedCV}`;
             window.open(fullURL, '_blank');
         } else {
-            const fullURL = `http://localhost:5173/resume-preview/${application?.cvId._id}`;
+            const fullURL = `${import.meta.env.VITE_CLIENT_URL}/resume-preview/${application?.cvId._id}`;
             window.open(fullURL, '_blank');
         }
     }
@@ -178,7 +186,7 @@ const AppliedListDialog = ({ isOpen, onClose, jobId }) => {
                                             <td className="border border-gray-300 p-2 text-center">
                                                 <button
                                                     className="bg-blue-500 text-white px-1 py-1 text-xs rounded  hover:bg-blue-600"
-                                                    onClick={() => console.log('Xem chi tiết:', application._id)}
+                                                    onClick={() => handleViewDetails(application)}
                                                 >
                                                     Xem chi tiết
                                                 </button>
@@ -252,6 +260,41 @@ const AppliedListDialog = ({ isOpen, onClose, jobId }) => {
                             <Button onClick={() => setIsRejectModalOpen(false)} className="ml-2">
                                 Hủy
                             </Button>
+                        </div>
+                    </DialogContent>
+                </Dialog>
+            )}
+
+            {isDetailModalOpen && (
+                <Dialog open={isDetailModalOpen} onOpenChange={setIsDetailModalOpen}>
+                    <DialogContent className="min-w-[60%] p-6" aria-describedby={undefined}>
+                        <DialogTitle>Chi tiết hồ sơ ứng viên</DialogTitle>
+                        <div className="mt-2">
+                            <div className="grid grid-cols-2 gap-1">
+                                <div className="font-semibold text-black-500">
+                                    Họ và tên: {applicationDetails?.fullName}
+                                </div>
+                                <div className="font-semibold text-black-500">
+                                    CV:{' '}
+                                    <span
+                                        onClick={() => handleView(applicationDetails)}
+                                        className="cursor-pointer text-blue-500 hover:underline"
+                                    >
+                                        Xem
+                                    </span>
+                                </div>
+                                <div className="font-semibold text-black-500 mt-2">
+                                    Email: {applicationDetails?.email}
+                                </div>
+                                <div className="font-semibold text-black-500 mt-2">
+                                    Số điện thoại: {applicationDetails?.phone}
+                                </div>
+                            </div>
+                            <div className="font-semibold text-black-500 mt-2">Thư xin việc:</div>
+                            <div
+                                className="text-sm p-6 max-h-[350px] overflow-y-auto border mt-1"
+                                dangerouslySetInnerHTML={{ __html: applicationDetails.appliedLetter }}
+                            />
                         </div>
                     </DialogContent>
                 </Dialog>

@@ -5,6 +5,7 @@ const jobController = require('../controllers/JobController');
 const authenticateToken = require('../middlewares/authenticate.middleware');
 
 router.get('/', jobController.getJobs);
+router.get('/get-active-jobs', jobController.getActiveJob);
 router.get('/get-one/:jobId', jobController.getJobById);
 router.post('/create', authenticateToken, jobController.createJob);
 router.post('/approved/:jobId', authenticateToken, jobController.jobApproved);

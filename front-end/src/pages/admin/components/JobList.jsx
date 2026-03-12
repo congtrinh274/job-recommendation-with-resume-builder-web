@@ -44,7 +44,7 @@ const JobList = () => {
         <div>
             <div className="p-4 vw">
                 <h2 className="text-2xl font-semibold mb-4">Danh sách công việc đã được tạo</h2>
-                <div className="overflow-x-auto w-full">
+                <div className="overflow-x-auto w-full overflow-y-auto h-[540px]">
                     {jobs?.length > 0 ? (
                         <table className="bg-white border border-gray-200 rounded-lg shadow-md w-full table-fixed">
                             <thead className="bg-gray-100">
@@ -83,7 +83,7 @@ const JobList = () => {
                             </thead>
                             <tbody>
                                 {jobs?.map((job, index) => (
-                                    <tr key={index} className="border-b border-gray-300">
+                                    <tr key={index} className="border-b border-gray-300 ">
                                         <td className="px-4 py-2 text-sm whitespace-nowrap overflow-hidden text-ellipsis border border-gray-300">
                                             {job?.recruiterId?._id}
                                         </td>

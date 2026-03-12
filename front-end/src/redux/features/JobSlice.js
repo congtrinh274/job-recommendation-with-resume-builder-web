@@ -3,7 +3,17 @@ import axios from 'axios';
 
 export const fetchJobs = createAsyncThunk('user/fetchJobs', async (_, { rejectWithValue }) => {
     try {
-        const response = await axios.get('http://localhost:5000/api/jobs/');
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/jobs/`);
+
+        return response.data;
+    } catch (error) {
+        return rejectWithValue(error.response?.data?.message || 'Failed to fetch user data');
+    }
+});
+
+export const getActiveJob = createAsyncThunk('user/getActiveJob', async (_, { rejectWithValue }) => {
+    try {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/jobs/get-active-jobs`);
 
         return response.data;
     } catch (error) {
@@ -13,7 +23,7 @@ export const fetchJobs = createAsyncThunk('user/fetchJobs', async (_, { rejectWi
 
 export const getJobById = createAsyncThunk('user/getJobById', async (jobId, { rejectWithValue }) => {
     try {
-        const response = await axios.get(`http://localhost:5000/api/jobs/get-one/${jobId}`);
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/jobs/get-one/${jobId}`);
 
         return response.data;
     } catch (error) {
@@ -32,7 +42,7 @@ export const approveJob = createAsyncThunk(
                 throw new Error('No token found');
             }
             const response = await axios.post(
-                `http://localhost:5000/api/jobs/approved/${jobId}`,
+                `${import.meta.env.VITE_API_URL}/api/jobs/approved/${jobId}`,
                 {
                     recruiterId,
                     approvedState,
@@ -60,7 +70,7 @@ export const applyJob = createAsyncThunk(
             }
 
             const response = await axios.post(
-                `http://localhost:5000/api/jobs/apply/${jobId}`,
+                `${import.meta.env.VITE_API_URL}/api/jobs/apply/${jobId}`,
                 {
                     cvId,
                     appliedLetter,
@@ -90,7 +100,7 @@ export const updateApplicationListState = createAsyncThunk(
             }
 
             const response = await axios.post(
-                `http://localhost:5000/api/jobs/update-application-state`,
+                `${import.meta.env.VITE_API_URL}/api/jobs/update-application-state`,
                 { jobId, cvId, newStatus, responseLetter },
                 {
                     headers: { Authorization: token },
@@ -123,6 +133,21 @@ const jobSlice = createSlice({
                 state.error = null;
             })
             .addCase(fetchJobs.rejected, (state, action) => {
+                state.isLoading = false;
+                state.jobs = null;
+                state.error = action.payload;
+            })
+
+            .addCase(getActiveJob.pending, (state) => {
+                state.isLoading = true;
+                state.error = null;
+            })
+            .addCase(getActiveJob.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.jobs = action.payload;
+                state.error = null;
+            })
+            .addCase(getActiveJob.rejected, (state, action) => {
                 state.isLoading = false;
                 state.jobs = null;
                 state.error = action.payload;

@@ -70,7 +70,7 @@ const Resumes = () => {
                 : `${apiBaseUrl}${resume.uploadedCV}`;
             window.open(fullURL, '_blank');
         } else {
-            const fullURL = `http://localhost:5173/resume-preview/${resume._id}`;
+            const fullURL = `${import.meta.env.VITE_CLIENT_URL}/resume-preview/${resume._id}`;
             window.open(fullURL, '_blank');
         }
     }

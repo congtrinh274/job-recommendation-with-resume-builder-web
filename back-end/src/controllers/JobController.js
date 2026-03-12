@@ -19,6 +19,28 @@ class JobController {
         }
     };
 
+    // [GET] jobs/get-active-jobs
+    getActiveJob = async (req, res) => {
+        try {
+            const today = new Date();
+            const jobs = await Job.find({
+                expiredDate: { $gte: today },
+                isCanceled: false,
+                approvedState: 'APPROVED',
+            })
+                .select('-appliedList')
+                .populate('recruiterId')
+                .populate('categoryId');
+
+            res.status(200).json(jobs);
+        } catch (error) {
+            res.status(500).json({
+                message: 'Có lỗi xảy ra khi lấy danh sách công việc.',
+                error: error.message,
+            });
+        }
+    };
+
     // [GET] jobs/get-one/:jobId
     getJobById = async (req, res) => {
         const { jobId } = req.params;

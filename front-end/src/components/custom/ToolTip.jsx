@@ -76,10 +76,10 @@ const Tooltip = ({ isDivisibleByThree, recruiterData, job }) => {
                     </div>
                 </div>
                 <div className="flex space-x-5 mt-auto justify-center">
-                    <Button onClick={() => handleGetJobDetail(job?.id)} variant="outline">
+                    <Button onClick={() => handleGetJobDetail(job?._id)} variant="outline">
                         Ứng tuyển
                     </Button>
-                    <Button onClick={() => handleGetJobDetail(job?.id)}>Xem chi tiết</Button>
+                    <Button onClick={() => handleGetJobDetail(job?._id)}>Xem chi tiết</Button>
                 </div>
             </div>
         </div>

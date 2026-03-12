@@ -4,7 +4,7 @@ const Candidate = require('./Candidate');
 const userSchema = new mongoose.Schema(
     {
         authId: { type: String, unique: true },
-        email: { type: String, required: true, unique: true },
+        email: { type: String, required: true },
         username: { type: String },
         password: { type: String },
         typeLogin: { type: String },

@@ -10,7 +10,7 @@ export const fetchUser = createAsyncThunk('user/fetchUser', async (_, { rejectWi
             throw new Error('No token found');
         }
 
-        const response = await axios.get('http://localhost:5000/api/users/get-one', {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/users/get-one`, {
             headers: { Authorization: token },
         });
 

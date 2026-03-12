@@ -29,7 +29,7 @@ const Header = ({ setIsLoading }) => {
 
     useEffect(() => {
         if (userData?._id) {
-            const socket = io('http://localhost:5000');
+            const socket = io(`${import.meta.env.VITE_API_URL}`);
 
             socket.on('connect', () => {
                 console.log('WebSocket connected with ID:', socket.id);
@@ -70,7 +70,7 @@ const Header = ({ setIsLoading }) => {
             case 'POST_APPROVAL':
                 return 'bg-green-100 text-green-800';
             case 'RESUME_APPROVAL':
-                return 'bg-red-100 text-red-800';
+                return 'bg-blue-100 text-blue-800';
             case 'APPLICATION':
                 return 'bg-yellow-100 text-yellow-800';
             default:
@@ -166,11 +166,11 @@ const Header = ({ setIsLoading }) => {
                                                 <li
                                                     key={index}
                                                     className={`p-4 rounded shadow ${getColorByType(
-                                                        notification.type,
+                                                        notification?.type,
                                                     )}`}
                                                 >
-                                                    <h3 className="font-bold">{notification.title}</h3>
-                                                    <p>{notification.message}</p>
+                                                    <h3 className="font-bold">{notification?.title}</h3>
+                                                    <p>{notification?.message}</p>
                                                 </li>
                                             );
                                         })

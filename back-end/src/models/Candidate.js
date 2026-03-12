@@ -13,6 +13,13 @@ const candidateSchema = new mongoose.Schema(
                 createdAt: { type: Date, default: Date.now },
             },
         ],
+        applicationHistory: [
+            {
+                jobId: { type: mongoose.Schema.Types.ObjectId, ref: 'Job', required: true },
+                cvId: { type: mongoose.Schema.Types.ObjectId, ref: 'CV', required: true },
+                state: { type: String, enum: ['PENDING', 'SUCCESS', 'FAILURE'] },
+            },
+        ],
     },
     {
         timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' },

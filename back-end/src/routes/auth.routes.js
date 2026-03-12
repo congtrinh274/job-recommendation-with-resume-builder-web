@@ -9,29 +9,46 @@ router.get('/google', passport.authenticate('google', { scope: ['profile', 'emai
 router.get(
     '/google/callback',
     (req, res, next) => {
-        passport.authenticate('google', (err, profile) => {
-            req.user = profile;
+        passport.authenticate('google', (err, user, info) => {
+            if (err) {
+                return next(err);
+            }
+
+            if (!user) {
+                return res.redirect('/login');
+            }
+
+            req.user = user;
             next();
         })(req, res, next);
     },
     (req, res) => {
         console.log(req.user);
+
         res.redirect(`${process.env.CLIENT_URL}/login-success/${req.user?.id}/${req.user?.loginToken}`);
     },
 );
 
-router.get('/facebook', passport.authenticate('facebook', { session: false }));
+router.get('/github', passport.authenticate('github', { scope: ['user:email'] }));
 
 router.get(
-    '/facebook/callback',
+    '/github/callback',
     (req, res, next) => {
-        passport.authenticate('facebook', (err, profile) => {
-            req.user = profile;
+        passport.authenticate('github', (err, user, info) => {
+            if (err) {
+                return next(err);
+            }
+
+            if (!user) {
+                return res.redirect('/login');
+            }
+
+            req.user = user;
             next();
         })(req, res, next);
     },
     (req, res) => {
-        res.redirect(`${process.env.CLIENT_URL}/login-success/${req.user?.id}`);
+        res.redirect(`${process.env.CLIENT_URL}/login-success/${req.user?.id}/${req.user?.loginToken}`);
     },
 );
 

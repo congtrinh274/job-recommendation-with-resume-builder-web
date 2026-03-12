@@ -55,19 +55,6 @@ class RecruiterController {
             }
 
             const existingRecruiter = await Recruiter.findOne({ userId });
-            if (existingRecruiter) {
-                const currentTime = Date.now();
-                if (existingRecruiter.validateEmail === false && existingRecruiter.verificationExpires > currentTime) {
-                    return res.status(400).json({
-                        message:
-                            'Mã xác minh đã gửi còn hiệu lực. Kiểm tra email hoặc gửi lại yêu cầu sau khi mã hết hiệu lực!.',
-                    });
-                }
-
-                if (existingRecruiter.verificationExpires < currentTime) {
-                    return;
-                }
-            }
 
             const verificationCode = Math.floor(100000 + Math.random() * 900000).toString();
             const verificationExpires = Date.now() + 3600000;
@@ -258,19 +245,23 @@ class RecruiterController {
             }
 
             recruiter.validatedState = validated;
-            recruiter.notification =
+            const notificationMessage =
                 validated === 'TRUE'
                     ? 'Giấy phép của bạn đã được duyệt.'
                     : 'Giấy phép của bạn đã bị hủy. Vui lòng cập nhật giấy phép mới!';
+
+            recruiter.notifications.unshift({
+                title: 'Thông báo xét duyệt hồ sơ',
+                message: notificationMessage,
+                type: 'RESUME_APPROVAL',
+            });
             await recruiter.save();
 
             const recruiters = await Recruiter.find().populate('userId').populate('postedJobs');
             if (global.io) {
+                const notificationItem = recruiter.notifications[0];
                 global.io.to(recruiter.userId.toString()).emit('notification', {
-                    message:
-                        validated === 'TRUE'
-                            ? 'Giấy phép của bạn đã được duyệt.'
-                            : 'Giấy phép của bạn đã bị hủy.  Vui lòng cập nhật giấy phép mới!',
+                    notificationItem,
                     recruiterId: recruiterId,
                     validated,
                 });

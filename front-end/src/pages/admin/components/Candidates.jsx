@@ -91,10 +91,10 @@ const Candidates = () => {
                                     key={index}
                                     href={
                                         cv.isOwn
-                                            ? `http://localhost:5173/resume-preview/${cv._id}`
+                                            ? `${import.meta.env.VITE_CLIENT_URL}/resume-preview/${cv._id}`
                                             : cv.uploadedCV.startsWith('http')
-                                            ? cv.uploadedCV
-                                            : `${apiBaseUrl}${cv.uploadedCV}`
+                                              ? cv.uploadedCV
+                                              : `${apiBaseUrl}${cv.uploadedCV}`
                                     }
                                     target="_blank"
                                 >

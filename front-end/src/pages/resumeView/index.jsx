@@ -32,7 +32,7 @@ const ResumeView = () => {
     }, [currentCV]);
 
     const handleDownloadPDF = async () => {
-        const resumeUrl = `http://localhost:5173/resume-download-pdf/${cvId}`;
+        const resumeUrl = `${import.meta.env.VITE_CLIENT_URL}/resume-download-pdf/${cvId}`;
 
         const printWindow = window.open(resumeUrl, '_blank', 'width=800,height=600');
 

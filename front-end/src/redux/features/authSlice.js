@@ -3,7 +3,7 @@ import axios from 'axios';
 
 export const login = createAsyncThunk('auth/login', async (payload, { rejectWithValue }) => {
     try {
-        const response = await axios.post('http://localhost:5000/api/auth/login-success', payload);
+        const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/auth/login-success`, payload);
         return response.data;
     } catch (error) {
         return rejectWithValue(error.response.data);

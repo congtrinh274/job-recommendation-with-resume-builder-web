@@ -25,7 +25,7 @@ const JobItem = ({ job, recruiterData, itemKey }) => {
                 <div className="w-3/4 pl-2 ">
                     <div className="group">
                         <h2
-                            onClick={() => handleGetJobDetail(job.id)}
+                            onClick={() => handleGetJobDetail(job._id)}
                             className="font-semibold text-gray-800 mt-1 group-hover:underline group-hover:text-blue-600 cursor-pointer truncate"
                         >
                             {job.title}

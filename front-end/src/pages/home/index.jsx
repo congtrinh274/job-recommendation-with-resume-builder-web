@@ -1,10 +1,25 @@
-import FileUpload from '@/components/custom/FileUpload';
-import { useSelector } from 'react-redux';
+import JobItem from '@/components/custom/JobItem';
+import { Button } from '@/components/ui/button';
+import { getActiveJob } from '@/redux/features/JobSlice';
+import { CircleArrowLeft, CircleArrowRight } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
     const navigate = useNavigate();
     const { isSignedIn } = useSelector((state) => state.auth);
+    const { jobs } = useSelector((state) => state.job);
+    const [currentPage, setCurrentPage] = useState(1);
+    const itemsPerPage = 12;
+    const [searchTerm, setSearchTerm] = useState('');
+    const [filters, setFilters] = useState({ location: '', salary: '', level: '' });
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(getActiveJob());
+    }, [dispatch]);
+
     const handleCreateCVBtn = () => {
         if (isSignedIn) {
             navigate('/dashboard');
@@ -13,8 +28,32 @@ const Home = () => {
         }
     };
 
+    const totalPages = Math.ceil(jobs?.length / itemsPerPage);
+    const paginatedJobs = jobs
+        ?.filter((job) => {
+            return (
+                job.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
+                (filters.location ? job.location.includes(filters.location) : true) &&
+                (filters.salary ? job.salary.includes(filters.salary) : true) &&
+                (filters.level ? job.level === filters.level : true)
+            );
+        })
+        .slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+
+    const handleNextPage = () => {
+        if (currentPage < totalPages) setCurrentPage((prev) => prev + 1);
+    };
+
+    const handlePrevPage = () => {
+        if (currentPage > 1) setCurrentPage((prev) => prev - 1);
+    };
+
+    const handleFilterChange = (e) => {
+        setFilters({ ...filters, [e.target.name]: e.target.value });
+    };
+
     return (
-        <div className="min-h-screen flex flex-col justify-center items-center pt-36">
+        <div id="home" className="min-h-screen flex flex-col justify-center items-center pt-36">
             <div className="w-[90%] max-w-6xl mx-auto flex rounded-lg overflow-hidden shadow-lg mb-12">
                 <div className="w-1/2 p-8 flex flex-col justify-center items-start relative">
                     <div className="flex items-center">
@@ -49,7 +88,100 @@ const Home = () => {
             </div>
             <div className="border-t border-white my-6 w-full"></div>
 
-            <div className="w-[90%] max-w-6xl mx-auto rounded-lg overflow-hidden shadow-lg  text-white p-8 mb-12 ">
+            <div id="search" className="mt-8 mb-12 min-w-[1245px]">
+                <h2 className="text-white w-full text-center text-5xl font-bold mb-10">Việc Làm Mới Nhất</h2>
+                <div className="w-full mx-auto p-4 bg-gray-800 rounded-lg mb-8">
+                    <div className="flex items-center mb-4">
+                        <input
+                            type="text"
+                            placeholder="Tìm kiếm công việc..."
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            className="p-3 rounded-lg w-full bg-gray-700 text-white search-box"
+                        />
+                    </div>
+
+                    <div className="flex gap-4">
+                        <select
+                            name="location"
+                            value={filters.location}
+                            onChange={handleFilterChange}
+                            className="p-3 rounded-lg bg-gray-700 text-white filter-select"
+                        >
+                            <option value="">Chọn vị trí</option>
+                            <option value="Hà Nội">Hà Nội</option>
+                            <option value="Tp. Hồ Chí Minh">TP.HCM</option>
+                            <option value="Đà Nẵng">Đà Nẵng</option>
+                        </select>
+
+                        <select
+                            name="salary"
+                            value={filters.salary}
+                            onChange={handleFilterChange}
+                            className="p-3 rounded-lg bg-gray-700 text-white filter-select"
+                        >
+                            <option value="">Chọn mức lương</option>
+                            <option value="10M-20M">10M - 20M</option>
+                            <option value="20M-30M">20M - 30M</option>
+                            <option value="30M+">30M+</option>
+                        </select>
+
+                        <select
+                            name="level"
+                            value={filters.level}
+                            onChange={handleFilterChange}
+                            className="p-3 rounded-lg bg-gray-700 text-white filter-select"
+                        >
+                            <option value="">Chọn cấp độ</option>
+                            <option value="Intern">Intern</option>
+                            <option value="Fresher">Fresher</option>
+                            <option value="Junior">Junior</option>
+                            <option value="Middle">Middle</option>
+                            <option value="Senior">Senior</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div className="p-4 border rounded-lg shadow-lg  job-list-box">
+                    <div className="flex justify-between items-center mt-4 mb-4 text-sm ">
+                        <h2 className="text-xl font-bold text-center text-white">Danh sách tin tuyển dụng</h2>
+                        <div className="flex gap-3 items-center text-sm">
+                            <Button
+                                disabled={currentPage === 1}
+                                onClick={handlePrevPage}
+                                className="border-primary bg-red-500 text-white"
+                                size="sm"
+                            >
+                                <CircleArrowLeft className="h-6 w-6" />
+                            </Button>
+                            <span className="text-sm font-medium text-white">
+                                Trang {currentPage}/{totalPages}
+                            </span>
+                            <Button
+                                onClick={handleNextPage}
+                                disabled={currentPage === totalPages}
+                                className="border-primary bg-red-500 text-white"
+                                size="sm"
+                            >
+                                <CircleArrowRight className="h-6 w-6" />
+                            </Button>
+                        </div>
+                    </div>
+
+                    <div className="grid grid-cols-3 gap-4 job-grid">
+                        {paginatedJobs?.map((job, index) => (
+                            <JobItem job={job} recruiterData={job?.recruiterId} key={index} itemKey={index + 1} />
+                        ))}
+                    </div>
+                </div>
+            </div>
+
+            <div className="border-t border-white my-6 w-full"></div>
+
+            <div
+                id="info"
+                className="w-[90%] max-w-6xl mx-auto rounded-lg overflow-hidden shadow-lg  text-white p-8 mb-12 "
+            >
                 <h2 className="text-5xl font-bold mb-6">CÁCH AI CLERK HOẠT ĐỘNG</h2>
 
                 <p className="text-gray-400 text-lg mb-6 leading-relaxed">

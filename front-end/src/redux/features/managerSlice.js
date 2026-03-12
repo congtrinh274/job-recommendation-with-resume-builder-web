@@ -10,7 +10,7 @@ export const getCandidates = createAsyncThunk('user/getCandidates', async (_, { 
             throw new Error('No token found');
         }
 
-        const response = await axios.get('http://localhost:5000/api/candidates', {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/candidates`, {
             headers: { Authorization: token },
         });
 
@@ -29,7 +29,7 @@ export const getResumes = createAsyncThunk('user/getResumes', async (_, { reject
             throw new Error('No token found');
         }
 
-        const response = await axios.get('http://localhost:5000/api/cvs', {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/cvs`, {
             headers: { Authorization: token },
         });
 
@@ -48,7 +48,7 @@ export const getRecruiters = createAsyncThunk('user/getRecruiters', async (_, { 
             throw new Error('No token found');
         }
 
-        const response = await axios.get('http://localhost:5000/api/recruiters', {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/recruiters`, {
             headers: { Authorization: token },
         });
 
@@ -69,7 +69,7 @@ export const recruiterValidated = createAsyncThunk(
                 throw new Error('No token found');
             }
 
-            const response = await axios.post('http://localhost:5000/api/recruiters/validated', data, {
+            const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/recruiters/validated`, data, {
                 headers: { Authorization: token },
             });
 

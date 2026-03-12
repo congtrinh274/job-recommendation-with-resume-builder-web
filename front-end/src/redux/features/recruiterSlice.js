@@ -10,9 +10,13 @@ export const verifyEmail = createAsyncThunk('user/verifyEmail', async ({ data },
             throw new Error('No token found');
         }
 
-        const response = await axios.post('http://localhost:5000/api/recruiters/send-verification-code', data, {
-            headers: { Authorization: token },
-        });
+        const response = await axios.post(
+            `${import.meta.env.VITE_API_URL}/api/recruiters/send-verification-code`,
+            data,
+            {
+                headers: { Authorization: token },
+            },
+        );
 
         return response.data;
     } catch (error) {
@@ -29,7 +33,7 @@ export const verifiedEmail = createAsyncThunk('user/verifiedEmail', async ({ dat
             throw new Error('No token found');
         }
 
-        const response = await axios.post('http://localhost:5000/api/recruiters/verified-code', data, {
+        const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/recruiters/verified-code`, data, {
             headers: { Authorization: token },
         });
 
@@ -48,7 +52,7 @@ export const fetRecruiter = createAsyncThunk('candidate/fetRecruiter', async (_,
             throw new Error('No token found');
         }
 
-        const response = await axios.get('http://localhost:5000/api/recruiters/get-one', {
+        const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/recruiters/get-one`, {
             headers: { Authorization: token },
         });
 
@@ -69,7 +73,7 @@ export const updateRecruiter = createAsyncThunk(
                 throw new Error('No token found');
             }
 
-            const response = await axios.put('http://localhost:5000/api/recruiters/update', updateData, {
+            const response = await axios.put(`${import.meta.env.VITE_API_URL}/api/recruiters/update`, updateData, {
                 headers: { Authorization: token },
             });
 
@@ -91,7 +95,7 @@ export const uploadLicense = createAsyncThunk(
                 throw new Error('No token found');
             }
 
-            const response = await axios.put(`http://localhost:5000/api/recruiters/upload-license`, data, {
+            const response = await axios.put(`${import.meta.env.VITE_API_URL}/api/recruiters/upload-license`, data, {
                 headers: { Authorization: token },
             });
 
@@ -111,7 +115,7 @@ export const uploadImg = createAsyncThunk('candidate/uploadImg', async ({ data }
             throw new Error('No token found');
         }
 
-        const response = await axios.put(`http://localhost:5000/api/recruiters/upload-img`, data, {
+        const response = await axios.put(`${import.meta.env.VITE_API_URL}/api/recruiters/upload-img`, data, {
             headers: { Authorization: token },
         });
 
@@ -122,7 +126,7 @@ export const uploadImg = createAsyncThunk('candidate/uploadImg', async ({ data }
 });
 
 export const fetchCategoryJobs = createAsyncThunk('jobCategory/fetchCategoryJobs', async () => {
-    const response = await axios.get('http://localhost:5000/api/job-categories');
+    const response = await axios.get(`${import.meta.env.VITE_API_URL}/api/job-categories`);
     return response.data.data;
 });
 
@@ -135,7 +139,7 @@ export const createJob = createAsyncThunk('jobCategory/createJob', async (jobDat
             throw new Error('No token found');
         }
 
-        const response = await axios.post('http://localhost:5000/api/jobs/create', jobData, {
+        const response = await axios.post(`${import.meta.env.VITE_API_URL}/api/jobs/create`, jobData, {
             headers: { Authorization: token },
         });
         return response.data;
@@ -157,7 +161,7 @@ export const changeApplicationState = createAsyncThunk(
             }
 
             const response = await axios.post(
-                `http://localhost:5000/api/jobs/change-application-state/${jobId}`,
+                `${import.meta.env.VITE_API_URL}/api/jobs/change-application-state/${jobId}`,
                 { state },
                 {
                     headers: { Authorization: token },
