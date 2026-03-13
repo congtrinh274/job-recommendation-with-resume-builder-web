@@ -31,7 +31,7 @@ const ResumeCard = ({ cvData, img }) => {
             const formData = new FormData();
             formData.append('file', file);
 
-            const response = await fetch('http://127.0.0.1:5000/get_jobs_wucv', {
+            const response = await fetch(`${import.meta.env.VITE_API_URL2}/get_jobs_wucv`, {
                 method: 'POST',
                 body: formData,
             });
@@ -61,7 +61,7 @@ const ResumeCard = ({ cvData, img }) => {
     };
 
     const handleGetRecommendedJobsWithCVData = async (cvData) => {
-        const apiUrl = 'http://127.0.0.1:5000/get-jobs-wcvdata';
+        const apiUrl = `${import.meta.env.VITE_API_URL2}/get-jobs-wcvdata`;
         setIsLoading(true);
         try {
             const response = await axios.post(apiUrl, cvData);

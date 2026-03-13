@@ -63,7 +63,7 @@ const FileUpload = ({ title = 'Kéo & Thả Tệp', btnName, acceptFileTypes = '
         formData.append('file', file);
 
         try {
-            const response = await fetch('http://127.0.0.1:5000/get_jobs_wucv', {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/get_jobs_wucv`, {
                 method: 'POST',
                 body: formData,
             });
