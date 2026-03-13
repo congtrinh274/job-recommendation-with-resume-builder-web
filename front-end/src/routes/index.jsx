@@ -10,7 +10,7 @@ import RouteProtector from '@/utils/RouteProtector';
 import GuestsJobsPage from '@/pages/guestsJobs';
 import ResumeEditor from '@/pages/resumeEditor';
 import ResumeDownloadPDF from '@/pages/resumeDownloadPDF';
-import ResumeView from '@/pages/resumeView';
+import ResumeView from '@/pages/ResumeView';
 import JobsViewWithUploadCV from '@/pages/JobsViewWithUploadCV';
 import JobViewWithCVData from '@/pages/JobsViewWithCVData';
 import AdminHome from '@/pages/admin';
