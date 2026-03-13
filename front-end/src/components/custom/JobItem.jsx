@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import Tooltip from './Tooltip'; // Import Tooltip
+import Tooltip from './ToolTip'; // Import Tooltip
 import { useNavigate } from 'react-router-dom';
 
 const apiBaseUrl = import.meta.env.VITE_SERVER_URL;
