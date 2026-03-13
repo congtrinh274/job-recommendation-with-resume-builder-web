@@ -37,11 +37,25 @@ const ResumeCard = ({ cvData, img }) => {
             });
 
             const title = cvData.title;
+
             if (response.ok) {
                 const data = await response.json();
 
+                const jobs = data.recommended_jobs;
+
+                // kiểm tra nếu model không phân tích được
+                const modelFailed =
+                    !jobs ||
+                    jobs.length === 0 ||
+                    jobs.every((job) => Object.values(job).every((v) => v === '' || v === null));
+
+                if (modelFailed) {
+                    toast.error('Model không thể phân tích được CV này!');
+                    return;
+                }
+
                 const localStorageData = {
-                    recommendedJobs: data.recommended_jobs,
+                    recommendedJobs: jobs,
                     currentCvId: cvData._id,
                 };
 
@@ -53,7 +67,6 @@ const ResumeCard = ({ cvData, img }) => {
                 console.error(errorData.error || 'Có lỗi xảy ra khi tải lên.');
             }
         } catch (error) {
-            setIsLoading(false);
             console.error('Lỗi khi xử lý file:', error);
         } finally {
             setIsLoading(false);

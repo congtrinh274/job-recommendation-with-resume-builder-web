@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 import os
 import sys
 from flask_cors import CORS
+import pandas as pd
 sys.path.append(os.path.abspath(os.path.dirname(__file__)))
 sys.path.append('scripts')
 
@@ -36,6 +37,8 @@ def upload_cv():
         extract_cv_data_to_csv(pdf_path, DEFAULT_MODEL_PATH, DEFAULT_OUTPUT_CSV_PATH)
 
         recommended_jobs = recommend_jobs_with_upload_cv(EXTRACTED_CV_FILE)
+
+        recommended_jobs = pd.DataFrame(recommended_jobs).fillna("").to_dict(orient="records")
 
         return jsonify({
             "recommended_jobs": recommended_jobs
