@@ -57,7 +57,7 @@ const Home = () => {
             <div className="w-[90%] max-w-6xl mx-auto flex rounded-lg overflow-hidden shadow-lg mb-12">
                 <div className="w-1/2 p-8 flex flex-col justify-center items-start relative">
                     <div className="flex items-center">
-                        <div className="text-yellow-400 font-bold mb-8 text-5xl">SUper SMART CV</div>
+                        <div className="text-yellow-400 font-bold mb-8 text-5xl">Super Star SMART CV</div>
 
                         <img
                             src="/vecteezy_cute-space-astronaut-on-clear-background_47307968.png"
