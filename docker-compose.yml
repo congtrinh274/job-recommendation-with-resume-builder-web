@@ -13,17 +13,19 @@ services:
         restart: always
 
     backend:
-        build: ./back-end
-        container_name: resume_backend
-        ports:
-            - '5000:5000'
-        env_file:
-            - ./back-end/.env
-        environment:
-            - NODE_ENV=production
-        depends_on:
-            - ai-service
-        restart: always
+    build: ./back-end
+    container_name: resume_backend
+    ports:
+        - '5000:5000'
+    env_file:
+        - ./back-end/.env
+    environment:
+        - NODE_ENV=production
+    volumes:
+        - ./uploads:/app/uploads
+    depends_on:
+        - ai-service
+    restart: always
 
     ai-service:
         build: ./ai-service
