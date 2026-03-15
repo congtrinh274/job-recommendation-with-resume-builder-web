@@ -6,6 +6,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from nltk.corpus import stopwords
 from nltk.stem import WordNetLemmatizer
+import os
 
 nltk.download('punkt')
 nltk.download('averaged_perceptron_tagger')
@@ -95,7 +96,7 @@ def recommend_jobs_with_cv_data(cv_data):
         "Description": prepare_cv_description(cv_data)
     }])
 
-    job_api_urls =  "http://localhost:5000/api/jobs/get-active-jobs"
+    job_api_urls =  os.getenv("BACKEND_API_URL")
     job_data_list = []
     job_data_list.extend(fetch_jobs_from_api(job_api_urls))
 
