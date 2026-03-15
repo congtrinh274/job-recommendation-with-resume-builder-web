@@ -14,11 +14,8 @@ COPY requirements.txt .
 
 RUN pip install --no-cache-dir -r requirements.txt
 
-RUN python -m nltk.downloader punkt \
-    averaged_perceptron_tagger \
-    wordnet \
-    stopwords
-
+RUN python -m nltk.downloader punkt averaged_perceptron_tagger wordnet stopwords
+    
 COPY . .
 
 RUN mkdir -p uploads
