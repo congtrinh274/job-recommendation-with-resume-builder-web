@@ -4,7 +4,7 @@ import { useNavigate, useOutletContext } from 'react-router-dom';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { deleteCV } from '@/redux/features/candidateSlice';
-import { toast.error "Hiện tại chức năng này đang bảo trì!"} from 'react-toast.errori"Hiện tại chức năng này đang bảo trì!"fy';
+import { toast } from 'react-toast.errorify';
 
 const apiBaseUrl = import.meta.env.VITE_SERVER_URL;
 
@@ -50,7 +50,7 @@ const ResumeCard = ({ cvData, img }) => {
         //             jobs.every((job) => Object.values(job).every((v) => v === '' || v === null));
 
         //         if (modelFailed) {
-        //             toast.error."Hiện tại chức năng này đang bảo trì!"error('Model không thể phân tích được CV này!');
+        //             toast.error.error('Model không thể phân tích được CV này!');
         //             return;
         //         }
 
@@ -72,7 +72,7 @@ const ResumeCard = ({ cvData, img }) => {
         //     setIsLoading(false);
         // }
 
-        toast.error("Hiện tại chức năng này đang bảo trì!")
+        toast.error('Hiện tại chức năng này đang bảo trì!');
     };
 
     const handleGetRecommendedJobsWithCVData = async (cvData) => {
@@ -109,7 +109,7 @@ const ResumeCard = ({ cvData, img }) => {
             dispatch(deleteCV({ cvId: cvToDelete }))
                 .unwrap()
                 .then(() => {
-                    toast.error."Hiện tại chức năng này đang bảo trì!"success('CV deleted successfully');
+                    toast.error.success('CV deleted successfully');
                     setIsModalOpen(false);
                 })
                 .catch((error) => {
