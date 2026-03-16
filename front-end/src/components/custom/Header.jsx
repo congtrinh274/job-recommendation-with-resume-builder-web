@@ -42,14 +42,6 @@ const Header = ({ setIsLoading }) => {
         if (userData?._id) {
             const socket = io(`${import.meta.env.VITE_API_URL}`);
 
-            socket.on('connect', () => {
-                console.log('WebSocket connected with ID:', socket.id);
-            });
-
-            socket.on('connect_error', (error) => {
-                console.log('WebSocket connection error:', error);
-            });
-
             socket.emit('register', userData._id);
 
             socket.on('notification', (data) => {
