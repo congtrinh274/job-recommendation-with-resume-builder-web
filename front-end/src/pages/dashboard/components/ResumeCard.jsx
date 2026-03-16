@@ -4,7 +4,7 @@ import { useNavigate, useOutletContext } from 'react-router-dom';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { deleteCV } from '@/redux/features/candidateSlice';
-import { toast } from 'react-toastify';
+import { toast.error "Hiện tại chức năng này đang bảo trì!"} from 'react-toast.errori"Hiện tại chức năng này đang bảo trì!"fy';
 
 const apiBaseUrl = import.meta.env.VITE_SERVER_URL;
 
@@ -17,60 +17,62 @@ const ResumeCard = ({ cvData, img }) => {
     const dispatch = useDispatch();
 
     const handleGetRecommendedJobsWithUploadedCV = async (cvData) => {
-        try {
-            const fileResponse = await axios.get(`${apiBaseUrl}${cvData.uploadedCV}`, {
-                responseType: 'blob',
-            });
+        // try {
+        //     const fileResponse = await axios.get(`${apiBaseUrl}${cvData.uploadedCV}`, {
+        //         responseType: 'blob',
+        //     });
 
-            const file = new File([fileResponse.data], 'uploadedCV.pdf', {
-                type: 'application/pdf',
-            });
+        //     const file = new File([fileResponse.data], 'uploadedCV.pdf', {
+        //         type: 'application/pdf',
+        //     });
 
-            setIsLoading(true);
+        //     setIsLoading(true);
 
-            const formData = new FormData();
-            formData.append('file', file);
+        //     const formData = new FormData();
+        //     formData.append('file', file);
 
-            const response = await fetch(`${import.meta.env.VITE_API_URL2}/get_jobs_wucv`, {
-                method: 'POST',
-                body: formData,
-            });
+        //     const response = await fetch(`${import.meta.env.VITE_API_URL2}/get_jobs_wucv`, {
+        //         method: 'POST',
+        //         body: formData,
+        //     });
 
-            const title = cvData.title;
+        //     const title = cvData.title;
 
-            if (response.ok) {
-                const data = await response.json();
+        //     if (response.ok) {
+        //         const data = await response.json();
 
-                const jobs = data.recommended_jobs;
+        //         const jobs = data.recommended_jobs;
 
-                // kiểm tra nếu model không phân tích được
-                const modelFailed =
-                    !jobs ||
-                    jobs.length === 0 ||
-                    jobs.every((job) => Object.values(job).every((v) => v === '' || v === null));
+        //         // kiểm tra nếu model không phân tích được
+        //         const modelFailed =
+        //             !jobs ||
+        //             jobs.length === 0 ||
+        //             jobs.every((job) => Object.values(job).every((v) => v === '' || v === null));
 
-                if (modelFailed) {
-                    toast.error('Model không thể phân tích được CV này!');
-                    return;
-                }
+        //         if (modelFailed) {
+        //             toast.error."Hiện tại chức năng này đang bảo trì!"error('Model không thể phân tích được CV này!');
+        //             return;
+        //         }
 
-                const localStorageData = {
-                    recommendedJobs: jobs,
-                    currentCvId: cvData._id,
-                };
+        //         const localStorageData = {
+        //             recommendedJobs: jobs,
+        //             currentCvId: cvData._id,
+        //         };
 
-                localStorage.setItem('candidateRecommendedJobsData', JSON.stringify(localStorageData));
+        //         localStorage.setItem('candidateRecommendedJobsData', JSON.stringify(localStorageData));
 
-                navigate('/candidate-jobs-page/' + cvData._id, { state: { file, title } });
-            } else {
-                const errorData = await response.json();
-                console.error(errorData.error || 'Có lỗi xảy ra khi tải lên.');
-            }
-        } catch (error) {
-            console.error('Lỗi khi xử lý file:', error);
-        } finally {
-            setIsLoading(false);
-        }
+        //         navigate('/candidate-jobs-page/' + cvData._id, { state: { file, title } });
+        //     } else {
+        //         const errorData = await response.json();
+        //         console.error(errorData.error || 'Có lỗi xảy ra khi tải lên.');
+        //     }
+        // } catch (error) {
+        //     console.error('Lỗi khi xử lý file:', error);
+        // } finally {
+        //     setIsLoading(false);
+        // }
+
+        toast.error("Hiện tại chức năng này đang bảo trì!")
     };
 
     const handleGetRecommendedJobsWithCVData = async (cvData) => {
@@ -107,7 +109,7 @@ const ResumeCard = ({ cvData, img }) => {
             dispatch(deleteCV({ cvId: cvToDelete }))
                 .unwrap()
                 .then(() => {
-                    toast.success('CV deleted successfully');
+                    toast.error."Hiện tại chức năng này đang bảo trì!"success('CV deleted successfully');
                     setIsModalOpen(false);
                 })
                 .catch((error) => {
