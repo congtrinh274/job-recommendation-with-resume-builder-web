@@ -4,7 +4,7 @@ import { useNavigate, useOutletContext } from 'react-router-dom';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { deleteCV } from '@/redux/features/candidateSlice';
-import { toast } from 'react-toast.errorify';
+import { toast } from 'react-toastify';
 
 const apiBaseUrl = import.meta.env.VITE_SERVER_URL;
 
@@ -16,7 +16,7 @@ const ResumeCard = ({ cvData, img }) => {
     const { setIsLoading } = useOutletContext();
     const dispatch = useDispatch();
 
-    const handleGetRecommendedJobsWithUploadedCV = async (cvData) => {
+    const handleGetRecommendedJobsWithUploadedCV = () => {
         // try {
         //     const fileResponse = await axios.get(`${apiBaseUrl}${cvData.uploadedCV}`, {
         //         responseType: 'blob',
@@ -50,7 +50,7 @@ const ResumeCard = ({ cvData, img }) => {
         //             jobs.every((job) => Object.values(job).every((v) => v === '' || v === null));
 
         //         if (modelFailed) {
-        //             toast.error.error('Model không thể phân tích được CV này!');
+        //             toast.error('Model không thể phân tích được CV này!');
         //             return;
         //         }
 
@@ -109,7 +109,7 @@ const ResumeCard = ({ cvData, img }) => {
             dispatch(deleteCV({ cvId: cvToDelete }))
                 .unwrap()
                 .then(() => {
-                    toast.error.success('CV deleted successfully');
+                    toast.success('CV deleted successfully');
                     setIsModalOpen(false);
                 })
                 .catch((error) => {
